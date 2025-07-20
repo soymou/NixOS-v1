@@ -315,22 +315,6 @@
         "type": "github"
       }
     },
-    "nvim-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1709962503,
-        "narHash": "sha256-1+sHOMDHZbOB9Yl2x/EZTMLDjQR86eqeCPVPoAripCk=",
-        "owner": "emilio-junoy",
-        "repo": "nvim",
-        "rev": "018aad196d833c441ded5b09a8f8e7546d0c1bf1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "emilio-junoy",
-        "repo": "nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "betterfox": "betterfox",
@@ -341,7 +325,6 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "nvchad4nix": "nvchad4nix",
-        "nvim-config": "nvim-config",
         "spicetify-nix": "spicetify-nix",
         "thunderbird-catppuccin": "thunderbird-catppuccin",
         "zen-browser": "zen-browser"

@@ -1,6 +1,5 @@
 {
   description = "A simple flake for an atomic system";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
@@ -14,11 +13,7 @@
     };
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs"; 
-    };
-    nvim-config = {
-      url = "github:emilio-junoy/nvim";
-      flake = false;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
@@ -41,49 +36,49 @@
       url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
+  }; # <- This closing brace was missing
 
-  outputs = {
-    self,
-    nixpkgs,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    settings = {
-      # User configuration
-      username = "mou"; # automatically set with install.sh and live-install.sh
-      editor = "neovim"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
-      browser = "zen"; # firefox, floorp, zen
-      terminal = "kitty"; # kitty, alacritty, wezterm
-      terminalFileManager = "yazi"; # yazi or lf
-      sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
-      wallpaper = "kurzgesagt"; # see modules/themes/wallpapers
-
-      # System configuration
-      videoDriver = "amdgpu"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
-      hostname = "NixOS"; # CHOOSE A HOSTNAME HERE
-      locale = "en_US.UTF-8"; # CHOOSE YOUR LOCALE
-      timezone = "America/Mexico_City"; # CHOOSE YOUR TIMEZONE
-      kbdLayout = "us"; # CHOOSE YOUR KEYBOARD LAYOUT
-      kbdVariant = "intl"; # CHOOSE YOUR KEYBOARD VARIANT (Can leave empty)
-      consoleKeymap = "us"; # CHOOSE YOUR CONSOLE KEYMAP (Affects the tty?)
-    };
-
-    systems = [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
-    forAllSystems = nixpkgs.lib.genAttrs systems;
-  in {
-    templates = import ./dev-shells;
-    overlays = import ./overlays {inherit inputs settings;};
-    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
-    nixosConfigurations = {
-      Default = nixpkgs.lib.nixosSystem {
-        system = forAllSystems (system: system);
-        specialArgs = {inherit self inputs outputs;} // settings;
-        modules = [./hosts/Default/configuration.nix];
+  outputs =
+    { self
+    , nixpkgs
+    , ...
+    } @ inputs:
+    let
+      inherit (self) outputs;
+      settings = {
+        # User configuration
+        username = "mou"; # automatically set with install.sh and live-install.sh
+        editor = "nixvim"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
+        browser = "zen"; # firefox, floorp, zen
+        terminal = "kitty"; # kitty, alacritty, wezterm
+        terminalFileManager = "yazi"; # yazi or lf
+        sddmTheme = "astronaut"; # astronaut, black_hole, purple_leaves, jake_the_dog, hyprland_kath
+        wallpaper = "kurzgesagt"; # see modules/themes/wallpapers
+        # System configuration
+        videoDriver = "amdgpu"; # CHOOSE YOUR GPU DRIVERS (nvidia, amdgpu or intel)
+        hostname = "NixOS"; # CHOOSE A HOSTNAME HERE
+        locale = "en_US.UTF-8"; # CHOOSE YOUR LOCALE
+        timezone = "America/Mexico_City"; # CHOOSE YOUR TIMEZONE
+        kbdLayout = "us"; # CHOOSE YOUR KEYBOARD LAYOUT
+        kbdVariant = "intl"; # CHOOSE YOUR KEYBOARD VARIANT (Can leave empty)
+        consoleKeymap = "us"; # CHOOSE YOUR CONSOLE KEYMAP (Affects the tty?)
+      };
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs systems;
+    in
+    {
+      templates = import ./dev-shells;
+      overlays = import ./overlays { inherit inputs settings; };
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+      nixosConfigurations = {
+        Default = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit self inputs outputs; } // settings;
+          modules = [ ./hosts/Default/configuration.nix ];
+        };
       };
     };
-  };
 }
