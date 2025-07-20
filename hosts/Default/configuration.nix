@@ -55,7 +55,7 @@
         # gimp
         obsidian
         neofetch
-        warp-terminal
+        gccgo15
       ];
     })
   ];

@@ -189,8 +189,8 @@
           ld = "${pkgs.eza}/bin/eza -lhD --icons=auto"; # long list dirs
           tree = "${pkgs.eza}/bin/eza --icons=auto --tree"; # dir tree
           vc = "code --disable-gpu"; # gui code editor
-          nv = "nvim";
-          nf = "${pkgs.microfetch}/bin/microfetch";
+          nv = "nixvim";
+          nf = "neofetch";
           cp = "cp -iv";
           mv = "mv -iv";
           rm = "rm -vI";
