@@ -386,8 +386,6 @@
               "$mainMod, E, exec, $fileManager"
               "$mainMod, C, exec, $editor"
               "$mainMod, F, exec, $browser"
-              "$mainMod SHIFT, S, exec, spotify"
-              "$mainMod SHIFT, Y, exec, youtube-music"
               "$CONTROL ALT, DELETE, exec, $term -e '${getExe pkgs.btop}'" # System Monitor
               "$mainMod CTRL, C, exec, hyprpicker --autocopy --format=hex" # Colour Picker
 
@@ -480,8 +478,8 @@
               "$mainMod SHIFT $CONTROL, J, movewindow, d"
 
               # Special workspaces (scratchpad)
-              "$mainMod CTRL, S, movetoworkspacesilent, special"
               "$mainMod ALT, S, movetoworkspacesilent, special"
+              "$mainMod SHIFT, S, movetoworkspacesilent, special"
               "$mainMod, S, togglespecialworkspace,"
             ]
             ++ (builtins.concatLists (builtins.genList (x: let

@@ -54,8 +54,6 @@
         github-desktop
         # gimp
         obsidian
-        neofetch
-        gccgo15
       ];
     })
   ];

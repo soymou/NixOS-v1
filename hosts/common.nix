@@ -78,6 +78,9 @@
         ripgrep
         tldr
         unzip
+        neofetch
+        gccgo15
+        nautilus
       ];
     };
   };
