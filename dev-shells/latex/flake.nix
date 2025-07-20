@@ -17,6 +17,8 @@
             texlive.combined.scheme-full
             texlab
             tectonic
+            nodejs_20
+            tree-sitter
           ];
         };
       });

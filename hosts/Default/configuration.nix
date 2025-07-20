@@ -52,6 +52,8 @@
         # pokego # Overlayed
         # krita
         github-desktop
+        lua-language-server
+        tree-sitter
         # gimp
         obsidian
       ];

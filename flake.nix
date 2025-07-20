@@ -2,10 +2,10 @@
   description = "A simple flake for an atomic system";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {
@@ -13,8 +13,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim = {
-      url = "github:Sly-Harvey/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs"; 
+    };
+    nvim-config = {
+      url = "github:emilio-junoy/nvim";
+      flake = false;
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
@@ -48,7 +52,7 @@
     settings = {
       # User configuration
       username = "mou"; # automatically set with install.sh and live-install.sh
-      editor = "nixvim"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
+      editor = "neovim"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
       browser = "zen"; # firefox, floorp, zen
       terminal = "kitty"; # kitty, alacritty, wezterm
       terminalFileManager = "yazi"; # yazi or lf

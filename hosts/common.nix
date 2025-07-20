@@ -65,6 +65,7 @@
       home.packages = with pkgs; [
         # Applications
         #kate
+        nautilus
 
         # Terminal
         fzf
@@ -80,7 +81,6 @@
         unzip
         neofetch
         gccgo15
-        nautilus
       ];
     };
   };
