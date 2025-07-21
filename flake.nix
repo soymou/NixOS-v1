@@ -37,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-config = {
-      url = "git@github:emilio-junoy/nvim.git";
+      url = "git+file:///home/mou/nvim";
       flake = false;
     };
   }; # <- This closing brace was missing
@@ -52,7 +52,7 @@
       settings = {
         # User configuration
         username = "mou"; # automatically set with install.sh and live-install.sh
-        editor = "neovim"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
+        editor = "nvchad"; # nixvim, vscode, nvchad, neovim, emacs (WIP)
         browser = "zen"; # firefox, floorp, zen
         terminal = "kitty"; # kitty, alacritty, wezterm
         terminalFileManager = "yazi"; # yazi or lf

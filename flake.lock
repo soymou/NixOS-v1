@@ -240,11 +240,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1753043887,
-        "narHash": "sha256-dFUEvylWBtClTW7K/9hPgSBDn2hkYrrg8Z1R7AI2j8k=",
+        "lastModified": 1753079654,
+        "narHash": "sha256-uSErLYSnZ+0ElDstxJsKcNn2q2mIul4MKZRi2W5+umw=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "0962cddec17f391830d1980d926ffb9172bda22b",
+        "rev": "bdce6626a10a914339c1285d730c19e579460d29",
         "type": "github"
       },
       "original": {
@@ -318,14 +318,18 @@
     "nvim-config": {
       "flake": false,
       "locked": {
-        "path": "git@github:emilio-junoy/nvim.git",
-        "type": "path"
+        "lastModified": 1753055752,
+        "narHash": "sha256-Z0XAsVT878Kr/CEizD4Ixn8QnyJiHS9DUbzPhKaEPMs=",
+        "ref": "refs/heads/main",
+        "rev": "2435f3b1e334373df2099f74a8eb21b49f1c89c8",
+        "revCount": 1,
+        "type": "git",
+        "url": "file:///home/mou/nvim"
       },
       "original": {
-        "path": "git@github:emilio-junoy/nvim.git",
-        "type": "path"
-      },
-      "parent": []
+        "type": "git",
+        "url": "file:///home/mou/nvim"
+      }
     },
     "root": {
       "inputs": {

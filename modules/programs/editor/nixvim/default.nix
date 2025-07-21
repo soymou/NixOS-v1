@@ -156,7 +156,7 @@
         extraConfigLua = ''
           vim.g.tex_flavor = "latex"
           vim.g.vimtex_view_method = "zathura"
-
+          vim.g.conceallevel = 2;
           vim.opt.foldmethod = "expr"
           vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
           vim.opt.foldenable = false
