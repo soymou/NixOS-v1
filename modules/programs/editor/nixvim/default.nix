@@ -34,6 +34,7 @@
           timeoutlen = 300;
           mouse = "a";
           clipboard = "unnamedplus";
+          conceallevel = 2;
         };
 
         # Appearance
