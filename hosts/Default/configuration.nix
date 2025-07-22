@@ -55,6 +55,8 @@
         lua-language-server
         tree-sitter
         ollama
+        zathura
+
         # gimp
         obsidian
       ];
