@@ -1,6 +1,10 @@
 require("gp").setup {
-  openai_api_key = false,
-  openai_api_endpoint = "http://localhost:11434/v1",
+  providers = {
+    ollama = {
+      endpoint = "http://localhost:11434/v1",
+      secret = "", -- no secret needed for local Ollama usually
+    },
+  },
 
   agents = {
     {
