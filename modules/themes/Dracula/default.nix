@@ -1,12 +1,15 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  wallpaper,
+  ...}: {
   home-manager.sharedModules = [
     ({config, ...}: {
       # Set wallpaper
       services.hyprpaper = {
         enable = true;
         settings = {
-          preload = ["${../wallpapers/kurzgesagt.jxl}"];
-          wallpaper = [",${../wallpapers/kurzgesagt.jxl}"];
+          preload = ["${../wallpapers/${wallpaper}.jxl}"];
+          wallpaper = [",${../wallpapers/${wallpaper}.jxl}"];
         };
       };
 

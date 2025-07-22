@@ -100,6 +100,7 @@
   # Bootloader.
   boot = {
     tmp.cleanOnBoot = true;
+    resumeDevice = "/dev/nvme0n1p6";
     kernelPackages = pkgs.linuxPackages_latest; # _latest, _zen, _xanmod_latest, _hardened, _rt, _OTHER_CHANNEL, etc.
     loader = {
       efi.canTouchEfiVariables = true;
