@@ -32,6 +32,7 @@ in {
             { "L3MON4D3/LuaSnip", lazy = false},
             { "TimUntersberger/neogit", lazy = false},
             { "Robitx/gp.nvim", lazy = false },
+            { "napisani/context-nvim", lazy = false},
           }
         '';
 
