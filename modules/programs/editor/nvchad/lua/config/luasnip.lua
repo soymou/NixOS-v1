@@ -8,6 +8,12 @@ luasnip.config.set_config({
   enable_autosnippets = true,
 })
 
+-- Load snippets from Lua and VSCode formats
+require("luasnip.loaders.from_lua").lazy_load({
+  paths = { vim.fn.expand("/../snippets") },
+})
+require("luasnip.loaders.from_vscode").lazy_load()
+
 -- Setup nvim-cmp
 cmp.setup({
   snippet = {
