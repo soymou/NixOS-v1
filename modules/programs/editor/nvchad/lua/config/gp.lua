@@ -1,7 +1,7 @@
 require("gp").setup {
   providers = {
     ollama = {
-      endpoint = "http://localhost:11434/v1/chat/completions",
+      endpoint = "http://localhost:11434/v1",
       secret = "", -- no secret needed for local Ollama usually
     },
   },
@@ -18,5 +18,5 @@ require("gp").setup {
 
   default_agent = "llama3",
   log_level = "debug",
+  auto_detect_agents = false,  -- disable auto detection to prevent showing other agents
 }
-
