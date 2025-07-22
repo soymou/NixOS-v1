@@ -278,149 +278,148 @@
         ];
         style = ''
           /* Global Styles */
-          * {
-              font-family: "JetBrainsMono Nerd Font", "Fira Sans", sans-serif;
-              font-size: 14px;
-              font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-          }
+                  * {
+                      font-family: "JetBrainsMono Nerd Font", "Fira Sans", sans-serif;
+                      font-size: 14px;
+                      font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+                      margin: 0;
+                      padding: 0;
+                      box-sizing: border-box;
+                  }
 
-          /* Color Palette */
-          :root {
-              --base: #2E3440;
-              --mantle: #3B4252;
-              --crust: #434C5E;
-              --text: #D8DEE9;
-              --subtext0: #E5E9F0;
-              --subtext1: #ECEFF4;
-              --surface0: #4C566A;
-              --surface1: #616E88;
-              --surface2: #7B849C;
-              --overlay0: #81A1C1;
-              --overlay1: #88C0D0;
-              --overlay2: #8FBCBB;
-              --blue: #81A1C1;
-              --lavender: #B48EAD;
-              --sapphire: #5E81AC;
-              --sky: #88C0D0;
-              --teal: #8FBCBB;
-              --green: #A3BE8C;
-              --yellow: #EBCB8B;
-              --peach: #D08770;
-              --maroon: #BF616A;
-              --red: #BF616A;
-              --mauve: #B48EAD;
-              --pink: #D08770;
-              --flamingo: #D8DEE9;
-              --rosewater: #ECEFF4;
-          }
+                  /* Color Palette */
+                  :root {
+                      --base: #2E3440;
+                      --mantle: #3B4252;
+                      --crust: #434C5E;
+                      --text: #D8DEE9;
+                      --subtext0: #E5E9F0;
+                      --subtext1: #ECEFF4;
+                      --surface0: #4C566A;
+                      --surface1: #616E88;
+                      --surface2: #7B849C;
+                      --overlay0: #81A1C1;
+                      --overlay1: #88C0D0;
+                      --overlay2: #8FBCBB;
+                      --blue: #81A1C1;
+                      --lavender: #B48EAD;
+                      --sapphire: #5E81AC;
+                      --sky: #88C0D0;
+                      --teal: #8FBCBB;
+                      --green: #A3BE8C;
+                      --yellow: #EBCB8B;
+                      --peach: #D08770;
+                      --maroon: #BF616A;
+                      --red: #BF616A;
+                      --mauve: #B48EAD;
+                      --pink: #D08770;
+                      --flamingo: #D8DEE9;
+                      --rosewater: #ECEFF4;
+                  }
 
-          /* Waybar Window */
-          window#waybar {
-              background: transparent;
-              border-radius: 10px;
-              box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-              transition: background-color 0.5s ease;
-              margin: 0;
-              padding: 0;
-          }
+                  /* Waybar Window */
+                  window#waybar {
+                      background: transparent;
+                      border-radius: 10px;
+                      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                      transition: background-color 0.5s ease;
+                      margin: 0;
+                      padding: 0;
+                  }
 
-          /* Tooltip */
-          tooltip {
-              background: var(--base);
-              border-radius: 8px;
-              box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-          }
+                  /* Tooltip */
+                  tooltip {
+                      background: var(--base);
+                      border-radius: 8px;
+                      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+                  }
 
-          tooltip label {
-              color: var(--text);
-              padding: 5px;
-          }
+                  tooltip label {
+                      color: var(--text);
+                      padding: 5px;
+                  }
 
-          /* Modules */
-          .modules-left, .modules-center, .modules-right {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              padding: 0 10px;
-              background: var(--base);
-              border-radius: 10px;
-          }
+                  /* Modules */
+                  .modules-left, .modules-center, .modules-right {
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      padding: 0 10px;
+                      background: var(--base);
+                      border-radius: 10px;
+                  }
 
-          /* Module Styling */
+                  /* Module Styling */
 #battery {
-              color: var(--green);
-          }
+                      color: var(--green);
+                  }
 
 #battery.critical {
-              background-color: var(--red);
-              color: var(--text);
-              animation: blink 0.5s linear infinite alternate;
-          }
+                      background-color: var(--red);
+                      color: var(--text);
+                      animation: blink 0.5s linear infinite alternate;
+                  }
 
-          @keyframes blink {
-              to {
-                  color: var(--surface0);
-              }
-          }
+                  @keyframes blink {
+                      to {
+                          color: var(--surface0);
+                      }
+                  }
 
-          /* Workspaces */
+                  /* Workspaces */
 #workspaces button {
-              padding: 5px 10px;
-              margin: 0 5px;
-              border-radius: 10px;
-              background: var(--surface1);
-              color: var(--text);
-              transition: background-color 0.3s ease;
-          }
+                      padding: 5px 10px;
+                      margin: 0 5px;
+                      border-radius: 10px;
+                      background: var(--surface1);
+                      color: var(--text);
+                      transition: background-color 0.3s ease;
+                  }
 
 #workspaces button.active {
-              background: var(--blue);
-              color: var(--text);
-          }
+                      background: var(--blue);
+                      color: var(--text);
+                  }
 
 #workspaces button:hover {
-              background: var(--overlay0);
-          }
+                      background: var(--overlay0);
+                  }
 
-          /* Custom Modules */
+                  /* Custom Modules */
 #custom-weather {
-              color: var(--lavender);
-          }
+                      color: var(--lavender);
+                  }
 
 #custom-lock {
-              color: var(--maroon);
-          }
+                      color: var(--maroon);
+                  }
 
-          /* Tray */
+                  /* Tray */
 #tray {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: var(--base);
-              border-radius: 10px;
-              padding: 5px;
-          }
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      background: var(--base);
+                      border-radius: 10px;
+                      padding: 5px;
+                  }
 
 #tray > .needs-attention {
-              color: var(--red);
-          }
+                      color: var(--red);
+                  }
 
-          /* Sliders */
+                  /* Sliders */
 #pulseaudio-slider, #backlight-slider {
-              width: 100px;
-              height: 5px;
-              border-radius: 5px;
-              background: var(--surface1);
-          }
+                      width: 100px;
+                      height: 5px;
+                      border-radius: 5px;
+                      background: var(--surface1);
+                  }
 
 #pulseaudio-slider highlight, #backlight-slider highlight {
-              border-radius: 5px;
-              background: var(--blue);
-          }
-        '';
+                      border-radius: 5px;
+                      background: var(--blue);
+                  }        '';
       };
     })
   ];
