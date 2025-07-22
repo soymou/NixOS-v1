@@ -520,8 +520,6 @@
 
           /* Sliders */
 #pulseaudio-slider, #backlight-slider {
-              width: 100px;
-              height: 5px;
               border-radius: 5px;
               background: @surface1;
           }
