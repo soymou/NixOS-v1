@@ -463,7 +463,6 @@
 
           /* Modules */
           .modules-left, .modules-center, .modules-right {
-              justify-content: center;
               padding: 0 10px;
               background: @base;
               border-radius: 10px;
