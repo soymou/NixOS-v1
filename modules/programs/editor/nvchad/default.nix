@@ -4,10 +4,18 @@
   lib,
   ...
 }: let
-  luaModules = [ "luasnip" "treesitter" "texlab" "lean" ];
+  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit"];
+
   luaRequireStatements = builtins.concatStringsSep "\n" (lib.mapAttrsToList (_: module: ''
     require('config.${module}')
   '') (lib.listToAttrs (map (m: { name = m; value = m; }) luaModules)));
+
+  snippetFiles =
+    let
+      entries = builtins.readDir ./snippets;
+    in
+      lib.filterAttrs (name: type: lib.hasSuffix ".lua" name && type == "regular") entries;
+
 in {
   home-manager.sharedModules = [
     (_: {
@@ -36,16 +44,19 @@ in {
         backup = false;
       };
 
-      # Generate home.file for lua configs dynamically
-      home.file = builtins.foldl' (acc: module:
-        acc // {
-          ".config/nvim/lua/config/${module}.lua".source = ./lua/config/${module}.lua;
-        }
-      ) {
-        ".config/nvim/snippets/tex.lua".source = ./snippets/tex.lua;
-      } luaModules;
+      # Generate home.file entries for config modules + all snippet files
+      home.file =
+        (builtins.foldl' (acc: module:
+          acc // {
+            ".config/nvim/lua/config/${module}.lua".source = ./lua/config/${module}.lua;
+          }
+        ) {} luaModules)
+        //
+        (lib.mapAttrs' (name: _: {
+          name = ".config/nvim/snippets/${name}";
+          value = { source = ./snippets/${name}; };
+        }) snippetFiles);
 
     })
   ];
 }
-
