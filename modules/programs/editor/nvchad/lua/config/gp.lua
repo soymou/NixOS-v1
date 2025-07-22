@@ -6,7 +6,7 @@ package.loaded["gp"] = nil
 require("gp").setup({
   providers = {
     ollama = {
-      endpoint = "http://localhost:11434/v1", -- ✅ Corrected endpoint
+      endpoint = "http://localhost:11434/v1/chat/completions", -- ✅ Corrected endpoint
       secret = "", -- no secret needed for Ollama
     },
   },
