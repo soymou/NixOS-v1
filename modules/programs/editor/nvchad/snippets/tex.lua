@@ -98,4 +98,24 @@ return {
    s({ trig = "mcal", wordTrig = true, snippetType = "autosnippet" }, fmt([[
    \mathcal{{{}}}
    ]], { i(1) })),
+
+   -- Normal text bold
+   s({ trig = "bf", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \textbf{{{}}}
+   ]], { i(1) })),
+
+   -- Normal text italic
+   s({ trig = "if", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \textit{{{}}}
+   ]], { i(1) })),
+
+   -- Math mode bold
+   s({ trig = "mbf", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \mathbf{{{}}}
+   ]], { i(1) })),
+
+   -- Math mode italic
+   s({ trig = "mif", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \mathit{{{}}}
+   ]], { i(1) })),
 }
