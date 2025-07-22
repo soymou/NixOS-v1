@@ -83,10 +83,10 @@
             background-image: image(url("icons/logout-hover.png"));
           }
 
-          #suspend {
+          #hibernate {
             background-image: image(url("icons/sleep.png"));
           }
-          #suspend:focus {
+          #hibernate:focus {
             background-image: image(url("icons/sleep-hover.png"));
           }
 
