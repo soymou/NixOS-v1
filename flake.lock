@@ -315,22 +315,6 @@
         "type": "github"
       }
     },
-    "nvim-config": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1753055752,
-        "narHash": "sha256-Z0XAsVT878Kr/CEizD4Ixn8QnyJiHS9DUbzPhKaEPMs=",
-        "ref": "refs/heads/main",
-        "rev": "2435f3b1e334373df2099f74a8eb21b49f1c89c8",
-        "revCount": 1,
-        "type": "git",
-        "url": "file:///home/mou/nvim"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/mou/nvim"
-      }
-    },
     "root": {
       "inputs": {
         "betterfox": "betterfox",
@@ -341,7 +325,6 @@
         "nixvim": "nixvim",
         "nur": "nur",
         "nvchad4nix": "nvchad4nix",
-        "nvim-config": "nvim-config",
         "spicetify-nix": "spicetify-nix",
         "thunderbird-catppuccin": "thunderbird-catppuccin",
         "zen-browser": "zen-browser"
