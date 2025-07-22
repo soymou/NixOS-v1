@@ -9,7 +9,7 @@ require("gp").setup {
   agents = {
     {
       name = "llama3",
-      model = "llama3",
+      model = "llama3:latest",
       provider = "ollama",
       system_prompt = "You're a helpful coding assistant.",
       temperature = 0.5,
@@ -19,4 +19,8 @@ require("gp").setup {
   default_agent = "llama3",
   log_level = "debug",
   auto_detect_agents = false,  -- disable auto detection to prevent showing other agents
+  
+  -- Explicitly disable agent auto-detection
+  cmd_prefix = "Gp",
+  curl_params = {},
 }
