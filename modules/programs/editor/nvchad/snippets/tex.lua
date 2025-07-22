@@ -80,14 +80,14 @@ return {
 
   -- Display math environment (autoexpand)
   s({ trig = "dm", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-\[
-  {}
-\]
-]], { i(1, "E = mc^2") })),
+  \[
+    {}
+  \]
+  ]], { i(1) })),
 
-  -- Inline math with /( ... )/ (autoexpand)
   s({ trig = "mk", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-/( {} )/
-]], { i(1, "x + y = z") })),
+  /( {} )/
+  ]], { i(1) })),
+
 
 }
