@@ -86,7 +86,7 @@ return {
   ]], { i(1) })),
 
   s({ trig = "mk", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-  /( {} /)
+  \( {} \)
   ]], { i(1) })),
 
    -- \mathbb{} snippet
