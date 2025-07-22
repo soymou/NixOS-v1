@@ -5,7 +5,7 @@ require("gp").setup {
   agents = {
     {
       name = "llama3",
-      model = "llama3",
+      model = "llama3:latest",
       provider = "ollama",
       system_prompt = "You're a helpful coding assistant.",
       temperature = 0.5,
