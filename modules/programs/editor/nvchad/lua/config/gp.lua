@@ -1,7 +1,7 @@
 require("gp").setup {
   providers = {
     ollama = {
-      endpoint = "http://localhost:11434/v1",
+      endpoint = "http://localhost:11434/v1/chat/completions",
       secret = "", -- no secret needed for local Ollama usually
     },
   },
