@@ -4,9 +4,11 @@ require("gp").setup {
 
   agents = {
     {
-      name = "ChatGPT-4o",
-      model = "gpt-4o", 
-      system_prompt = "You are a helpful coding assistant who writes clear, idiomatic code.",
+      name = "LLaMA 3",
+      model = "llama3",
+      provider = "ollama",
+      system_prompt = "You're a helpful coding assistant.",
+      temperature = 0.5,
     },
   },
 
