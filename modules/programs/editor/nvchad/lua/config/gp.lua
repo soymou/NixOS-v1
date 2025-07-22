@@ -4,7 +4,7 @@ require("gp").setup {
 
   agents = {
     {
-      name = "LLaMA 3",
+      name = "llama3",
       model = "llama3",
       provider = "ollama",
       system_prompt = "You're a helpful coding assistant.",
@@ -12,6 +12,6 @@ require("gp").setup {
     },
   },
 
-  default_agent = "ChatGPT-4o",
+  default_agent = "llama3",
 }
 
