@@ -288,32 +288,34 @@
           }
 
           /* Color Palette */
-          @define-color base       #2E3440;
-          @define-color mantle     #3B4252;
-          @define-color crust      #434C5E;
-          @define-color text       #D8DEE9;
-          @define-color subtext0   #E5E9F0;
-          @define-color subtext1   #ECEFF4;
-          @define-color surface0   #4C566A;
-          @define-color surface1   #616E88;
-          @define-color surface2   #7B849C;
-          @define-color overlay0   #81A1C1;
-          @define-color overlay1   #88C0D0;
-          @define-color overlay2   #8FBCBB;
-          @define-color blue       #81A1C1;
-          @define-color lavender   #B48EAD;
-          @define-color sapphire   #5E81AC;
-          @define-color sky        #88C0D0;
-          @define-color teal       #8FBCBB;
-          @define-color green      #A3BE8C;
-          @define-color yellow     #EBCB8B;
-          @define-color peach      #D08770;
-          @define-color maroon     #BF616A;
-          @define-color red        #BF616A;
-          @define-color mauve      #B48EAD;
-          @define-color pink       #D08770;
-          @define-color flamingo   #D8DEE9;
-          @define-color rosewater  #ECEFF4;
+          :root {
+              --base: #2E3440;
+              --mantle: #3B4252;
+              --crust: #434C5E;
+              --text: #D8DEE9;
+              --subtext0: #E5E9F0;
+              --subtext1: #ECEFF4;
+              --surface0: #4C566A;
+              --surface1: #616E88;
+              --surface2: #7B849C;
+              --overlay0: #81A1C1;
+              --overlay1: #88C0D0;
+              --overlay2: #8FBCBB;
+              --blue: #81A1C1;
+              --lavender: #B48EAD;
+              --sapphire: #5E81AC;
+              --sky: #88C0D0;
+              --teal: #8FBCBB;
+              --green: #A3BE8C;
+              --yellow: #EBCB8B;
+              --peach: #D08770;
+              --maroon: #BF616A;
+              --red: #BF616A;
+              --mauve: #B48EAD;
+              --pink: #D08770;
+              --flamingo: #D8DEE9;
+              --rosewater: #ECEFF4;
+          }
 
           /* Waybar Window */
           window#waybar {
@@ -327,13 +329,13 @@
 
           /* Tooltip */
           tooltip {
-              background: @base;
+              background: var(--base);
               border-radius: 8px;
               box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
           }
 
           tooltip label {
-              color: @text;
+              color: var(--text);
               padding: 5px;
           }
 
@@ -343,24 +345,24 @@
               align-items: center;
               justify-content: center;
               padding: 0 10px;
-              background: @base;
+              background: var(--base);
               border-radius: 10px;
           }
 
           /* Module Styling */
 #battery {
-              color: @green;
+              color: var(--green);
           }
 
 #battery.critical {
-              background-color: @red;
-              color: @text;
+              background-color: var(--red);
+              color: var(--text);
               animation: blink 0.5s linear infinite alternate;
           }
 
           @keyframes blink {
               to {
-                  color: @surface0;
+                  color: var(--surface0);
               }
           }
 
@@ -369,27 +371,27 @@
               padding: 5px 10px;
               margin: 0 5px;
               border-radius: 10px;
-              background: @surface1;
-              color: @text;
+              background: var(--surface1);
+              color: var(--text);
               transition: background-color 0.3s ease;
           }
 
 #workspaces button.active {
-              background: @blue;
-              color: @text;
+              background: var(--blue);
+              color: var(--text);
           }
 
 #workspaces button:hover {
-              background: @overlay0;
+              background: var(--overlay0);
           }
 
           /* Custom Modules */
 #custom-weather {
-              color: @lavender;
+              color: var(--lavender);
           }
 
 #custom-lock {
-              color: @maroon;
+              color: var(--maroon);
           }
 
           /* Tray */
@@ -397,13 +399,13 @@
               display: flex;
               align-items: center;
               justify-content: center;
-              background: @base;
+              background: var(--base);
               border-radius: 10px;
               padding: 5px;
           }
 
 #tray > .needs-attention {
-              color: @red;
+              color: var(--red);
           }
 
           /* Sliders */
@@ -411,12 +413,12 @@
               width: 100px;
               height: 5px;
               border-radius: 5px;
-              background: @surface1;
+              background: var(--surface1);
           }
 
 #pulseaudio-slider highlight, #backlight-slider highlight {
               border-radius: 5px;
-              background: @blue;
+              background: var(--blue);
           }
         '';
       };
