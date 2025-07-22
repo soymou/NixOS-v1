@@ -54,6 +54,7 @@
         github-desktop
         lua-language-server
         tree-sitter
+        ollama
         # gimp
         obsidian
       ];
