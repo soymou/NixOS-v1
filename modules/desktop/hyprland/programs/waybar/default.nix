@@ -463,7 +463,6 @@
 
           /* Modules */
           .modules-left, .modules-center, .modules-right {
-              align-items: center;
               justify-content: center;
               padding: 0 10px;
               background: @base;
@@ -532,7 +531,6 @@
               border-radius: 5px;
               background: @blue;
           }
-
         '';
       };
     })
