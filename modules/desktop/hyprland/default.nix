@@ -163,7 +163,6 @@
               special = true;
               size = 6; # 6
               passes = 2; # 3
-              tint = "2e3440aa";
               new_optimizations = true;
               ignore_opacity = true;
               xray = false;
