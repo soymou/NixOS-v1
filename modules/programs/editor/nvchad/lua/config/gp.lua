@@ -13,5 +13,6 @@ require("gp").setup {
   },
 
   default_agent = "llama3",
+  log_level = "debug",
 }
 
