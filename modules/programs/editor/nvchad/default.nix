@@ -16,6 +16,7 @@
             { "Julian/lean.nvim", ft = "lean", lazy = true },
             { "neovim/nvim-lspconfig", lazy = false},
             { "L3MON4D3/LuaSnip", lazy = false},
+            { "TimUntersberger/neogit", lazy = false},
           }
         '';
 
