@@ -463,7 +463,6 @@
 
           /* Modules */
           .modules-left, .modules-center, .modules-right {
-              display: flex;
               align-items: center;
               justify-content: center;
               padding: 0 10px;
