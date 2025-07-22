@@ -89,5 +89,13 @@ return {
   /( {} )/
   ]], { i(1) })),
 
+   -- \mathbb{} snippet
+   s({ trig = "mbb", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \mathbb{{{}}}
+   ]], { i(1) })),
 
+   -- \mathcal{} snippet
+   s({ trig = "mcal", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+   \mathcal{{{}}}
+   ]], { i(1) })),
 }
