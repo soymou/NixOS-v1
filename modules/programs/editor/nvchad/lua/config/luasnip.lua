@@ -1,4 +1,3 @@
-
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
@@ -11,7 +10,7 @@ luasnip.config.set_config({
 
 -- Load snippets from Lua and VSCode formats
 require("luasnip.loaders.from_lua").lazy_load({
-  paths = { vim.fn.expand("/../snippets") },
+  paths = { vim.fn.stdpath("config") .. "/snippets" },
 })
 require("luasnip.loaders.from_vscode").lazy_load()
 
@@ -50,7 +49,8 @@ cmp.setup({
   },
 })
 
--- Auto-expand autosnippets on insert mode text change
+-- Optional: auto-expand autosnippets
+-- (you can delete this if it's not working well)
 vim.cmd([[
   augroup luasnip_autoexpand
     autocmd!
