@@ -31,10 +31,10 @@
             keybind = "s";
           }
           {
-            label = "suspend";
-            action = "systemctl suspend";
-            text = "Suspend";
-            keybind = "u";
+            label = "hibernate";
+            action = "systemctl hibernate";
+            text = "Hibernate";
+            keybind = "h";
           }
           {
             label = "reboot";
