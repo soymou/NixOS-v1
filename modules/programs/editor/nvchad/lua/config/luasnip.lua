@@ -1,6 +1,20 @@
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
+-- Configure LuaSnip
+luasnip.config.set_config({
+  history = true,
+  updateevents = "TextChanged,TextChangedI",
+  enable_autosnippets = true,
+})
+
+-- Load snippets from Lua and VSCode formats
+require("luasnip.loaders.from_lua").lazy_load({
+  paths = { vim.fn.expand("~/.config/nvim/snippets") },
+})
+require("luasnip.loaders.from_vscode").lazy_load()
+
+-- Setup nvim-cmp
 cmp.setup({
   snippet = {
     expand = function(args)
@@ -34,3 +48,12 @@ cmp.setup({
     { name = "buffer" },
   },
 })
+
+-- Auto-expand autosnippets on insert mode text change
+vim.cmd([[
+  augroup luasnip_autoexpand
+    autocmd!
+    autocmd TextChangedI * lua require("luasnip").expand_auto()
+  augroup END
+]])
+
