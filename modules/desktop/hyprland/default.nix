@@ -9,7 +9,7 @@
   ...
 }: {
   imports = [
-    ../../themes/Dracula # Catppuccin GTK and QT themes
+    ../../themes/Nord # Catppuccin GTK and QT themes
     ./programs/waybar
     ./programs/wlogout
     ./programs/rofi
