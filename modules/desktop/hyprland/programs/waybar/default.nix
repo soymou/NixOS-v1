@@ -277,17 +277,141 @@
           }
         ];
         style = ''
-          
-          /* Global Styles */
-          * {
-              font-family: "JetBrainsMono Nerd Font", "Fira Sans", sans-serif;
-              font-size: 14px;
-              font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
-              margin: 0;
-              padding: 0;
-          }
+         
+         /* Global Styles */
+         * {
+             font-family: "JetBrainsMono Nerd Font", "Fira Sans", sans-serif;
+             font-size: 14px;
+             font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+             margin: 0;
+             padding: 0;
+         }
 
-          /* Color Palette */
+         /* Color Palette */
+         @define-color base       #2E3440;
+         @define-color mantle     #3B4252;
+         @define-color crust      #434C5E;
+         @define-color text       #D8DEE9;
+         @define-color subtext0   #E5E9F0;
+         @define-color subtext1   #ECEFF4;
+         @define-color surface0   #4C566A;
+         @define-color surface1   #616E88;
+         @define-color surface2   #7B849C;
+         @define-color overlay0   #81A1C1;
+         @define-color overlay1   #88C0D0;
+         @define-color overlay2   #8FBCBB;
+         @define-color blue       #81A1C1;
+         @define-color lavender   #B48EAD;
+         @define-color sapphire   #5E81AC;
+         @define-color sky        #88C0D0;
+         @define-color teal       #8FBCBB;
+         @define-color green      #A3BE8C;
+         @define-color yellow     #EBCB8B;
+         @define-color peach      #D08770;
+         @define-color maroon     #BF616A;
+         @define-color red        #BF616A;
+         @define-color mauve      #B48EAD;
+         @define-color pink       #D08770;
+         @define-color flamingo   #D8DEE9;
+         @define-color rosewater  #ECEFF4;
+
+         /* Waybar Window */
+         window#waybar {
+             background: transparent;
+             border-radius: 10px;
+             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+             transition: background-color 0.5s ease;
+         }
+
+         /* Tooltip */
+         tooltip {
+             background: @base;
+             border-radius: 8px;
+             box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+         }
+
+         tooltip label {
+             color: @text;
+             padding: 5px;
+         }
+
+         /* Modules */
+         /* Removed unsupported 'display: flex' */
+         .modules-left, .modules-center, .modules-right {
+             padding-left: 10px;
+             padding-right: 10px;
+             background: @base;
+             border-radius: 10px;
+         }
+
+         /* Module Styling */
+#battery {
+             color: @green;
+         }
+
+#battery.critical {
+             background-color: @red;
+             color: @text;
+             animation-name: blink;
+             animation-duration: 0.5s;
+             animation-timing-function: linear;
+             animation-iteration-count: infinite;
+             animation-direction: alternate;
+         }
+
+         @keyframes blink {
+             to {
+                 color: @surface0;
+             }
+         }
+
+         /* Workspaces */
+#workspaces button {
+             padding: 5px 10px;
+             margin: 0 5px;
+             border-radius: 10px;
+             background: @surface1;
+             color: @text;
+             transition-property: background-color;
+             transition-duration: 0.3s;
+             transition-timing-function: ease;
+         }
+
+#workspaces button.active {
+             background: @blue;
+             color: @text;
+         }
+
+#workspaces button:hover {
+             background: @overlay0;
+         }
+
+         /* Custom Modules */
+#custom-weather {
+             color: @lavender;
+         }
+
+#custom-lock {
+             color: @maroon;
+         }
+
+         /* Tray */
+#tray {
+             box-shadow: inset 0 -3px @blue;
+         }
+
+         /* Sliders */
+#pulseaudio-slider, #backlight-slider {
+             min-width: 100px;
+             min-height: 5px;
+             border-radius: 5px;
+             background: @surface1;
+         }
+
+#pulseaudio-slider highlight, #backlight-slider highlight {
+             border-radius: 5px;
+             background: @blue;
+         }
           @define-color base       #2E3440;
           @define-color mantle     #3B4252;
           @define-color crust      #434C5E;
@@ -394,16 +518,7 @@
 
           /* Tray */
 #tray {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              background: @base;
-              border-radius: 10px;
-              padding: 5px;
-          }
-
-#tray > .needs-attention {
-              color: @red;
+              box-shadow: inset 0 -3px @blue;
           }
 
           /* Sliders */
@@ -418,6 +533,7 @@
               border-radius: 5px;
               background: @blue;
           }
+
         '';
       };
     })
