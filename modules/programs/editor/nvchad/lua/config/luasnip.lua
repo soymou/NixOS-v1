@@ -1,3 +1,4 @@
+
 local cmp = require("cmp")
 local luasnip = require("luasnip")
 
@@ -49,4 +50,11 @@ cmp.setup({
   },
 })
 
+-- Auto-expand autosnippets on insert mode text change
+vim.cmd([[
+  augroup luasnip_autoexpand
+    autocmd!
+    autocmd TextChangedI * lua require("luasnip").expand_auto()
+  augroup END
+]])
 
