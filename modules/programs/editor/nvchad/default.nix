@@ -25,6 +25,8 @@
         ];
 
         extraConfig = ''
+          -- Configure snippets 
+          require("luasnip.loaders.from_lua").lazy_load({ paths = { "~/.config/nvim/snippets" } })
           -- Configure Tree-sitter to work with vimtex concealment
           require'nvim-treesitter.configs'.setup {
           highlight = {
@@ -72,6 +74,7 @@
         hm-activation = true;
         backup = false;
       };
+      home.file.".config/nvim/snippets/tex.lua".source = ./snippets/tex.lua;
     })
   ];
 }
