@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc"];
+  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc" "gp"];
 
   luaRequireStatements = builtins.concatStringsSep "\n" (lib.mapAttrsToList (_: module: ''
     require('config.${module}')
@@ -31,6 +31,7 @@ in {
             { "neovim/nvim-lspconfig", lazy = false},
             { "L3MON4D3/LuaSnip", lazy = false},
             { "TimUntersberger/neogit", lazy = false},
+            { "Robitx/gp.nvim", lazy = false },
           }
         '';
 

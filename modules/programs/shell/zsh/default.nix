@@ -37,6 +37,9 @@
         initContent = ''
           # Run neofetch
           neofetch
+          
+          # Open AI
+          export OPENAI_API_KEY="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" 
 
           # Powerlevel10k Zsh theme
           source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
