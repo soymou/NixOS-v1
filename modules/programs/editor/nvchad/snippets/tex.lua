@@ -126,7 +126,7 @@ return {
   colback=cyan!15,
   colframe=cyan!60,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
@@ -137,7 +137,7 @@ return {
   colback=yellow!15,
   colframe=yellow!60,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
@@ -148,7 +148,7 @@ return {
   colback=gray!10,
   colframe=gray!50,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
@@ -159,7 +159,7 @@ return {
   colback=green!15,
   colframe=green!60,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
@@ -170,7 +170,7 @@ return {
   colback=orange!15,
   colframe=orange!60,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
@@ -181,7 +181,7 @@ return {
   colback=violet!15,
   colframe=violet!60,
   fonttitle=\sffamily\bfseries,
-  title={{}}
+  title={}
 ]
 {}
 \end{{tcolorbox}}
