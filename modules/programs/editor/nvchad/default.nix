@@ -39,6 +39,7 @@ in {
             { "TimUntersberger/neogit", lazy = false},
             { "Robitx/gp.nvim", lazy = false },
             { "saadparwaiz1/cmp_luasnip", lazy = false},
+            { "hrsh7th/cmp-path", lazy = false},
           }
         '';
 
