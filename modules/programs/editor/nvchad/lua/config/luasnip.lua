@@ -49,4 +49,12 @@ cmp.setup({
   },
 })
 
+-- Optional: auto-expand autosnippets
+-- (you can delete this if it's not working well)
+vim.cmd([[
+  augroup luasnip_autoexpand
+    autocmd!
+    autocmd TextChangedI * lua require("luasnip").expand_auto()
+  augroup END
+]])
 
