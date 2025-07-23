@@ -37,26 +37,28 @@ return {
  })),
 
   -- Table environment
+  
   s("tab", fmt([[
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}{ {} }
-    \toprule
-    {} \\
-    \midrule
-    {} \\
-    \bottomrule
-  \end{tabular}
-  \caption{{{}}}
-  \label{{tab:{}}}
-\end{table}
-]], {
-    i(1, "c c"),
-    i(2, "Header1 & Header2"),
-    i(3, "Value1 & Value2"),
-    i(4, "Table caption"),
-    i(5, "label")
+  \begin{{table}}[htbp]
+    \centering
+    \begin{{tabular}}{{{}}}
+      \toprule
+      {} \\
+      \midrule
+      {} \\
+      \bottomrule
+    \end{{tabular}}
+    \caption{{{}}}
+    \label{{tab:{}}}
+  \end{{table}}
+  ]], {
+    i(1, "c c"),                -- column format
+    i(2, "Header1 & Header2"), -- header
+    i(3, "Data1 & Data2"),     -- data
+    i(4, "Table caption"),     -- caption
+    i(5, "label")              -- label
   })),
+
 
   -- Math environment
   s("eq", fmt([[
