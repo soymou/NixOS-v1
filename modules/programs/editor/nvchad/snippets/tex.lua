@@ -111,9 +111,9 @@ return {
     fmt("\\mathbf{{{}}}", { i(1) })),
 
   -- Italic (context-aware)
-  s({ trig = "if", snippetType = "autosnippet", condition = in_textzone },
+  s({ trig = "itf", snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textit{{{}}}", { i(1) })),
 
-  s({ trig = "if", snippetType = "autosnippet", condition = in_mathzone },
+  s({ trig = "itf", snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
 }
