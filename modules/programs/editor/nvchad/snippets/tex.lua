@@ -88,32 +88,32 @@ return {
   s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
 
   -- Display math environment
-  s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
+  s({ trig = "dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
 \[
   {}
 \]
 ]], { i(1) })),
 
   -- Inline math
-  s({ trig = "^mk$", regTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
+  s({ trig = "mk$", regTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
 
   -- \mathbb{}
-  s({ trig = "^mbb$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbb{{{}}}", { i(1) })),
+  s({ trig = "mbb$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbb{{{}}}", { i(1) })),
 
   -- \mathcal{}
-  s({ trig = "^mcal$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
+  s({ trig = "mcal$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
 
   -- Bold (context-aware)
-  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
+  s({ trig = "bf$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textbf{{{}}}", { i(1) })),
 
-  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
+  s({ trig = "bf$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathbf{{{}}}", { i(1) })),
 
   -- Italic (context-aware)
-  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
+  s({ trig = "if$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textit{{{}}}", { i(1) })),
 
-  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
+  s({ trig = "if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
 }
