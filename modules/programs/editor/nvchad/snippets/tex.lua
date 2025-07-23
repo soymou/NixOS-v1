@@ -1,3 +1,4 @@
+
 local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
@@ -15,8 +16,6 @@ local in_textzone = function()
 end
 
 return {
-  -- Your existing snippets:
-
   -- Basic environment template
   s("beg", fmt([[
 \begin{{{}}}
@@ -26,28 +25,28 @@ return {
 
   -- Figure environment
   s("fig", fmt([[
-\begin{{figure}}[htbp]
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{{{}}}
   \caption{{{}}}
   \label{{fig:{}}}
-\end{{figure}}
+\end{figure}
 ]], { i(1, "filename.png"), i(2, "Caption here"), i(3, "label") })),
 
   -- Table environment
   s("tab", fmt([[
-\begin{{table}}[htbp]
+\begin{table}[htbp]
   \centering
-  \begin{{tabular}}{{{}}}
+  \begin{tabular}{ {} }
     \toprule
     {} \\
     \midrule
     {} \\
     \bottomrule
-  \end{{tabular}}
+  \end{tabular}
   \caption{{{}}}
   \label{{tab:{}}}
-\end{{table}}
+\end{table}
 ]], {
     i(1, "c c"),
     i(2, "Header1 & Header2"),
@@ -58,35 +57,35 @@ return {
 
   -- Math environment
   s("eq", fmt([[
-\begin{{equation}}
+\begin{equation}
   {}
-\end{{equation}}
+\end{equation}
 ]], { i(1, "E = mc^2") })),
 
   -- Itemize environment
   s("item", fmt([[
-\begin{{itemize}}
+\begin{itemize}
   \item {}
   \item {}
-\end{{itemize}}
+\end{itemize}
 ]], { i(1), i(2) })),
 
   -- Enumerate environment
   s("enum", fmt([[
-\begin{{enumerate}}
+\begin{enumerate}
   \item {}
   \item {}
-\end{{enumerate}}
+\end{enumerate}
 ]], { i(1), i(2) })),
 
   -- Section
-  s("sec", fmt([[ \section{{{}}} ]], { i(1, "Section Title") })),
+  s("sec", fmt([[\section{{{}}}]], { i(1, "Section Title") })),
 
   -- Subsection
-  s("ssec", fmt([[ \subsection{{{}}} ]], { i(1, "Subsection Title") })),
+  s("ssec", fmt([[\subsection{{{}}}]], { i(1, "Subsection Title") })),
 
   -- Label
-  s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
+  s("lbl", fmt([[\label{{{}}}]], { i(1, "label-name") })),
 
   -- Display math environment
   s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
@@ -118,14 +117,14 @@ return {
   s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
 
-  -- New colorboxed theorem snippets (with cursor first on title, then content)
+  -- Colored tcolorbox environments
 
   s("boxdef", fmt([[
 \begin{{tcolorbox}}[
   colback=cyan!15,
   colframe=cyan!60,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
@@ -136,7 +135,7 @@ return {
   colback=yellow!15,
   colframe=yellow!60,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
@@ -147,7 +146,7 @@ return {
   colback=gray!10,
   colframe=gray!50,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
@@ -158,7 +157,7 @@ return {
   colback=green!15,
   colframe=green!60,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
@@ -169,7 +168,7 @@ return {
   colback=orange!15,
   colframe=orange!60,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
@@ -180,11 +179,10 @@ return {
   colback=violet!15,
   colframe=violet!60,
   fonttitle=\sffamily\bfseries,
-  title={{\textsc{{{}}}}}
+  title=\textsc{{{}}}
 ]
 {}
 \end{{tcolorbox}}
 ]], { i(1, "Example"), i(2) })),
 }
-
 
