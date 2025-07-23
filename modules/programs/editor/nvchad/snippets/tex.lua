@@ -23,64 +23,62 @@ return {
 ]], { i(1, "environment"), i(2), rep(1) })),
 
   -- Figure environment
- s("fig", fmt([[
- \begin{{figure}}[htbp]
-   \centering
-   \includegraphics[width=\linewidth]{{{}}}
-   \caption{{{}}}
-   \label{{fig:{}}}
- \end{{figure}}
- ]], {
-   i(1, "filename.png"),
-   i(2, "Caption here"),
-   i(3, "label"),
- })),
-
-  -- Table environment
-  
-  s("tab", fmt([[
-  \begin{{table}}[htbp]
-    \centering
-    \begin{{tabular}}{{{}}}
-      \toprule
-      {} \\
-      \midrule
-      {} \\
-      \bottomrule
-    \end{{tabular}}
-    \caption{{{}}}
-    \label{{tab:{}}}
-  \end{{table}}
-  ]], {
-    i(1, "c c"),                -- column format
-    i(2, "Header1 & Header2"), -- header
-    i(3, "Data1 & Data2"),     -- data
-    i(4, "Table caption"),     -- caption
-    i(5, "label")              -- label
+  s("fig", fmt([[
+\begin{{figure}}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{{{}}}
+  \caption{{{}}}
+  \label{{fig:{}}}
+\end{{figure}}
+]], {
+    i(1, "filename.png"),
+    i(2, "Caption here"),
+    i(3, "label"),
   })),
 
+  -- Table environment
+  s("tab", fmt([[
+\begin{{table}}[htbp]
+  \centering
+  \begin{{tabular}}{{{}}}
+    \toprule
+    {} \\
+    \midrule
+    {} \\
+    \bottomrule
+  \end{{tabular}}
+  \caption{{{}}}
+  \label{{tab:{}}}
+\end{{table}}
+]], {
+    i(1, "c c"),
+    i(2, "Header1 & Header2"),
+    i(3, "Data1 & Data2"),
+    i(4, "Table caption"),
+    i(5, "label"),
+  })),
 
   -- Math environment
   s("eq", fmt([[
-\begin{equation}
+\begin{{equation}}
   {}
-\end{equation}
+\end{{equation}}
 ]], { i(1, "E = mc^2") })),
 
-  -- Itemize environment
+  -- Itemize
   s("item", fmt([[
-\begin{itemize}
+\begin{{itemize}}
   \item {}
   \item {}
-\end{itemize}
+\end{{itemize}}
 ]], { i(1), i(2) })),
 
-  -- Enumerate environment
+  -- Enumerate
   s("enum", fmt([[
-\begin{enumerate}
+\begin{{enumerate}}
   \item {}
   \item {}
-\end{enumerate}
+\end{{enumerate}}
 ]], { i(1), i(2) })),
 
   -- Section
@@ -92,7 +90,7 @@ return {
   -- Label
   s("lbl", fmt([[\label{{{}}}]], { i(1, "label-name") })),
 
-  -- Display math environment
+  -- Display math
   s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
 \[
   {}
@@ -122,8 +120,7 @@ return {
   s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
 
-  -- Colored tcolorbox environments
-
+  -- tcolorboxes
   s("boxdef", fmt([[
 \begin{{tcolorbox}}[
   colback=cyan!15,
