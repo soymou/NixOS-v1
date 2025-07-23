@@ -1,10 +1,10 @@
 {
- inputs,
+  inputs,
   pkgs,
   lib,
   ...
 }: let
-  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc" "gp"];
+  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc" "gp" "spell"];
 
   luaRequireStatements = builtins.concatStringsSep "\n" (lib.mapAttrsToList (_: module: ''
     require('config.${module}')
@@ -15,6 +15,12 @@
       entries = builtins.readDir ./snippets;
     in
       lib.filterAttrs (name: type: lib.hasSuffix ".lua" name && type == "regular") entries;
+
+  spellFiles =
+    let
+      entries = builtins.readDir ./spell;
+    in
+      lib.filterAttrs (name: type: type == "regular") entries;
 
 in {
   home-manager.sharedModules = [
@@ -46,7 +52,6 @@ in {
         backup = false;
       };
 
-      # Generate home.file entries for config modules + all snippet files
       home.file =
         (builtins.foldl' (acc: module:
           acc // {
@@ -57,8 +62,13 @@ in {
         (lib.mapAttrs' (name: _: {
           name = ".config/nvim/snippets/${name}";
           value = { source = ./snippets/${name}; };
-        }) snippetFiles);
-
+        }) snippetFiles)
+        //
+        (lib.mapAttrs' (name: _: {
+          name = ".config/nvim/spell/${name}";
+          value = { source = ./spell/${name}; };
+        }) spellFiles);
     })
   ];
 }
+
