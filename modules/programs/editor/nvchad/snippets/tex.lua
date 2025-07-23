@@ -15,7 +15,6 @@ local in_textzone = function()
 end
 
 return {
-
   -- Basic environment template
   s("beg", fmt([[
 \begin{{{}}}
@@ -31,7 +30,11 @@ return {
   \caption{{{}}}
   \label{{fig:{}}}
 \end{{figure}}
-]], { i(1, "filename.png"), i(2, "Caption here"), i(3, "label") })),
+]], {
+    i(1, "filename.png"),
+    i(2, "Caption here"),
+    i(3, "label"),
+  })),
 
   -- Table environment
   s("tab", fmt([[
@@ -50,9 +53,9 @@ return {
 ]], {
     i(1, "c c"),
     i(2, "Header1 & Header2"),
-    i(3, "Value1 & Value2"),
+    i(3, "Data1 & Data2"),
     i(4, "Table caption"),
-    i(5, "label")
+    i(5, "label"),
   })),
 
   -- Math environment
@@ -62,7 +65,7 @@ return {
 \end{{equation}}
 ]], { i(1, "E = mc^2") })),
 
-  -- Itemize environment
+  -- Itemize
   s("item", fmt([[
 \begin{{itemize}}
   \item {}
@@ -70,7 +73,7 @@ return {
 \end{{itemize}}
 ]], { i(1), i(2) })),
 
-  -- Enumerate environment
+  -- Enumerate
   s("enum", fmt([[
 \begin{{enumerate}}
   \item {}
@@ -79,15 +82,15 @@ return {
 ]], { i(1), i(2) })),
 
   -- Section
-  s("sec", fmt([[ \section{{{}}} ]], { i(1, "Section Title") })),
+  s("sec", fmt([[\section{{{}}}]], { i(1, "Section Title") })),
 
   -- Subsection
-  s("ssec", fmt([[ \subsection{{{}}} ]], { i(1, "Subsection Title") })),
+  s("ssec", fmt([[\subsection{{{}}}]], { i(1, "Subsection Title") })),
 
   -- Label
-  s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
+  s("lbl", fmt([[\label{{{}}}]], { i(1, "label-name") })),
 
-  -- Display math environment
+  -- Display math
   s({ trig = "dm", snippetType = "autosnippet" }, fmt([[
 \[
   {}
@@ -111,9 +114,77 @@ return {
     fmt("\\mathbf{{{}}}", { i(1) })),
 
   -- Italic (context-aware)
-  s({ trig = "itf", snippetType = "autosnippet", condition = in_textzone },
+  s({ trig = "if", snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textit{{{}}}", { i(1) })),
 
-  s({ trig = "itf", snippetType = "autosnippet", condition = in_mathzone },
+  s({ trig = "if", snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
+
+  -- tcolorboxes
+  s("boxdef", fmt([[
+\begin{{tcolorbox}}[
+  colback=cyan!15,
+  colframe=cyan!60,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Definition"), i(2) })),
+
+  s("boxthe", fmt([[
+\begin{{tcolorbox}}[
+  colback=yellow!15,
+  colframe=yellow!60,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Theorem"), i(2) })),
+
+  s("boxobs", fmt([[
+\begin{{tcolorbox}}[
+  colback=gray!10,
+  colframe=gray!50,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Observation"), i(2) })),
+
+  s("boxlem", fmt([[
+\begin{{tcolorbox}}[
+  colback=green!15,
+  colframe=green!60,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Lemma"), i(2) })),
+
+  s("boxcor", fmt([[
+\begin{{tcolorbox}}[
+  colback=orange!15,
+  colframe=orange!60,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Corollary"), i(2) })),
+
+  s("boxex", fmt([[
+\begin{{tcolorbox}}[
+  colback=violet!15,
+  colframe=violet!60,
+  fonttitle=\sffamily\bfseries,
+  title={{}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Example"), i(2) })),
 }
+
