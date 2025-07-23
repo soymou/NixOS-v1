@@ -88,7 +88,7 @@ return {
   s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
 
   -- Display math environment
-  s({ trig = "dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
+  s({ trig = "dm", snippetType = "autosnippet" }, fmt([[
 \[
   {}
 \]
