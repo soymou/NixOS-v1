@@ -1,6 +1,9 @@
+
 local lspconfig = require("lspconfig")
+local util = require("lspconfig.util")
 
 lspconfig.texlab.setup({
+  root_dir = util.root_pattern("main.tex", ".git"), -- 👈 Add this
   on_attach = function(client, bufnr)
     -- Optional keybindings or settings here
   end,
@@ -16,9 +19,7 @@ lspconfig.texlab.setup({
         args = { "--synctex-forward", "%l:1:%f", "%p" },
       },
       completion = {
-        -- 👇 Add this block
         includePaths = { "." },
-        -- Optional: enable snippet expansion for commands
         snippetSupport = true,
       },
     },
