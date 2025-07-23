@@ -5,6 +5,15 @@ local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 
+-- Context helpers (requires vimtex)
+local in_mathzone = function()
+  return vim.fn["vimtex#syntax#in_mathzone"]() == 1
+end
+
+local in_textzone = function()
+  return not in_mathzone()
+end
+
 return {
 
   -- Basic environment template
@@ -78,12 +87,12 @@ return {
   -- Label
   s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
 
-  -- Display math environment (autoexpand)
+  -- Display math environment
   s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
-  \[
-    {}
-  \]
-  ]], { i(1) })),
+\[
+  {}
+\]
+]], { i(1) })),
 
   -- Inline math
   s({ trig = "^mk$", regTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
@@ -94,16 +103,17 @@ return {
   -- \mathcal{}
   s({ trig = "^mcal$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
 
-  -- Text bold
-  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet" }, fmt("\\textbf{{{}}}", { i(1) })),
+  -- Bold (context-aware)
+  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
+    fmt("\\textbf{{{}}}", { i(1) })),
 
-  -- Text italic
-  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet" }, fmt("\\textit{{{}}}", { i(1) })),
+  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
+    fmt("\\mathbf{{{}}}", { i(1) })),
 
-  -- Math bold
-  s({ trig = "^mbf$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbf{{{}}}", { i(1) })),
+  -- Italic (context-aware)
+  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
+    fmt("\\textit{{{}}}", { i(1) })),
 
-  -- Math italic
-  s({ trig = "^mif$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathit{{{}}}", { i(1) })),
-
+  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
+    fmt("\\mathit{{{}}}", { i(1) })),
 }
