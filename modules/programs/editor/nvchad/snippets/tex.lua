@@ -15,6 +15,7 @@ local in_textzone = function()
 end
 
 return {
+  -- Your existing snippets:
 
   -- Basic environment template
   s("beg", fmt([[
@@ -116,4 +117,74 @@ return {
 
   s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
+
+  -- New colorboxed theorem snippets (with cursor first on title, then content)
+
+  s("boxdef", fmt([[
+\begin{{tcolorbox}}[
+  colback=cyan!15,
+  colframe=cyan!60,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Definition"), i(2) })),
+
+  s("boxthe", fmt([[
+\begin{{tcolorbox}}[
+  colback=yellow!15,
+  colframe=yellow!60,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Theorem"), i(2) })),
+
+  s("boxobs", fmt([[
+\begin{{tcolorbox}}[
+  colback=gray!10,
+  colframe=gray!50,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Observation"), i(2) })),
+
+  s("boxlem", fmt([[
+\begin{{tcolorbox}}[
+  colback=green!15,
+  colframe=green!60,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Lemma"), i(2) })),
+
+  s("boxcor", fmt([[
+\begin{{tcolorbox}}[
+  colback=orange!15,
+  colframe=orange!60,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Corollary"), i(2) })),
+
+  s("boxex", fmt([[
+\begin{{tcolorbox}}[
+  colback=violet!15,
+  colframe=violet!60,
+  fonttitle=\sffamily\bfseries,
+  title={{\textsc{{{}}}}}
+]
+{}
+\end{{tcolorbox}}
+]], { i(1, "Example"), i(2) })),
 }
+
+
