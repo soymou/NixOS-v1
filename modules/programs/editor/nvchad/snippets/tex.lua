@@ -1,4 +1,3 @@
-
 local ls = require("luasnip")
 local s = ls.snippet
 local t = ls.text_node
@@ -36,9 +35,6 @@ return {
    i(2, "Caption here"),
    i(3, "label"),
  })),
-
-
-
 
   -- Table environment
   s("tab", fmt([[
