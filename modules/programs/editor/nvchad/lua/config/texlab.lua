@@ -15,6 +15,13 @@ lspconfig.texlab.setup({
         executable = "zathura",
         args = { "--synctex-forward", "%l:1:%f", "%p" },
       },
+      completion = {
+        -- 👇 Add this block
+        includePaths = { "." },
+        -- Optional: enable snippet expansion for commands
+        snippetSupport = true,
+      },
     },
   },
 })
+
