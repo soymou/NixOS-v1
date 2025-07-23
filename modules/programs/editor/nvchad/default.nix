@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc" "gp" "spell"];
+  luaModules = [ "luasnip" "treesitter" "texlab" "lean" "neogit" "chadrc" "gp" "spell" "cmp"];
 
   luaRequireStatements = builtins.concatStringsSep "\n" (lib.mapAttrsToList (_: module: ''
     require('config.${module}')
