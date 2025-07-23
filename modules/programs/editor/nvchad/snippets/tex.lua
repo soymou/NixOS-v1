@@ -79,41 +79,31 @@ return {
   s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
 
   -- Display math environment (autoexpand)
-  s({ trig = "dm", wordTrig = true, snippetType = "autosnippet" }, fmt([[
+  s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
   \[
     {}
   \]
   ]], { i(1) })),
 
-  s({ trig = "mk", wordTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
+  -- Inline math
+  s({ trig = "^mk$", regTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
 
-   -- \mathbb{} snippet
-   s({ trig = "mbb", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \mathbb{{{}}}
-   ]], { i(1) })),
+  -- \mathbb{}
+  s({ trig = "^mbb$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbb{{{}}}", { i(1) })),
 
-   -- \mathcal{} snippet
-   s({ trig = "mcal", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \mathcal{{{}}}
-   ]], { i(1) })),
+  -- \mathcal{}
+  s({ trig = "^mcal$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
 
-   -- Normal text bold
-   s({ trig = "bf", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \textbf{{{}}}
-   ]], { i(1) })),
+  -- Text bold
+  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet" }, fmt("\\textbf{{{}}}", { i(1) })),
 
-   -- Normal text italic
-   s({ trig = "if", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \textit{{{}}}
-   ]], { i(1) })),
+  -- Text italic
+  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet" }, fmt("\\textit{{{}}}", { i(1) })),
 
-   -- Math mode bold
-   s({ trig = "mbf", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \mathbf{{{}}}
-   ]], { i(1) })),
+  -- Math bold
+  s({ trig = "^mbf$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbf{{{}}}", { i(1) })),
 
-   -- Math mode italic
-   s({ trig = "mif", wordTrig = true, snippetType = "autosnippet" }, fmt([[
-   \mathit{{{}}}
-   ]], { i(1) })),
+  -- Math italic
+  s({ trig = "^mif$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathit{{{}}}", { i(1) })),
+
 }
