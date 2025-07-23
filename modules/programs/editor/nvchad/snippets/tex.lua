@@ -5,7 +5,7 @@ local i = ls.insert_node
 local fmt = require("luasnip.extras.fmt").fmt
 local rep = require("luasnip.extras").rep
 
--- context helpers (requires vimtex)
+-- Context helpers (requires vimtex)
 local in_mathzone = function()
   return vim.fn["vimtex#syntax#in_mathzone"]() == 1
 end
@@ -15,14 +15,15 @@ local in_textzone = function()
 end
 
 return {
-  -- basic environment template
+
+  -- Basic environment template
   s("beg", fmt([[
 \begin{{{}}}
   {}
 \end{{{}}}
 ]], { i(1, "environment"), i(2), rep(1) })),
 
-  -- figure environment
+  -- Figure environment
   s("fig", fmt([[
 \begin{{figure}}[htbp]
   \centering
@@ -30,13 +31,9 @@ return {
   \caption{{{}}}
   \label{{fig:{}}}
 \end{{figure}}
-]], {
-    i(1, "filename.png"),
-    i(2, "caption here"),
-    i(3, "label"),
-  })),
+]], { i(1, "filename.png"), i(2, "Caption here"), i(3, "label") })),
 
-  -- table environment
+  -- Table environment
   s("tab", fmt([[
 \begin{{table}}[htbp]
   \centering
@@ -52,20 +49,20 @@ return {
 \end{{table}}
 ]], {
     i(1, "c c"),
-    i(2, "header1 & header2"),
-    i(3, "data1 & data2"),
-    i(4, "table caption"),
-    i(5, "label"),
+    i(2, "Header1 & Header2"),
+    i(3, "Value1 & Value2"),
+    i(4, "Table caption"),
+    i(5, "label")
   })),
 
-  -- math environment
+  -- Math environment
   s("eq", fmt([[
 \begin{{equation}}
   {}
 \end{{equation}}
-]], { i(1, "e = mc^2") })),
+]], { i(1, "E = mc^2") })),
 
-  -- itemize
+  -- Itemize environment
   s("item", fmt([[
 \begin{{itemize}}
   \item {}
@@ -73,7 +70,7 @@ return {
 \end{{itemize}}
 ]], { i(1), i(2) })),
 
-  -- enumerate
+  -- Enumerate environment
   s("enum", fmt([[
 \begin{{enumerate}}
   \item {}
@@ -81,110 +78,42 @@ return {
 \end{{enumerate}}
 ]], { i(1), i(2) })),
 
-  -- section
-  s("sec", fmt([[\section{{{}}}]], { i(1, "section title") })),
+  -- Section
+  s("sec", fmt([[ \section{{{}}} ]], { i(1, "Section Title") })),
 
-  -- subsection
-  s("ssec", fmt([[\subsection{{{}}}]], { i(1, "subsection title") })),
+  -- Subsection
+  s("ssec", fmt([[ \subsection{{{}}} ]], { i(1, "Subsection Title") })),
 
-  -- label
-  s("lbl", fmt([[\label{{{}}}]], { i(1, "label-name") })),
+  -- Label
+  s("lbl", fmt([[ \label{{{}}} ]], { i(1, "label-name") })),
 
-  -- display math
-  s({ trig = "^dm$", regtrig = true, snippettype = "autosnippet" }, fmt([[
+  -- Display math environment
+  s({ trig = "^dm$", regTrig = true, snippetType = "autosnippet" }, fmt([[
 \[
   {}
 \]
 ]], { i(1) })),
 
-  -- inline math
-  s({ trig = "^mk$", regtrig = true, snippettype = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
+  -- Inline math
+  s({ trig = "^mk$", regTrig = true, snippetType = "autosnippet" }, fmt("\\( {} \\)", { i(1) })),
 
   -- \mathbb{}
-  s({ trig = "^mbb$", regtrig = true, snippettype = "autosnippet" }, fmt("\\mathbb{{{}}}", { i(1) })),
+  s({ trig = "^mbb$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathbb{{{}}}", { i(1) })),
 
   -- \mathcal{}
-  s({ trig = "^mcal$", regtrig = true, snippettype = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
+  s({ trig = "^mcal$", regTrig = true, snippetType = "autosnippet" }, fmt("\\mathcal{{{}}}", { i(1) })),
 
-  -- bold (context-aware)
-  s({ trig = "^bf$", regtrig = true, snippettype = "autosnippet", condition = in_textzone },
+  -- Bold (context-aware)
+  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textbf{{{}}}", { i(1) })),
 
-  s({ trig = "^bf$", regtrig = true, snippettype = "autosnippet", condition = in_mathzone },
+  s({ trig = "^bf$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathbf{{{}}}", { i(1) })),
 
-  -- italic (context-aware)
-  s({ trig = "^if$", regtrig = true, snippettype = "autosnippet", condition = in_textzone },
+  -- Italic (context-aware)
+  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_textzone },
     fmt("\\textit{{{}}}", { i(1) })),
 
-  s({ trig = "^if$", regtrig = true, snippettype = "autosnippet", condition = in_mathzone },
+  s({ trig = "^if$", regTrig = true, snippetType = "autosnippet", condition = in_mathzone },
     fmt("\\mathit{{{}}}", { i(1) })),
-
-  -- tcolorboxes
-  s("boxdef", fmt([[
-\begin{{tcolorbox}}[
-  colback=cyan!15,
-  colframe=cyan!60,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "definition"), i(2) })),
-
-  s("boxthe", fmt([[
-\begin{{tcolorbox}}[
-  colback=yellow!15,
-  colframe=yellow!60,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "theorem"), i(2) })),
-
-  s("boxobs", fmt([[
-\begin{{tcolorbox}}[
-  colback=gray!10,
-  colframe=gray!50,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "observation"), i(2) })),
-
-  s("boxlem", fmt([[
-\begin{{tcolorbox}}[
-  colback=green!15,
-  colframe=green!60,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "lemma"), i(2) })),
-
-  s("boxcor", fmt([[
-\begin{{tcolorbox}}[
-  colback=orange!15,
-  colframe=orange!60,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "corollary"), i(2) })),
-
-  s("boxex", fmt([[
-\begin{{tcolorbox}}[
-  colback=violet!15,
-  colframe=violet!60,
-  fonttitle=\sffamily\bfseries,
-  title=\textsc{{{}}}
-]
-{}
-\end{{tcolorbox}}
-]], { i(1, "example"), i(2) })),
 }
-
