@@ -27,11 +27,12 @@ return {
  s("fig", fmt([[
  \begin{figure}[htbp]
    \centering
-   \includegraphics[width=\linewidth]{{{}}}
-   \caption{{{}}}
-   \label{{fig:{}}}
+   \includegraphics[width=\linewidth]{}
+   \caption{}
+   \label{fig:{}}
  \end{figure}
  ]], { i(1, "filename.png"), i(2, "Caption here"), i(3, "label") })),
+
 
 
   -- Table environment
