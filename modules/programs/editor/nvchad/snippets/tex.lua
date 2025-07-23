@@ -25,13 +25,18 @@ return {
 
   -- Figure environment
  s("fig", fmt([[
- \begin{figure}[htbp]
+ \begin{{figure}}[htbp]
    \centering
-   \includegraphics[width=\linewidth]{}
-   \caption{}
-   \label{fig:{}}
- \end{figure}
- ]], { i(1, "filename.png"), i(2, "Caption here"), i(3, "label") })),
+   \includegraphics[width=\linewidth]{{{}}}
+   \caption{{{}}}
+   \label{{fig:{}}}
+ \end{{figure}}
+ ]], {
+   i(1, "filename.png"),
+   i(2, "Caption here"),
+   i(3, "label"),
+ })),
+
 
 
 
