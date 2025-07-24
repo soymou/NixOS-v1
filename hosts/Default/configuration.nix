@@ -65,7 +65,7 @@
         seclists
         wireshark
         firefox
-        proxychains
+        proxychains-ng
       ];
     })
   ];
