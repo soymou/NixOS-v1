@@ -1,6 +1,5 @@
 {
   pkgs,
-  nur,
   videoDriver,
   hostname,
   browser,
@@ -93,4 +92,17 @@
   users.users.minidlna = {
     extraGroups = ["users"]; # so minidlna can access the files.
   };
+
+  # Activar NordVPN
+  mou.services.custom.nordvpn.enable = true;
+
+  users.users.mou = {
+    isNormalUser = true;
+    extraGroups = [ "nordvpn" "networkmanager" ];
+  };
+
+  networking.firewall.allowedUDPPorts = [ 1194 ];
+  networking.firewall.allowedTCPPorts = [ 443 ];
+  networking.firewall.checkReversePath = false;
 }
+

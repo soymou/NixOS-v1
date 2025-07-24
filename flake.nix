@@ -77,9 +77,7 @@
         Default = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = { 
-            inherit self inputs outputs;
-            nur = inputs.nur.reposForSystem pkgs.system;
-          } // settings;
+            inherit self inputs outputs; } // settings;
           modules = [ ./hosts/Default/configuration.nix ];
         };
       };
