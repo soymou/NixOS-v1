@@ -61,7 +61,6 @@
         dirbuster
         nmap 
         zenmap
-        wireshark
         metasploit
         seclists
       ];
@@ -99,6 +98,7 @@
   mou.services.custom.nordvpn.autoConnect = true;
 
   users.groups.wireshark = {};
+  programs.wireshark.enable = true;
 
   users.users.mou = {
     isNormalUser = true;
