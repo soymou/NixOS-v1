@@ -112,10 +112,6 @@
   # === Tor Service Enablement ===
   services.tor = {
     enable = true;
-    settings = {
-      SocksPort = [ "9050" ]; # default SOCKS5 port
-      Log = [ "notice stdout" ];
-    };
   };
 }
 
