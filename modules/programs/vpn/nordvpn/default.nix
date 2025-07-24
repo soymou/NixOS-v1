@@ -1,16 +1,18 @@
-{ config, pkgs, ...} : {
+{ config, pkgs, nur, ... }:
+
+{
   environment.systemPackages = with pkgs; [
-    nur.repos.nltch.nordvpn
+    nur.packages.${pkgs.system}.nordvpn
   ];
 
   networking.networkmanager.enable = true;
 
   users.groups.nordvpn = {};
-  users.users.mou.extraGroups = ["nordvpn"];
+  users.users.mou.extraGroups = [ "nordvpn" ];
 
   systemd.services.nordvpn = {
     enable = true;
-    wantedBy = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
   };
 
   networking.firewall.checkReversePath = false;
