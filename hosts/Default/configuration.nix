@@ -98,6 +98,8 @@
   mou.services.custom.nordvpn.enable = true;
   mou.services.custom.nordvpn.autoConnect = true;
 
+  users.groups.wireshark = {};
+
   users.users.mou = {
     isNormalUser = true;
     extraGroups = [ "nordvpn" "networkmanager" "wireshark"];
