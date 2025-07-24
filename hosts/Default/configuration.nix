@@ -1,5 +1,6 @@
 {
   pkgs,
+  nur,
   videoDriver,
   hostname,
   browser,
