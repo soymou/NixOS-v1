@@ -63,6 +63,7 @@
         zenmap
         metasploit
         seclists
+        wireshark
       ];
     })
   ];
