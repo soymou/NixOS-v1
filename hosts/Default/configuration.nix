@@ -44,6 +44,7 @@
     # ../../modules/programs/misc/nix-ld
     # ../../modules/programs/misc/virt-manager
     ../../modules/programs/vpn/nordvpn
+    ../../modules/programs/tor
   ];
 
   home-manager.sharedModules = [
@@ -109,9 +110,5 @@
   networking.firewall.allowedTCPPorts = [ 443 ];
   networking.firewall.checkReversePath = false;
 
-  # === Tor Service Enablement ===
-  services.tor = {
-    enable = true;
-  };
 }
 
