@@ -56,6 +56,7 @@
         ollama
         zathura
         obsidian
+        caido
       ];
     })
   ];
@@ -87,17 +88,14 @@
     extraGroups = ["users"];
   };
 
-  # ✅ Enable NordVPN
   mou.services.custom.nordvpn.enable = true;
   mou.services.custom.nordvpn.autoConnect = true;
 
-  # ✅ Ensure correct user groups
   users.users.mou = {
     isNormalUser = true;
     extraGroups = [ "nordvpn" "networkmanager" ];
   };
 
-  # ✅ Firewall configuration for NordVPN
   networking.firewall.allowedUDPPorts = [ 1194 ];
   networking.firewall.allowedTCPPorts = [ 443 ];
   networking.firewall.checkReversePath = false;
