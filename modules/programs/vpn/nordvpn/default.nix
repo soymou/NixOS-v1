@@ -2,7 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    nur.repos.wingej0.nordvpn 
+    nur.wingej0.nordvpn 
   ];
 
   networking.networkmanager.enable = true;

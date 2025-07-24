@@ -78,7 +78,7 @@
           system = "x86_64-linux";
           specialArgs = { 
             inherit self inputs outputs;
-            nur = inputs.nur;
+            nur = inputs.nur.reposForSystem pkgs.system;
           } // settings;
           modules = [ ./hosts/Default/configuration.nix ];
         };
