@@ -89,6 +89,7 @@
 
   # ✅ Enable NordVPN
   mou.services.custom.nordvpn.enable = true;
+  mou.services.custom.nordvpn.autoConnect = true;
 
   # ✅ Ensure correct user groups
   users.users.mou = {
