@@ -76,13 +76,11 @@
       nixosConfigurations = {
         Default = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = { inherit self inputs outputs; } // settings;
-          modules = [ 
-            ./hosts/Default/configuration.nix 
-            {
-              nur = inputs.nur;
-            }
-          ];
+          specialArgs = { 
+            inherit self inputs outputs;
+            nur = inputs.nur;
+          } // settings;
+          modules = [ ./hosts/Default/configuration.nix ];
         };
       };
     };
