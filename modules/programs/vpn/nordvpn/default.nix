@@ -144,16 +144,6 @@ in
           after = ["network-online.target"];
           wants = ["network-online.target"];
         };
-
-        user.services.nordvpn-connect = {
-          description = "Connect to NordVPN at user login";
-          wantedBy = [ "default.target" ];
-          after = [ "network-online.target" ];
-          serviceConfig = {
-            ExecStart = "${nordVpnPkg}/bin/nordvpn connect double_vpn";
-            Restart = "on-failure";
-          };
-        };
       };
     };
   }
