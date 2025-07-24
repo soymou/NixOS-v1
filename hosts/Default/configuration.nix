@@ -44,7 +44,6 @@
     # ../../modules/programs/misc/nix-ld
     # ../../modules/programs/misc/virt-manager
     ../../modules/programs/vpn/nordvpn
-    ../../modules/programs/tor
   ];
 
   home-manager.sharedModules = [
@@ -65,6 +64,7 @@
         seclists
         wireshark
         firefox
+        tor-browser
       ];
     })
   ];
@@ -109,6 +109,9 @@
   networking.firewall.allowedUDPPorts = [ 1194 ];
   networking.firewall.allowedTCPPorts = [ 443 ];
   networking.firewall.checkReversePath = false;
+  
+  services.tor.enable = true;
+  services.tor.client.enable = true;
 
 }
 
