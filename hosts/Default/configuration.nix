@@ -57,6 +57,13 @@
         zathura
         obsidian
         caido
+        burpsuite 
+        dirbuster
+        nmap 
+        zenmap
+        wireshark
+        metasploit
+        seclists
       ];
     })
   ];
