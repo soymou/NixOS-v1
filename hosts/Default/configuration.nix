@@ -64,6 +64,7 @@
         metasploit
         seclists
         wireshark
+        firefox
       ];
     })
   ];
