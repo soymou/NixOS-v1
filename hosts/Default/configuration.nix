@@ -100,7 +100,7 @@
 
   users.users.mou = {
     isNormalUser = true;
-    extraGroups = [ "nordvpn" "networkmanager" ];
+    extraGroups = [ "nordvpn" "networkmanager" "wireshark"];
   };
 
   networking.firewall.allowedUDPPorts = [ 1194 ];
