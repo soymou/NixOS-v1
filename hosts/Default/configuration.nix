@@ -46,7 +46,6 @@
     ../../modules/programs/vpn/nordvpn
   ];
 
-  # Home-manager config
   home-manager.sharedModules = [
     (_: {
       home.packages = with pkgs; [
@@ -57,15 +56,14 @@
         zathura
         obsidian
         caido
-        burpsuite 
+        burpsuite
         dirbuster
-        nmap 
+        nmap
         zenmap
         metasploit
         seclists
         wireshark
         firefox
-        proxychains-ng
       ];
     })
   ];
@@ -75,7 +73,6 @@
 
   networking.hostName = hostname;
 
-  # Enable MiniDLNA
   services.minidlna = {
     enable = true;
     openFirewall = true;
@@ -105,12 +102,20 @@
 
   users.users.mou = {
     isNormalUser = true;
-    extraGroups = [ "nordvpn" "networkmanager" "wireshark"];
+    extraGroups = [ "nordvpn" "networkmanager" "wireshark" ];
   };
 
   networking.firewall.allowedUDPPorts = [ 1194 ];
   networking.firewall.allowedTCPPorts = [ 443 ];
   networking.firewall.checkReversePath = false;
 
+  # === Tor Service Enablement ===
+  services.tor = {
+    enable = true;
+    settings = {
+      SocksPort = [ "9050" ]; # default SOCKS5 port
+      Log = [ "notice stdout" ];
+    };
+  };
 }
 
