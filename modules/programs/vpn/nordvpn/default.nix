@@ -16,8 +16,8 @@
     iproute2,
     procps,
     cacert,
-    libnl, # Needed for 3.9.x +
-    libcap_ng, # Needed for 3.9.x +
+    libnl,
+    libcap_ng,
     libxml2,
     libidn2,
     zlib,
@@ -59,8 +59,6 @@
     nordVPNfhs = buildFHSEnvChroot {
       name = "nordvpnd";
       runScript = "nordvpnd";
-
-      # hardcoded path to /sbin/ip
       targetPkgs = pkgs: [
         nordVPNBase
         sysctl
@@ -68,8 +66,8 @@
         iproute2
         procps
         cacert
-        libnl # Needed for 3.9.x +
-        libcap_ng # Needed for 3.9.x +
+        libnl
+        libcap_ng
         libxml2
         libidn2
         zlib
@@ -122,6 +120,7 @@ in
 
       users.groups.nordvpn = {};
       users.groups.nordvpn.members = ["mou"];
+
       systemd = {
         services.nordvpn = {
           description = "NordVPN daemon.";
@@ -145,6 +144,17 @@ in
           after = ["network-online.target"];
           wants = ["network-online.target"];
         };
+
+        user.services.nordvpn-connect = {
+          description = "Connect to NordVPN at user login";
+          wantedBy = [ "default.target" ];
+          after = [ "network-online.target" ];
+          serviceConfig = {
+            ExecStart = "${nordVpnPkg}/bin/nordvpn connect double_vpn";
+            Restart = "on-failure";
+          };
+        };
       };
     };
   }
+
