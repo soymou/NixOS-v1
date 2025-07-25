@@ -116,5 +116,7 @@
   services.tor.enable = true;
   services.tor.client.enable = true;
 
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [ "mou" ]; 
 }
 
