@@ -65,6 +65,8 @@
         wireshark
         firefox
         tor-browser
+        subfinder
+        go
       ];
     })
   ];
