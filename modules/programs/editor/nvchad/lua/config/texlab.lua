@@ -1,6 +1,8 @@
 local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 lspconfig.texlab.setup({
+  capabilities = capabilities,  -- 🧠 This enables completion via nvim-cmp
   settings = {
     texlab = {
       auxDirectory = ".",
@@ -28,3 +30,4 @@ lspconfig.texlab.setup({
     },
   },
 })
+
