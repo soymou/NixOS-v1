@@ -119,5 +119,11 @@
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "mou" ]; 
   virtualisation.virtualbox.host.enableExtensionPack = true;
+  
+  services.udev.extraRules = ''
+    KERNEL=="vboxdrv", GROUP="vboxusers", MODE="0660"
+    KERNEL=="vboxnetctl", GROUP="vboxusers", MODE="0660"
+    KERNEL=="vboxusb", GROUP="vboxusers", MODE="0660"
+  '';
 }
 
