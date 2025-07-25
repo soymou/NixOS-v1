@@ -117,13 +117,11 @@
   services.tor.client.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "mou" ]; 
+  virtualisation.virtualbox.guest.enable = true;
+  virtualisation.virtualbox.guest.dragAndDrop = true;
+  users.extraGroups.vboxusers.members = [ "mou" ];
+  virtualisation.virtualbox.host.enableHardening = false;
   virtualisation.virtualbox.host.enableExtensionPack = true;
   
-  services.udev.extraRules = ''
-    KERNEL=="vboxdrv", GROUP="vboxusers", MODE="0660"
-    KERNEL=="vboxnetctl", GROUP="vboxusers", MODE="0660"
-    KERNEL=="vboxusb", GROUP="vboxusers", MODE="0660"
-  '';
 }
 
