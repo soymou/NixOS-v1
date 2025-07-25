@@ -117,8 +117,6 @@
   services.tor.client.enable = true;
 
   virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.guest.enable = true;
-  virtualisation.virtualbox.guest.dragAndDrop = true;
   users.extraGroups.vboxusers.members = [ "mou" ];
   virtualisation.virtualbox.host.enableHardening = false;
   virtualisation.virtualbox.host.enableExtensionPack = true;
