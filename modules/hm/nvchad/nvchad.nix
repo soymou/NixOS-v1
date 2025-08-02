@@ -1,7 +1,7 @@
-{ inputs, pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, ... }:
 
 let
-  luaModules = [ "neogit" "lsp"];
+  luaModules = [ "neogit" "lsp" "chadrc" ];
 
   luaRequireStatements = builtins.concatStringsSep "\n" (lib.mapAttrsToList (_: module: ''
     require('config.${module}')
@@ -33,7 +33,6 @@ in
       nixd
       lua-language-server
       bash-language-server
-      nodePackages.bash-language-server
       docker-compose-language-service
       dockerfile-language-server-nodejs
       emmet-language-server

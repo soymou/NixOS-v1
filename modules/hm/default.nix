@@ -5,6 +5,7 @@
     # ./example.nix - add your modules here
     ./nvchad/nvchad.nix
     ./Hacking/default.nix
+    ./kitty/kitty.nix
   ];
 
   # home-manager options go here
@@ -13,7 +14,8 @@
     # pkgs.userPkgs.vscode - your personal nixpkgs version
     inputs.zen-browser.packages."${system}".default
     warp-terminal
-    nixd
+    gpt4all
+    kitty
   ];
 
   # Enable direnv
@@ -92,9 +94,9 @@
       spotify.enable = true; # enable spotify module
       swww.enable = true; # enable swww wallpaper daemon
       terminals = {
-        enable = true; # enable terminals module
+        enable = false; # enable terminals module
         kitty = {
-          enable = true; # enable kitty terminal
+          enable = false; # enable kitty terminal
           configText = "
             cursor_trail 0
           "; # kitty config text
