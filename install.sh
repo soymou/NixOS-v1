@@ -250,7 +250,7 @@ clone_config() {
     CURRENT_DIR="$(realpath "$(pwd)")"
     TARGET_ABS="$(realpath "$TARGET_DIR" 2>/dev/null || echo "")"
 
-    if [[ -n "$TARGET_ABS" && "$CURRENT_DIR" == "$TARGET_ABS"* ]]; then
+    if [[ -n "$TARGET_ABS" && "$CURRENT_DIR" == "$TARGET_ABS" || "$CURRENT_DIR" == "$TARGET_ABS/"* ]]; then
         log_error "You are currently inside the target directory ($TARGET_DIR)"
         log_error "Cannot continue to clone here without deleting the running script!"
         log_info "Please run the installer from another location and try again."
