@@ -125,7 +125,14 @@ in
     ];
     shell = pkgs.zsh; # Change if you prefer a different shell
   };
- 
+
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark; 
+    dumpcap.enable = true;
+    usbmon.enable = true;
+  };
+
   # Nordvpn 
   mou.services.custom.nordvpn = {
     enable = true;
