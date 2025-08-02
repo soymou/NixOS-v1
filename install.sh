@@ -12,8 +12,7 @@ NC='\033[0m' # No Color
 
 # Configuration
 CONFIG_REPO="git@github.com:emilio-junoy/NixOS"
-TARGET_DIR="~/NixOS"
-BACKUP_DIR="/etc/nixos-backup-$(date +%Y%m%d-%H%M%S)"
+# TARGET_DIR and BACKUP_DIR will be set after getting username
 
 # Functions
 log_info() {
@@ -72,13 +71,18 @@ get_user_input() {
     log_info "Configuration setup - please provide the following information:"
     echo
     
+    # Username (get this first since we need it for paths)
+    read -p "Enter username [user]: " USERNAME
+    USERNAME=${USERNAME:-user}
+    
+    # Set target directories based on username
+    USER_HOME="/home/$USERNAME"
+    TARGET_DIR="$USER_HOME/NixOS"
+    BACKUP_DIR="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
+    
     # Hostname
     read -p "Enter hostname [nixos]: " HOSTNAME
     HOSTNAME=${HOSTNAME:-nixos}
-    
-    # Username
-    read -p "Enter username [user]: " USERNAME
-    USERNAME=${USERNAME:-user}
     
     # Timezone
     echo "Available timezones (examples):"
@@ -160,6 +164,7 @@ get_user_input() {
     log_info "Configuration summary:"
     echo "  Hostname: $HOSTNAME"
     echo "  Username: $USERNAME"
+    echo "  Target Directory: $TARGET_DIR"
     echo "  Timezone: $TIMEZONE"
     echo "  Locale: $LOCALE"
     echo "  Keyboard Layout: $KB_LAYOUT${KB_VARIANT:+,$KB_VARIANT}"
@@ -178,9 +183,9 @@ get_user_input() {
 
 # Backup existing configuration
 backup_existing() {
-    if [[ -d $TARGET_DIR ]]; then
+    if [[ -d "$TARGET_DIR" ]]; then
         log_info "Backing up existing configuration to $BACKUP_DIR"
-        cp -r $TARGET_DIR $BACKUP_DIR
+        cp -r "$TARGET_DIR" "$BACKUP_DIR"
         log_success "Backup created at $BACKUP_DIR"
     fi
 }
@@ -188,30 +193,52 @@ backup_existing() {
 # Clone configuration
 clone_config() {
     log_info "Cloning configuration from $CONFIG_REPO"
+    log_info "Target directory: $TARGET_DIR"
     
-    # Remove existing directory if it exists
-    if [[ -d $TARGET_DIR ]]; then
-        rm -rf $TARGET_DIR
+    # Ensure the user's home directory exists
+    if [[ ! -d "$USER_HOME" ]]; then
+        log_info "Creating user home directory: $USER_HOME"
+        mkdir -p "$USER_HOME"
     fi
     
-    # Clone the repository
-    git clone $CONFIG_REPO $TARGET_DIR
+    # If target directory exists, back it up first (this is in addition to the main backup)
+    if [[ -d "$TARGET_DIR" ]]; then
+        log_warning "Target directory exists, removing it..."
+        rm -rf "$TARGET_DIR"
+    fi
     
-    # Initialize git if not already done
-    cd $TARGET_DIR
+    # Clone the repository directly to target directory
+    if ! git clone "$CONFIG_REPO" "$TARGET_DIR"; then
+        log_error "Failed to clone repository. Check your SSH keys and network connection."
+        log_error "Make sure you have access to $CONFIG_REPO"
+        exit 1
+    fi
+    
+    # Verify the clone was successful
+    if [[ ! -d "$TARGET_DIR" ]]; then
+        log_error "Clone appeared to succeed but target directory doesn't exist!"
+        exit 1
+    fi
+    
+    # Set proper ownership of the cloned directory
+    chown -R "$USERNAME:$USERNAME" "$TARGET_DIR" 2>/dev/null || {
+        log_warning "Could not set ownership - user $USERNAME may not exist yet"
+    }
+    
+    # Change to the directory and verify git repo
+    cd "$TARGET_DIR"
     if [[ ! -d .git ]]; then
-        git init
-        git add .
-        git commit -m "Initial configuration"
+        log_error "Cloned directory doesn't contain a git repository!"
+        exit 1
     fi
     
-    log_success "Configuration cloned successfully"
+    log_success "Configuration cloned successfully to $TARGET_DIR"
 }
 
 # Generate hardware configuration
 generate_hardware_config() {
     log_info "Generating hardware configuration..."
-    nixos-generate-config --show-hardware-config > $TARGET_DIR/hardware-configuration.nix
+    nixos-generate-config --show-hardware-config > "$TARGET_DIR/hardware-configuration.nix"
     log_success "Hardware configuration generated"
 }
 
@@ -219,43 +246,47 @@ generate_hardware_config() {
 update_config() {
     log_info "Updating configuration files..."
     
-    cd $TARGET_DIR
+    cd "$TARGET_DIR"
     
     # Update flake.nix with new hostname
-    sed -i "s/HOSTNAME = \"mou\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
-    
-    # Update configuration.nix
-    # Replace hostname
-    sed -i "s/hostname = \"mou\"/hostname = \"$HOSTNAME\"/g" configuration.nix
-    
-    # Replace timezone
-    sed -i "s|timezone = \"America/Mexico_City\"|timezone = \"$TIMEZONE\"|g" configuration.nix
-    
-    # Replace locale
-    sed -i "s/locale = \"en_US.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
-    
-    # Replace username in configuration.nix
-    sed -i "s/users\.\"mou\"/users.\"$USERNAME\"/g" configuration.nix
-    sed -i "s/users\.users\.mou/users.users.$USERNAME/g" configuration.nix
-    sed -i "s/mou\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
-    
-    # Update GPU configuration
-    if [[ $GPU_TYPE == "nvidia" ]]; then
-        sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
-        sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
-    elif [[ $GPU_TYPE == "amd" ]]; then
-        sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
-        sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
+    if [[ -f "flake.nix" ]]; then
+        sed -i "s/HOSTNAME = \"mou\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
     fi
     
-    # Update CPU configuration
-    if [[ $CPU_TYPE == "intel" ]]; then
-        sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
-        sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
+    # Update configuration.nix
+    if [[ -f "configuration.nix" ]]; then
+        # Replace hostname
+        sed -i "s/hostname = \"mou\"/hostname = \"$HOSTNAME\"/g" configuration.nix
+        
+        # Replace timezone
+        sed -i "s|timezone = \"America/Mexico_City\"|timezone = \"$TIMEZONE\"|g" configuration.nix
+        
+        # Replace locale
+        sed -i "s/locale = \"en_US.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        
+        # Replace username in configuration.nix
+        sed -i "s/users\.\"mou\"/users.\"$USERNAME\"/g" configuration.nix
+        sed -i "s/users\.users\.mou/users.users.$USERNAME/g" configuration.nix
+        sed -i "s/mou\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
+        
+        # Update GPU configuration
+        if [[ $GPU_TYPE == "nvidia" ]]; then
+            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
+            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
+        elif [[ $GPU_TYPE == "amd" ]]; then
+            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
+            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
+        fi
+        
+        # Update CPU configuration
+        if [[ $CPU_TYPE == "intel" ]]; then
+            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
+            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
+        fi
     fi
     
     # Update Git configuration in home-manager
-    if [[ -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
+    if [[ -f "modules/hm/default.nix" && -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
         sed -i "s/name = \"emilio-junoy\"/name = \"$GIT_NAME\"/g" modules/hm/default.nix
         sed -i "s/email = \"emilio.junoy@gmail.com\"/email = \"$GIT_EMAIL\"/g" modules/hm/default.nix
     fi
@@ -268,17 +299,41 @@ build_system() {
     log_info "Building and switching to new configuration..."
     log_warning "This may take a while on first build..."
     
-    cd $TARGET_DIR
+    # Ensure we're in the right directory and it exists
+    if [[ ! -d "$TARGET_DIR" ]]; then
+        log_error "Target directory $TARGET_DIR does not exist!"
+        exit 1
+    fi
+    
+    cd "$TARGET_DIR"
+    log_info "Working in directory: $(pwd)"
+    
+    # Check if flake.nix exists
+    if [[ ! -f "flake.nix" ]]; then
+        log_error "flake.nix not found in $TARGET_DIR"
+        log_info "Directory contents:"
+        ls -la
+        exit 1
+    fi
     
     # Stage files for git (required for flakes)
-    git add .
+    log_info "Staging files for git..."
+    git add . 2>/dev/null || {
+        log_warning "Failed to stage files with git, continuing anyway..."
+    }
     
-    # Build the system
-    if nixos-rebuild switch --flake . --show-trace; then
+    # Build the system with absolute path to be safe
+    log_info "Starting nixos-rebuild..."
+    if nixos-rebuild switch --flake "$TARGET_DIR" --show-trace; then
         log_success "System built and activated successfully!"
     else
         log_error "Failed to build system. Check the output above for errors."
-        log_info "You can try to fix the issues and run: nixos-rebuild switch --flake ."
+        log_info "You can try to fix the issues and run:"
+        log_info "  cd $TARGET_DIR"
+        log_info "  sudo nixos-rebuild switch --flake ."
+        log_info "Current directory: $(pwd)"
+        log_info "Configuration files present:"
+        ls -la "$TARGET_DIR"
         exit 1
     fi
 }
@@ -295,8 +350,16 @@ post_install() {
         log_warning "Default password set to 'hydenix' - please change it after reboot!"
     fi
     
-    # Set ownership of configuration directory
-    chown -R root:root $TARGET_DIR
+    # Ensure the user owns their NixOS configuration directory
+    if [[ -d "$TARGET_DIR" ]]; then
+        log_info "Setting ownership of configuration directory to $USERNAME"
+        chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"
+    fi
+    
+    # Also set ownership of backup if it exists
+    if [[ -d "$BACKUP_DIR" ]]; then
+        chown -R "$USERNAME:$USERNAME" "$BACKUP_DIR"
+    fi
     
     log_success "Post-installation tasks completed"
 }
@@ -313,7 +376,9 @@ final_instructions() {
     echo "  4. Run 'hyde-shell reload' to generate theme cache"
     echo
     log_info "Configuration location: $TARGET_DIR"
-    log_info "Backup location: $BACKUP_DIR (if created)"
+    if [[ -d "$BACKUP_DIR" ]]; then
+        log_info "Backup location: $BACKUP_DIR"
+    fi
     echo
     log_info "To update the system in the future:"
     echo "  cd $TARGET_DIR"
@@ -348,4 +413,3 @@ trap 'log_error "Installation interrupted!"; exit 1' INT TERM
 
 # Run main function
 main "$@"
-
