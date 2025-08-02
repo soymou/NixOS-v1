@@ -143,8 +143,8 @@ in
   # Firewall 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 80 443 ]; 
-    allowedUDPPorts = [ 1194 51820 ];
+    allowedTCPPorts = [ 22 80 443 3000 53 853]; 
+    allowedUDPPorts = [ 1194 51820 53 5443 ];
     allowPing = true;
   };
 

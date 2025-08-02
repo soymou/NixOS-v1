@@ -4,6 +4,7 @@
   imports = [
     # ./example.nix - add your modules here
     ./vpn/nordvpn.nix
+    ./adguard/adguard.nix 
   ];
 
   environment.systemPackages = with pkgs; [
