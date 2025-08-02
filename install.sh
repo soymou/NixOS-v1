@@ -1,3 +1,23 @@
+#!/usr/bin/env bash
+
+# NixOS Configuration Installer
+# This script installs the custom NixOS configuration on any computer
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Configuration
+CONFIG_REPO_SSH="git@github.com:emilio-junoy/NixOS"
+CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
+# TARGET_DIR and BACKUP_DIR will be set after getting username
+# We'll use a temporary name during installation to avoid conflicts
+
+# Functions
+
 # Finalize installation (move temp directory to final location)
 finalize_installation() {
     log_info "Finalizing installation..."
@@ -18,25 +38,7 @@ finalize_installation() {
         log_error "Your working configuration is still at: $TEMP_TARGET_DIR"
         exit 1
     fi
-}#!/usr/bin/env bash
-
-# NixOS Configuration Installer
-# This script installs the custom NixOS configuration on any computer
-
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
-
-# Configuration
-CONFIG_REPO_SSH="git@github.com:emilio-junoy/NixOS"
-CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
-# TARGET_DIR and BACKUP_DIR will be set after getting username
-# We'll use a temporary name during installation to avoid conflicts
-
-# Functions
+}
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
