@@ -107,7 +107,7 @@ in
         type = types.bool;
         default = false;
         description = ''
-          Whether to automatically connect to double VPN on boot.
+          Whether to automatically connect to VPN on boot.
           Requires NordVPN to be logged in beforehand.
         '';
       };
@@ -169,8 +169,8 @@ in
                 exit 0
               fi
               
-              # Connect to double VPN
-              echo "Connecting to NordVPN Double VPN..."
+              # Connect to VPN
+              echo "Connecting to NordVPN VPN..."
               ${nordVpnPkg}/bin/nordvpn connect
             '';
             RemainAfterExit = true;
