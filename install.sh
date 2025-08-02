@@ -239,23 +239,37 @@ backup_existing() {
 clone_config() {
     log_info "Cloning configuration repository"
     log_info "Target directory: $TARGET_DIR"
-    
+
     # Ensure the user's home directory exists
     if [[ ! -d "$USER_HOME" ]]; then
         log_info "Creating user home directory: $USER_HOME"
         mkdir -p "$USER_HOME"
     fi
-    
-    # If target directory exists, back it up first (this is in addition to the main backup)
-    if [[ -d "$TARGET_DIR" ]]; then
-        log_warning "Target directory exists, removing it..."
-        rm -rf "$TARGET_DIR"
+
+    # Check if we're currently in the target directory to avoid self-deletion
+    CURRENT_DIR="$(realpath "$(pwd)")"
+    TARGET_ABS="$(realpath "$TARGET_DIR" 2>/dev/null || echo "")"
+
+    if [[ -n "$TARGET_ABS" && "$CURRENT_DIR" == "$TARGET_ABS"* ]]; then
+        log_error "You are currently inside the target directory ($TARGET_DIR)"
+        log_error "Cannot continue to clone here without deleting the running script!"
+        log_info "Please run the installer from another location and try again."
+        exit 1
     fi
-    
+
+    # Backup existing target directory if it exists
+    if [[ -d "$TARGET_DIR" ]]; then
+        log_warning "Target directory already exists."
+        BACKUP_TIMESTAMPED="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
+        log_info "Backing up $TARGET_DIR to $BACKUP_TIMESTAMPED"
+        mv "$TARGET_DIR" "$BACKUP_TIMESTAMPED"
+        log_success "Backup complete"
+    fi
+
     # Try different methods to clone the repository
     local clone_success=false
-    
-    # Method 1: Try SSH with the original user's SSH agent (if available)
+
+    # Method 1: Try SSH with original user's SSH agent
     if [[ -n "$SUDO_USER" ]] && [[ -S "/tmp/ssh-agent-$SUDO_USER" ]]; then
         log_info "Attempting to clone via SSH using $SUDO_USER's SSH agent..."
         export SSH_AUTH_SOCK="/tmp/ssh-agent-$SUDO_USER"
@@ -264,8 +278,8 @@ clone_config() {
             log_success "Cloned successfully via SSH"
         fi
     fi
-    
-    # Method 2: Try SSH as the target user (if user exists)
+
+    # Method 2: SSH as target user
     if [[ "$clone_success" == false ]] && id "$USERNAME" &>/dev/null; then
         log_info "Attempting to clone via SSH as user $USERNAME..."
         if sudo -u "$USERNAME" git clone "$CONFIG_REPO_SSH" "$TARGET_DIR" &>/dev/null; then
@@ -273,8 +287,8 @@ clone_config() {
             log_success "Cloned successfully via SSH as $USERNAME"
         fi
     fi
-    
-    # Method 3: Try HTTPS (no authentication needed for public repos)
+
+    # Method 3: HTTPS
     if [[ "$clone_success" == false ]]; then
         log_info "Attempting to clone via HTTPS..."
         if git clone "$CONFIG_REPO_HTTPS" "$TARGET_DIR"; then
@@ -282,18 +296,18 @@ clone_config() {
             log_success "Cloned successfully via HTTPS"
         fi
     fi
-    
-    # Method 4: Ask user to clone manually or provide credentials
+
+    # Method 4: Manual or credentials
     if [[ "$clone_success" == false ]]; then
         log_error "All automatic clone methods failed."
         echo
         log_info "Please choose an option:"
         echo "  1) Clone manually and press Enter to continue"
-        echo "  2) Enter GitHub username and password (for HTTPS)"
-        echo "  3) Exit and setup SSH keys first"
+        echo "  2) Enter GitHub username and password/token (for HTTPS)"
+        echo "  3) Exit and set up SSH keys"
         echo
         read -p "Choose option [1/2/3]: " clone_option
-        
+
         case $clone_option in
             1)
                 echo
@@ -308,7 +322,6 @@ clone_config() {
                 clone_success=true
                 ;;
             2)
-                echo
                 read -p "GitHub username: " gh_user
                 read -s -p "GitHub password/token: " gh_pass
                 echo
@@ -328,41 +341,28 @@ clone_config() {
                 ;;
         esac
     fi
-    
+
     if [[ "$clone_success" == false ]]; then
         log_error "Failed to clone repository"
         exit 1
     fi
-    
-    # Verify the clone was successful
-    if [[ ! -d "$TARGET_DIR" ]]; then
-        log_error "Clone appeared to succeed but target directory doesn't exist!"
-        exit 1
-    fi
-    
-    # Set proper ownership of the cloned directory
+
+    # Ensure ownership is correct
     if id "$USERNAME" &>/dev/null; then
-        log_info "Setting ownership of $TARGET_DIR to $USERNAME..."
-        if chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"; then
-            log_success "Ownership set successfully"
-        else
-            log_warning "Failed to set ownership, but continuing..."
-            # Try with just the user (in case group doesn't exist)
-            chown -R "$USERNAME" "$TARGET_DIR" 2>/dev/null || true
-        fi
-    else
-        log_warning "User $USERNAME does not exist yet - will set ownership after user creation"
+        log_info "Setting ownership of $TARGET_DIR to $USERNAME"
+        chown -R "$USERNAME:$USERNAME" "$TARGET_DIR" || chown -R "$USERNAME" "$TARGET_DIR"
     fi
-    
-    # Change to the directory and verify git repo
+
+    # Validate clone
     cd "$TARGET_DIR"
     if [[ ! -d .git ]]; then
         log_error "Cloned directory doesn't contain a git repository!"
         exit 1
     fi
-    
+
     log_success "Configuration cloned successfully to $TARGET_DIR"
 }
+
 
 # Generate hardware configuration
 generate_hardware_config() {
