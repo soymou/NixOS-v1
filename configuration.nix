@@ -140,6 +140,9 @@ in
   };
 
 
+  # Adguard 
+  networking.nameservers = [ "127.0.0.1" ];
+
   # Firewall 
   networking.firewall = {
     enable = true;
