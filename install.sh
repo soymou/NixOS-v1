@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 
 # NixOS Configuration Installer
@@ -13,8 +14,6 @@ NC='\033[0m' # No Color
 # Configuration
 CONFIG_REPO_SSH="git@github.com:emilio-junoy/NixOS"
 CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
-# TARGET_DIR and BACKUP_DIR will be set after getting username
-# We'll use a temporary name during installation to avoid conflicts
 
 # Functions
 
@@ -78,9 +77,21 @@ get_user_input() {
     read -p "Enter username [user]: " USERNAME
     USERNAME=${USERNAME:-user}
     
-    # Set target directories based on username
+    # User home directory
     USER_HOME="/home/$USERNAME"
-    TARGET_DIR="$USER_HOME/NixOS"
+    
+    # Detect current directory absolute path
+    CURRENT_DIR="$(realpath "$(pwd)")"
+    
+    # Decide target directory
+    if [[ -d ".git" ]]; then
+        TARGET_DIR="$CURRENT_DIR"
+        log_info "Detected git repo in current directory, using as target: $TARGET_DIR"
+    else
+        TARGET_DIR="$USER_HOME/NixOS"
+        log_info "Using default target directory: $TARGET_DIR"
+    fi
+    
     TEMP_TARGET_DIR="$USER_HOME/NixOS-installer"
     BACKUP_DIR="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
     
@@ -105,7 +116,6 @@ get_user_input() {
     echo "  ru_RU.UTF-8 (Russian), zh_CN.UTF-8 (Chinese Simplified)"
     read -p "Enter locale [en_US.UTF-8]: " LOCALE_INPUT
     
-    # Set default if empty, then validate
     if [[ -z "$LOCALE_INPUT" ]]; then
         LOCALE="en_US.UTF-8"
     else
@@ -118,7 +128,6 @@ get_user_input() {
         log_warning "Using default: en_US.UTF-8"
         LOCALE="en_US.UTF-8"
     elif [[ $LOCALE =~ ^[a-z]{2}_[A-Z]{2}$ ]]; then
-        # If user provided locale without .UTF-8, add it
         LOCALE="$LOCALE.UTF-8"
         log_info "Added .UTF-8 to locale: $LOCALE"
     fi
@@ -204,166 +213,53 @@ get_user_input() {
     fi
 }
 
-# Backup existing configuration
+# Backup existing configuration (only if target dir is not current dir)
 backup_existing() {
+    if [[ "$TARGET_DIR" == "$CURRENT_DIR" ]]; then
+        log_info "Running installer inside existing configuration directory. Skipping backup to avoid conflicts."
+        return
+    fi
+
     if [[ -d "$TARGET_DIR" ]]; then
-        log_info "Existing NixOS configuration found at $TARGET_DIR"
-        log_info "It will be backed up during finalization if installation succeeds"
-    else
-        log_info "No existing NixOS configuration found"
-    fi
-}
-
-# Clone configuration
-clone_config() {
-    log_info "Cloning configuration repository"
-    log_info "Target directory: $TARGET_DIR"
-
-    # Ensure the user's home directory exists
-    if [[ ! -d "$USER_HOME" ]]; then
-        log_info "Creating user home directory: $USER_HOME"
-        mkdir -p "$USER_HOME"
-    fi
-
-    # Check if we're currently in the target directory to avoid self-deletion
-    CURRENT_DIR="$(realpath "$(pwd)")"
-    TARGET_ABS="$(realpath "$TARGET_DIR" 2>/dev/null || echo "")"
-
-    if [[ -n "$TARGET_ABS" && "$CURRENT_DIR" == "$TARGET_ABS" || "$CURRENT_DIR" == "$TARGET_ABS/"* ]]; then
-        log_error "You are currently inside the target directory ($TARGET_DIR)"
-        log_error "Cannot continue to clone here without deleting the running script!"
-        log_info "Please run the installer from another location and try again."
-        exit 1
-    fi
-
-    # Backup existing target directory if it exists
-    if [[ -d "$TARGET_DIR" ]]; then
-        log_warning "Target directory already exists."
-        BACKUP_TIMESTAMPED="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
-        log_info "Backing up $TARGET_DIR to $BACKUP_TIMESTAMPED"
-        mv "$TARGET_DIR" "$BACKUP_TIMESTAMPED"
+        log_info "Backing up existing NixOS configuration at $TARGET_DIR"
+        log_info "Backup location: $BACKUP_DIR"
+        mv "$TARGET_DIR" "$BACKUP_DIR"
         log_success "Backup complete"
+    else
+        log_info "No existing NixOS configuration found to backup."
     fi
-
-    # Try different methods to clone the repository
-    local clone_success=false
-
-    # Method 1: Try SSH with original user's SSH agent
-    if [[ -n "$SUDO_USER" ]] && [[ -S "/tmp/ssh-agent-$SUDO_USER" ]]; then
-        log_info "Attempting to clone via SSH using $SUDO_USER's SSH agent..."
-        export SSH_AUTH_SOCK="/tmp/ssh-agent-$SUDO_USER"
-        if git clone "$CONFIG_REPO_SSH" "$TARGET_DIR" &>/dev/null; then
-            clone_success=true
-            log_success "Cloned successfully via SSH"
-        fi
-    fi
-
-    # Method 2: SSH as target user
-    if [[ "$clone_success" == false ]] && id "$USERNAME" &>/dev/null; then
-        log_info "Attempting to clone via SSH as user $USERNAME..."
-        if sudo -u "$USERNAME" git clone "$CONFIG_REPO_SSH" "$TARGET_DIR" &>/dev/null; then
-            clone_success=true
-            log_success "Cloned successfully via SSH as $USERNAME"
-        fi
-    fi
-
-    # Method 3: HTTPS
-    if [[ "$clone_success" == false ]]; then
-        log_info "Attempting to clone via HTTPS..."
-        if git clone "$CONFIG_REPO_HTTPS" "$TARGET_DIR"; then
-            clone_success=true
-            log_success "Cloned successfully via HTTPS"
-        fi
-    fi
-
-    # Method 4: Manual or credentials
-    if [[ "$clone_success" == false ]]; then
-        log_error "All automatic clone methods failed."
-        echo
-        log_info "Please choose an option:"
-        echo "  1) Clone manually and press Enter to continue"
-        echo "  2) Enter GitHub username and password/token (for HTTPS)"
-        echo "  3) Exit and set up SSH keys"
-        echo
-        read -p "Choose option [1/2/3]: " clone_option
-
-        case $clone_option in
-            1)
-                echo
-                log_info "Please run the following command in another terminal:"
-                echo "  git clone $CONFIG_REPO_HTTPS $TARGET_DIR"
-                echo
-                read -p "Press Enter after you've cloned the repository..."
-                if [[ ! -d "$TARGET_DIR" ]]; then
-                    log_error "Repository not found at $TARGET_DIR"
-                    exit 1
-                fi
-                clone_success=true
-                ;;
-            2)
-                read -p "GitHub username: " gh_user
-                read -s -p "GitHub password/token: " gh_pass
-                echo
-                if git clone "https://$gh_user:$gh_pass@github.com/emilio-junoy/NixOS.git" "$TARGET_DIR"; then
-                    clone_success=true
-                    log_success "Cloned successfully with credentials"
-                fi
-                ;;
-            3)
-                log_info "Setup SSH keys and run the script again"
-                log_info "Guide: https://docs.github.com/en/authentication/connecting-to-github-with-ssh"
-                exit 0
-                ;;
-            *)
-                log_error "Invalid option"
-                exit 1
-                ;;
-        esac
-    fi
-
-    if [[ "$clone_success" == false ]]; then
-        log_error "Failed to clone repository"
-        exit 1
-    fi
-
-    # Ensure ownership is correct
-    if id "$USERNAME" &>/dev/null; then
-        log_info "Setting ownership of $TARGET_DIR to $USERNAME"
-        chown -R "$USERNAME:$USERNAME" "$TARGET_DIR" || chown -R "$USERNAME" "$TARGET_DIR"
-    fi
-
-    # Validate clone
-    cd "$TARGET_DIR"
-    if [[ ! -d .git ]]; then
-        log_error "Cloned directory doesn't contain a git repository!"
-        exit 1
-    fi
-
-    log_success "Configuration cloned successfully to $TARGET_DIR"
 }
 
+# Skip cloning if inside existing repo directory
+clone_config() {
+    if [[ "$TARGET_DIR" == "$CURRENT_DIR" ]]; then
+        log_info "Running installer inside existing configuration directory. Skipping clone."
+        return
+    fi
+
+    # Otherwise, cloning logic (if needed) could go here
+    log_error "Cloning required but installer not run inside repo directory."
+    exit 1
+}
 
 # Generate hardware configuration
 generate_hardware_config() {
     log_info "Generating hardware configuration..."
+    mkdir -p "$TEMP_TARGET_DIR"
     nixos-generate-config --show-hardware-config > "$TEMP_TARGET_DIR/hardware-configuration.nix"
-    log_success "Hardware configuration generated"
+    log_success "Hardware configuration generated at $TEMP_TARGET_DIR/hardware-configuration.nix"
 }
 
 # Update configuration files
 update_config() {
     log_info "Updating configuration files..."
     
-    cd "$TEMP_TARGET_DIR"
+    cd "$TARGET_DIR" || { log_error "Failed to cd to $TARGET_DIR"; exit 1; }
     
-    # Check what files exist
-    log_info "Configuration files found:"
-    find . -name "*.nix" -type f | head -10
-    
-    # Update flake.nix with new hostname
+    # Update flake.nix
     if [[ -f "flake.nix" ]]; then
         log_info "Updating flake.nix..."
-        sed -i "s/HOSTNAME = \"mou\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
+        sed -i "s/HOSTNAME = \".*\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
     else
         log_warning "flake.nix not found"
     fi
@@ -372,35 +268,19 @@ update_config() {
     if [[ -f "configuration.nix" ]]; then
         log_info "Updating configuration.nix..."
         
-        # Replace hostname
-        sed -i "s/hostname = \"mou\"/hostname = \"$HOSTNAME\"/g" configuration.nix
+        sed -i "s/hostname = \".*\"/hostname = \"$HOSTNAME\"/g" configuration.nix
+        sed -i "s|timezone = \".*\"|timezone = \"$TIMEZONE\"|g" configuration.nix
         
-        # Replace timezone
-        sed -i "s|timezone = \"America/Mexico_City\"|timezone = \"$TIMEZONE\"|g" configuration.nix
+        # Update locale (various patterns)
+        sed -i "s/locale = \".*\"/locale = \"$LOCALE\"/g" configuration.nix
+        sed -i "s/defaultLocale = \".*\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
         
-        # Replace locale - be more specific with the replacement and handle multiple patterns
-        log_info "Updating locale from current setting to: $LOCALE"
+        # Update username occurrences
+        sed -i "s/users\.\"[^\"]*\"/users.\"$USERNAME\"/g" configuration.nix
+        sed -i "s/users\.users\.[^\"]*/users.users.$USERNAME/g" configuration.nix
+        sed -i "s/\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
         
-        # Show current locale settings before replacement
-        log_info "Current locale settings:"
-        grep -n "locale\|defaultLocale" configuration.nix || log_info "No locale settings found yet"
-        
-        # Replace various locale patterns that might exist
-        sed -i "s/locale = \"en_US\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
-        sed -i "s/defaultLocale = \"en_US\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
-        sed -i "s/locale = \"en\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
-        sed -i "s/defaultLocale = \"en\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
-        
-        # Also handle any malformed locales that might already be there
-        sed -i "s/locale = \"[^\"]*\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
-        sed -i "s/defaultLocale = \"[^\"]*\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
-        
-        # Replace username in configuration.nix
-        sed -i "s/users\.\"mou\"/users.\"$USERNAME\"/g" configuration.nix
-        sed -i "s/users\.users\.mou/users.users.$USERNAME/g" configuration.nix
-        sed -i "s/mou\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
-        
-        # Update GPU configuration
+        # GPU config
         if [[ $GPU_TYPE == "nvidia" ]]; then
             sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
             sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
@@ -409,30 +289,23 @@ update_config() {
             sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
         fi
         
-        # Update CPU configuration
+        # CPU config
         if [[ $CPU_TYPE == "intel" ]]; then
             sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
             sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
         fi
+        
     else
         log_warning "configuration.nix not found"
     fi
     
-    # Update Git configuration in home-manager
+    # Update Git config in home-manager
     if [[ -f "modules/hm/default.nix" && -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
-        log_info "Updating Git configuration in home-manager..."
-        sed -i "s/name = \"emilio-junoy\"/name = \"$GIT_NAME\"/g" modules/hm/default.nix
-        sed -i "s/email = \"emilio.junoy@gmail.com\"/email = \"$GIT_EMAIL\"/g" modules/hm/default.nix
+        log_info "Updating Git config in home-manager..."
+        sed -i "s/name = \".*\"/name = \"$GIT_NAME\"/g" modules/hm/default.nix
+        sed -i "s/email = \".*\"/email = \"$GIT_EMAIL\"/g" modules/hm/default.nix
     else
-        log_warning "modules/hm/default.nix not found or Git info not provided"
-    fi
-    
-    # Debug: Show what the locale setting looks like after replacement
-    log_info "Locale configuration after updates:"
-    if grep -n "locale\|defaultLocale" configuration.nix 2>/dev/null; then
-        log_success "Locale settings updated successfully"
-    else
-        log_warning "No locale settings found in configuration.nix - this might be normal"
+        log_warning "modules/hm/default.nix not found or Git info missing"
     fi
     
     log_success "Configuration files updated"
@@ -443,41 +316,30 @@ build_system() {
     log_info "Building and switching to new configuration..."
     log_warning "This may take a while on first build..."
     
-    # Ensure we're in the right directory and it exists
     if [[ ! -d "$TARGET_DIR" ]]; then
         log_error "Target directory $TARGET_DIR does not exist!"
         exit 1
     fi
     
-    cd "$TARGET_DIR"
-    log_info "Working in directory: $(pwd)"
+    cd "$TARGET_DIR" || { log_error "Failed to cd to $TARGET_DIR"; exit 1; }
     
-    # Check if flake.nix exists
     if [[ ! -f "flake.nix" ]]; then
         log_error "flake.nix not found in $TARGET_DIR"
-        log_info "Directory contents:"
         ls -la
         exit 1
     fi
     
-    # Stage files for git (required for flakes)
     log_info "Staging files for git..."
-    git add . 2>/dev/null || {
-        log_warning "Failed to stage files with git, continuing anyway..."
-    }
+    git add . 2>/dev/null || log_warning "Failed to stage files with git, continuing..."
     
-    # Build the system with absolute path to be safe
     log_info "Starting nixos-rebuild..."
     if nixos-rebuild switch --flake "$TARGET_DIR" --show-trace; then
         log_success "System built and activated successfully!"
     else
-        log_error "Failed to build system. Check the output above for errors."
-        log_info "You can try to fix the issues and run:"
+        log_error "Failed to build system."
+        log_info "Try:"
         log_info "  cd $TARGET_DIR"
         log_info "  sudo nixos-rebuild switch --flake ."
-        log_info "Current directory: $(pwd)"
-        log_info "Configuration files present:"
-        ls -la "$TARGET_DIR"
         exit 1
     fi
 }
@@ -486,7 +348,6 @@ build_system() {
 post_install() {
     log_info "Performing post-installation tasks..."
     
-    # Check if user already exists
     if id "$USERNAME" &>/dev/null; then
         log_info "User $USERNAME already exists"
     else
@@ -496,34 +357,22 @@ post_install() {
         log_warning "Default password set to 'hydenix' - please change it after reboot!"
     fi
     
-    # Ensure the user owns their NixOS configuration directory
+    # Ownership of config directory
     if [[ -d "$TARGET_DIR" ]]; then
-        log_info "Setting final ownership of configuration directory to $USERNAME"
-        if chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"; then
-            log_success "Configuration directory ownership set to $USERNAME"
-        else
-            log_warning "Could not set ownership - trying alternative method..."
-            # Alternative: set ownership without specifying group
-            chown -R "$USERNAME" "$TARGET_DIR" || {
-                log_error "Failed to set ownership of $TARGET_DIR"
-            }
-        fi
+        log_info "Setting ownership of $TARGET_DIR to $USERNAME"
+        chown -R "$USERNAME:$USERNAME" "$TARGET_DIR" || chown -R "$USERNAME" "$TARGET_DIR"
     fi
     
-    # Also set ownership of backup if it exists
+    # Ownership of backup dir if exists
     if [[ -d "$BACKUP_DIR" ]]; then
-        log_info "Setting ownership of backup directory..."
-        chown -R "$USERNAME:$USERNAME" "$BACKUP_DIR" 2>/dev/null || {
-            chown -R "$USERNAME" "$BACKUP_DIR" 2>/dev/null || {
-                log_warning "Could not set ownership of backup directory"
-            }
-        }
+        log_info "Setting ownership of backup directory $BACKUP_DIR"
+        chown -R "$USERNAME:$USERNAME" "$BACKUP_DIR" 2>/dev/null || chown -R "$USERNAME" "$BACKUP_DIR" 2>/dev/null
     fi
     
     log_success "Post-installation tasks completed"
 }
 
-# Display final instructions
+# Final instructions to user
 final_instructions() {
     echo
     log_success "Installation completed successfully!"
