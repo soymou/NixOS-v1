@@ -18,27 +18,6 @@ CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
 
 # Functions
 
-# Finalize installation (move temp directory to final location)
-finalize_installation() {
-    log_info "Finalizing installation..."
-    
-    # Backup existing NixOS directory if it exists
-    if [[ -d "$TARGET_DIR" ]]; then
-        log_info "Backing up existing NixOS directory..."
-        mv "$TARGET_DIR" "$BACKUP_DIR"
-        log_success "Existing configuration backed up to $BACKUP_DIR"
-    fi
-    
-    # Move temporary directory to final location
-    log_info "Moving configuration to final location..."
-    if mv "$TEMP_TARGET_DIR" "$TARGET_DIR"; then
-        log_success "Configuration moved to $TARGET_DIR"
-    else
-        log_error "Failed to move configuration to final location!"
-        log_error "Your working configuration is still at: $TEMP_TARGET_DIR"
-        exit 1
-    fi
-}
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
 }
@@ -584,7 +563,6 @@ main() {
     generate_hardware_config
     update_config
     build_system
-    finalize_installation
     post_install
     final_instructions
 }
