@@ -13,6 +13,7 @@
     theharvester
     sherlock
     wireshark-qt
+    openvpn
   ];
 }
 
