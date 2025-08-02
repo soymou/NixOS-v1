@@ -27,7 +27,7 @@
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt"
           "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
           "https://phishing.army/download/phishing_army_blocklist_extended.txt"
-          "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt"        ];
+          "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt"
         ]; 
       };
     };
