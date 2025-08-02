@@ -1,6 +1,5 @@
 {
   inputs,
-  services,
   ...
 }:
 let
@@ -41,7 +40,7 @@ in
 
     #! EDIT THIS SECTION
     # For NVIDIA setups
-    # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+    # # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
 
     # For AMD setups
     inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd
@@ -85,7 +84,7 @@ in
     #! EDIT THESE VALUES
     hostname = "mou"; # Change to your preferred hostname
     timezone = "America/Mexico_City"; # Change to your timezone
-    locale = "en_US.UTF-8"; # Change to your preferred locale
+    locale = "es_MX.UTF-8"; # Change to your preferred locale
 
     /*
       Optionally edit the below values, or leave to use hydenix defaults

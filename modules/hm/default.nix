@@ -33,11 +33,6 @@
       editors = {
         enable = true; # enable editors module
         neovim = true; # enable neovim module
-        vscode = {
-          enable = true; # enable vscode module
-          wallbash = true; # enable wallbash extension for vscode
-        };
-        vim = true; # enable vim module
         default = "nvim"; # default text editor
       };
       fastfetch.enable = true; # fastfetch configuration
@@ -51,14 +46,14 @@
       hyprland = {
         enable = true; # enable hyprland module
         extraConfig = "
-	  input {
-	    kb_layout = us
-	    kb_variant = intl
-	  }
-    monitor=HDMI-A-1,1920x1080@60,0x0,1.25
-	  bind = SUPER, RETURN, exec, $TERMINAL
-    bind = SUPER, SPACE, exec, pkill -x rofi || /home/mou/.local/lib/hyde/rofilaunch.sh d
-	"; # extra hyprland config text
+          input {
+            kb_layout = us
+            kb_variant = intl
+          }
+          monitor=HDMI-A-1,1920x1080@60,0x0,1.25
+          bind = SUPER, RETURN, exec, $TERMINAL
+          bind = SUPER, SPACE, exec, pkill -x rofi || /home/mou/.local/lib/hyde/rofilaunch.sh d
+        "; # extra hyprland config text
       };
       lockscreen = {
         enable = true; # enable lockscreen module
@@ -101,8 +96,8 @@
         kitty = {
           enable = true; # enable kitty terminal
           configText = "
-	    cursor_trail 0
-	  "; # kitty config text
+            cursor_trail 0
+          "; # kitty config text
         };
       };
       theme = {
@@ -120,6 +115,6 @@
         userStyle = ""; # custom waybar user-style.css
       };
       wlogout.enable = true; # enable wlogout module
-      xdg.enable = true; # enable xdg module
-  };
+      xdg.enable = true;
+    };
 }
