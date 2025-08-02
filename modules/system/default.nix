@@ -6,6 +6,8 @@
     ./vpn/nordvpn.nix
     ./adguard/adguard.nix 
   ];
+  
+  my.adguard.enable = true;
 
   environment.systemPackages = with pkgs; [
     # pkgs.vscode - hydenix's vscode version
