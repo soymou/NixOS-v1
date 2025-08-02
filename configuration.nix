@@ -84,7 +84,7 @@ in
     #! EDIT THESE VALUES
     hostname = "mou"; # Change to your preferred hostname
     timezone = "America/Mexico_City"; # Change to your timezone
-    locale = "en.UTF-8"; # Change to your preferred locale
+    locale = "en-US.UTF-8"; # Change to your preferred locale
 
     /*
       Optionally edit the below values, or leave to use hydenix defaults
