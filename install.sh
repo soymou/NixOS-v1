@@ -1,4 +1,24 @@
-#!/usr/bin/env bash
+# Finalize installation (move temp directory to final location)
+finalize_installation() {
+    log_info "Finalizing installation..."
+    
+    # Backup existing NixOS directory if it exists
+    if [[ -d "$TARGET_DIR" ]]; then
+        log_info "Backing up existing NixOS directory..."
+        mv "$TARGET_DIR" "$BACKUP_DIR"
+        log_success "Existing configuration backed up to $BACKUP_DIR"
+    fi
+    
+    # Move temporary directory to final location
+    log_info "Moving configuration to final location..."
+    if mv "$TEMP_TARGET_DIR" "$TARGET_DIR"; then
+        log_success "Configuration moved to $TARGET_DIR"
+    else
+        log_error "Failed to move configuration to final location!"
+        log_error "Your working configuration is still at: $TEMP_TARGET_DIR"
+        exit 1
+    fi
+}#!/usr/bin/env bash
 
 # NixOS Configuration Installer
 # This script installs the custom NixOS configuration on any computer
@@ -14,6 +34,7 @@ NC='\033[0m' # No Color
 CONFIG_REPO_SSH="git@github.com:emilio-junoy/NixOS"
 CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
 # TARGET_DIR and BACKUP_DIR will be set after getting username
+# We'll use a temporary name during installation to avoid conflicts
 
 # Functions
 log_info() {
@@ -79,6 +100,7 @@ get_user_input() {
     # Set target directories based on username
     USER_HOME="/home/$USERNAME"
     TARGET_DIR="$USER_HOME/NixOS"
+    TEMP_TARGET_DIR="$USER_HOME/NixOS-installer"
     BACKUP_DIR="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
     
     # Hostname
@@ -100,15 +122,27 @@ get_user_input() {
     echo "  fr_FR.UTF-8 (French), de_DE.UTF-8 (German)"
     echo "  it_IT.UTF-8 (Italian), pt_BR.UTF-8 (Portuguese Brazil)"
     echo "  ru_RU.UTF-8 (Russian), zh_CN.UTF-8 (Chinese Simplified)"
-    read -p "Enter locale [en_US.UTF-8]: " LOCALE
-    LOCALE=${LOCALE:-en_US.UTF-8}
+    read -p "Enter locale [en_US.UTF-8]: " LOCALE_INPUT
     
-    # Validate locale format
-    if [[ ! $LOCALE =~ ^[a-z]{2}_[A-Z]{2}\.UTF-8$ ]]; then
-        log_warning "Invalid locale format: $LOCALE"
+    # Set default if empty, then validate
+    if [[ -z "$LOCALE_INPUT" ]]; then
+        LOCALE="en_US.UTF-8"
+    else
+        LOCALE="$LOCALE_INPUT"
+    fi
+    
+    # Validate locale format (allow common patterns)
+    if [[ ! $LOCALE =~ ^[a-z]{2}_[A-Z]{2}\.UTF-8$ ]] && [[ ! $LOCALE =~ ^[a-z]{2}_[A-Z]{2}$ ]]; then
+        log_warning "Invalid locale format: '$LOCALE'"
         log_warning "Using default: en_US.UTF-8"
         LOCALE="en_US.UTF-8"
+    elif [[ $LOCALE =~ ^[a-z]{2}_[A-Z]{2}$ ]]; then
+        # If user provided locale without .UTF-8, add it
+        LOCALE="$LOCALE.UTF-8"
+        log_info "Added .UTF-8 to locale: $LOCALE"
     fi
+    
+    log_info "Final locale setting: $LOCALE"
     
     # Keyboard layout
     echo "Available keyboard layouts (examples):"
@@ -304,9 +338,18 @@ clone_config() {
     fi
     
     # Set proper ownership of the cloned directory
-    chown -R "$USERNAME:$USERNAME" "$TARGET_DIR" 2>/dev/null || {
-        log_warning "Could not set ownership - user $USERNAME may not exist yet"
-    }
+    if id "$USERNAME" &>/dev/null; then
+        log_info "Setting ownership of $TARGET_DIR to $USERNAME..."
+        if chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"; then
+            log_success "Ownership set successfully"
+        else
+            log_warning "Failed to set ownership, but continuing..."
+            # Try with just the user (in case group doesn't exist)
+            chown -R "$USERNAME" "$TARGET_DIR" 2>/dev/null || true
+        fi
+    else
+        log_warning "User $USERNAME does not exist yet - will set ownership after user creation"
+    fi
     
     # Change to the directory and verify git repo
     cd "$TARGET_DIR"
@@ -321,7 +364,7 @@ clone_config() {
 # Generate hardware configuration
 generate_hardware_config() {
     log_info "Generating hardware configuration..."
-    nixos-generate-config --show-hardware-config > "$TARGET_DIR/hardware-configuration.nix"
+    nixos-generate-config --show-hardware-config > "$TEMP_TARGET_DIR/hardware-configuration.nix"
     log_success "Hardware configuration generated"
 }
 
@@ -329,7 +372,7 @@ generate_hardware_config() {
 update_config() {
     log_info "Updating configuration files..."
     
-    cd "$TARGET_DIR"
+    cd "$TEMP_TARGET_DIR"
     
     # Check what files exist
     log_info "Configuration files found:"
@@ -353,11 +396,22 @@ update_config() {
         # Replace timezone
         sed -i "s|timezone = \"America/Mexico_City\"|timezone = \"$TIMEZONE\"|g" configuration.nix
         
-        # Replace locale - be more specific with the replacement
-        sed -i "s/locale = \"en_US\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        # Replace locale - be more specific with the replacement and handle multiple patterns
+        log_info "Updating locale from current setting to: $LOCALE"
         
-        # Also check for other locale patterns that might exist
+        # Show current locale settings before replacement
+        log_info "Current locale settings:"
+        grep -n "locale\|defaultLocale" configuration.nix || log_info "No locale settings found yet"
+        
+        # Replace various locale patterns that might exist
+        sed -i "s/locale = \"en_US\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
         sed -i "s/defaultLocale = \"en_US\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
+        sed -i "s/locale = \"en\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        sed -i "s/defaultLocale = \"en\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
+        
+        # Also handle any malformed locales that might already be there
+        sed -i "s/locale = \"[^\"]*\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        sed -i "s/defaultLocale = \"[^\"]*\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
         
         # Replace username in configuration.nix
         sed -i "s/users\.\"mou\"/users.\"$USERNAME\"/g" configuration.nix
@@ -392,11 +446,11 @@ update_config() {
     fi
     
     # Debug: Show what the locale setting looks like after replacement
-    log_info "Checking locale configuration..."
+    log_info "Locale configuration after updates:"
     if grep -n "locale\|defaultLocale" configuration.nix 2>/dev/null; then
-        log_info "Locale settings found above"
+        log_success "Locale settings updated successfully"
     else
-        log_warning "No locale settings found in configuration.nix"
+        log_warning "No locale settings found in configuration.nix - this might be normal"
     fi
     
     log_success "Configuration files updated"
@@ -450,8 +504,10 @@ build_system() {
 post_install() {
     log_info "Performing post-installation tasks..."
     
-    # Create user if it doesn't exist
-    if ! id "$USERNAME" &>/dev/null; then
+    # Check if user already exists
+    if id "$USERNAME" &>/dev/null; then
+        log_info "User $USERNAME already exists"
+    else
         log_info "Creating user $USERNAME..."
         useradd -m -G wheel,networkmanager,video,wireshark,nordvpn -s /run/current-system/sw/bin/zsh "$USERNAME"
         echo "$USERNAME:hydenix" | chpasswd
@@ -460,13 +516,26 @@ post_install() {
     
     # Ensure the user owns their NixOS configuration directory
     if [[ -d "$TARGET_DIR" ]]; then
-        log_info "Setting ownership of configuration directory to $USERNAME"
-        chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"
+        log_info "Setting final ownership of configuration directory to $USERNAME"
+        if chown -R "$USERNAME:$USERNAME" "$TARGET_DIR"; then
+            log_success "Configuration directory ownership set to $USERNAME"
+        else
+            log_warning "Could not set ownership - trying alternative method..."
+            # Alternative: set ownership without specifying group
+            chown -R "$USERNAME" "$TARGET_DIR" || {
+                log_error "Failed to set ownership of $TARGET_DIR"
+            }
+        fi
     fi
     
     # Also set ownership of backup if it exists
     if [[ -d "$BACKUP_DIR" ]]; then
-        chown -R "$USERNAME:$USERNAME" "$BACKUP_DIR"
+        log_info "Setting ownership of backup directory..."
+        chown -R "$USERNAME:$USERNAME" "$BACKUP_DIR" 2>/dev/null || {
+            chown -R "$USERNAME" "$BACKUP_DIR" 2>/dev/null || {
+                log_warning "Could not set ownership of backup directory"
+            }
+        }
     fi
     
     log_success "Post-installation tasks completed"
@@ -512,6 +581,7 @@ main() {
     generate_hardware_config
     update_config
     build_system
+    finalize_installation
     post_install
     final_instructions
 }
