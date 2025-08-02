@@ -251,63 +251,81 @@ generate_hardware_config() {
 }
 
 # Update configuration files
+
 update_config() {
     log_info "Updating configuration files..."
     
     cd "$TARGET_DIR" || { log_error "Failed to cd to $TARGET_DIR"; exit 1; }
-    
+
+    # Backup files before editing
+    [[ -f "flake.nix" ]] && cp flake.nix flake.nix.bak
+    [[ -f "configuration.nix" ]] && cp configuration.nix configuration.nix.bak
+    [[ -f "modules/hm/default.nix" ]] && cp modules/hm/default.nix modules/hm/default.nix.bak
+
+    # Sanity check variables to avoid breaking syntax
+    for var in HOSTNAME TIMEZONE LOCALE USERNAME GIT_NAME GIT_EMAIL GPU_TYPE CPU_TYPE; do
+        val="${!var}"
+        if [[ "$val" =~ [\"\'\\] ]]; then
+            log_error "Variable $var contains quotes or backslashes, which may break config: '$val'"
+            exit 1
+        fi
+    done
+
     # Update flake.nix
     if [[ -f "flake.nix" ]]; then
         log_info "Updating flake.nix..."
-        sed -i "s/HOSTNAME = \".*\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
+        # Replace full HOSTNAME assignment line exactly
+        sed -i "s/^HOSTNAME = \".*\";/HOSTNAME = \"$HOSTNAME\";/g" flake.nix
     else
         log_warning "flake.nix not found"
     fi
-    
+
     # Update configuration.nix
     if [[ -f "configuration.nix" ]]; then
         log_info "Updating configuration.nix..."
-        
-        sed -i "s/hostname = \".*\"/hostname = \"$HOSTNAME\"/g" configuration.nix
-        sed -i "s|timezone = \".*\"|timezone = \"$TIMEZONE\"|g" configuration.nix
-        
-        # Update locale (various patterns)
-        sed -i "s/locale = \".*\"/locale = \"$LOCALE\"/g" configuration.nix
-        sed -i "s/defaultLocale = \".*\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
-        
-        # Update username occurrences
-        sed -i "s/users\.\"[^\"]*\"/users.\"$USERNAME\"/g" configuration.nix
-        sed -i "s/users\.users\.[^\"]*/users.users.$USERNAME/g" configuration.nix
+
+        # Replace full attribute lines exactly (including trailing semicolon)
+        sed -i "s/^  hostname = \".*\";/  hostname = \"$HOSTNAME\";/g" configuration.nix
+        sed -i "s|^  timezone = \".*\";|  timezone = \"$TIMEZONE\";|g" configuration.nix
+        sed -i "s/^  locale = \".*\";/  locale = \"$LOCALE\";/g" configuration.nix
+        sed -i "s/^  defaultLocale = \".*\";/  defaultLocale = \"$LOCALE\";/g" configuration.nix
+
+        # Replace username inside users.users.<oldusername> = { ... }
+        # First remove existing user block by regex to avoid duplication (optional, careful!)
+        # Instead, safer to just replace username in lines starting with 'users.users.'
+        sed -i "s/^\(\s*users\.users\.\)[^ ]*\(.*\)/\1$USERNAME\2/" configuration.nix
+
+        # For .services.custom.nordvpn references, replace only exact matches
         sed -i "s/\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
-        
-        # GPU config
+
+        # GPU config toggles (uncomment/comment lines carefully)
         if [[ $GPU_TYPE == "nvidia" ]]; then
-            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
-            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
+            sed -i 's|^# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
+            sed -i 's|^inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
         elif [[ $GPU_TYPE == "amd" ]]; then
-            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
-            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
+            sed -i 's|^# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd|g' configuration.nix
+            sed -i 's|^inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia|g' configuration.nix
         fi
-        
-        # CPU config
+
+        # CPU config toggles
         if [[ $CPU_TYPE == "intel" ]]; then
-            sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
-            sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
+            sed -i 's|^inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
+            sed -i 's|^# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
         fi
-        
+
     else
         log_warning "configuration.nix not found"
     fi
-    
+
     # Update Git config in home-manager
     if [[ -f "modules/hm/default.nix" && -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
         log_info "Updating Git config in home-manager..."
-        sed -i "s/name = \".*\"/name = \"$GIT_NAME\"/g" modules/hm/default.nix
-        sed -i "s/email = \".*\"/email = \"$GIT_EMAIL\"/g" modules/hm/default.nix
+        sed -i "s/^  name = \".*\";/  name = \"$GIT_NAME\";/g" modules/hm/default.nix
+        sed -i "s/^  email = \".*\";/  email = \"$GIT_EMAIL\";/g" modules/hm/default.nix
     else
         log_warning "modules/hm/default.nix not found or Git info missing"
     fi
-    
+
     log_success "Configuration files updated"
 }
 

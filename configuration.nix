@@ -113,7 +113,7 @@ in
   users.groups.wireshark = {};
 
   #! EDIT THESE VALUES (must match users defined above)
-  users.users.mou
+  users.users.mou = {
     isNormalUser = true; # Regular user account
     initialPassword = "hydenix"; # Default password (CHANGE THIS after first login with passwd)
     extraGroups = [
