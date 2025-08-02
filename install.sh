@@ -226,9 +226,10 @@ get_user_input() {
 # Backup existing configuration
 backup_existing() {
     if [[ -d "$TARGET_DIR" ]]; then
-        log_info "Backing up existing configuration to $BACKUP_DIR"
-        cp -r "$TARGET_DIR" "$BACKUP_DIR"
-        log_success "Backup created at $BACKUP_DIR"
+        log_info "Existing NixOS configuration found at $TARGET_DIR"
+        log_info "It will be backed up during finalization if installation succeeds"
+    else
+        log_info "No existing NixOS configuration found"
     fi
 }
 
@@ -540,6 +541,57 @@ post_install() {
     
     log_success "Post-installation tasks completed"
 }
+
+# Display final instructions
+final_instructions() {
+    echo
+    log_success "Installation completed successfully!"
+    echo
+    log_info "Next steps:"
+    echo "  1. Reboot your system: sudo reboot"
+    echo "  2. Log in as '$USERNAME' with password 'hydenix'"
+    echo "  3. Change your password: passwd"
+    echo "  4. Run 'hyde-shell reload' to generate theme cache"
+    echo
+    log_info "Configuration location: $TARGET_DIR"
+    if [[ -d "$BACKUP_DIR" ]]; then
+        log_info "Backup location: $BACKUP_DIR"
+    fi
+    echo
+    log_info "To update the system in the future:"
+    echo "  cd $TARGET_DIR"
+    echo "  nix flake update"
+    echo "  sudo nixos-rebuild switch --flake ."
+    echo
+    log_warning "Remember to commit your changes to git after customization!"
+}
+
+# Main installation flow
+main() {
+    echo "====================================="
+    echo "    NixOS Configuration Installer    "
+    echo "====================================="
+    echo
+    
+    check_root
+    check_nixos
+    install_dependencies
+    get_user_input
+    backup_existing
+    clone_config
+    generate_hardware_config
+    update_config
+    build_system
+    finalize_installation
+    post_install
+    final_instructions
+}
+
+# Handle interruption gracefully
+trap 'log_error "Installation interrupted!"; exit 1' INT TERM
+
+# Run main function
+main "$@"
 
 # Display final instructions
 final_instructions() {
