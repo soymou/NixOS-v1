@@ -11,7 +11,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-CONFIG_REPO="git@github.com:emilio-junoy/NixOS"
+CONFIG_REPO="git@github.com:emilio-junoy/NixOS.git"
 # TARGET_DIR and BACKUP_DIR will be set after getting username
 
 # Functions
