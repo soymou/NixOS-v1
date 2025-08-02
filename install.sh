@@ -257,11 +257,6 @@ update_config() {
     
     cd "$TARGET_DIR" || { log_error "Failed to cd to $TARGET_DIR"; exit 1; }
 
-    # Backup files before editing
-    [[ -f "flake.nix" ]] && cp flake.nix flake.nix.bak
-    [[ -f "configuration.nix" ]] && cp configuration.nix configuration.nix.bak
-    [[ -f "modules/hm/default.nix" ]] && cp modules/hm/default.nix modules/hm/default.nix.bak
-
     # Sanity check variables to avoid breaking syntax
     for var in HOSTNAME TIMEZONE LOCALE USERNAME GIT_NAME GIT_EMAIL GPU_TYPE CPU_TYPE; do
         val="${!var}"
@@ -290,13 +285,11 @@ update_config() {
         sed -i "s/^  locale = \".*\";/  locale = \"$LOCALE\";/g" configuration.nix
         sed -i "s/^  defaultLocale = \".*\";/  defaultLocale = \"$LOCALE\";/g" configuration.nix
 
-        # Replace username inside users.users.<oldusername> = { ... }
-        # First remove existing user block by regex to avoid duplication (optional, careful!)
-        # Instead, safer to just replace username in lines starting with 'users.users.'
-        sed -i "s/^\(\s*users\.users\.\)[^ ]*\(.*\)/\1$USERNAME\2/" configuration.nix
+        # Replace username inside users.users.mou = { ... }
+        sed -i "s/^\(\s*users\.users\.\)mou\(.*\)/\1$USERNAME\2/" configuration.nix
 
-        # For .services.custom.nordvpn references, replace only exact matches
-        sed -i "s/\.services\.custom\.nordvpn/$USERNAME.services.custom.nordvpn/g" configuration.nix
+        # Replace username prefix exactly before '.services.custom.nordvpn' (avoid duplication)
+        sed -i "s/\bmou\.services\.custom\.nordvpn\b/$USERNAME.services.custom.nordvpn/g" configuration.nix
 
         # GPU config toggles (uncomment/comment lines carefully)
         if [[ $GPU_TYPE == "nvidia" ]]; then
@@ -328,6 +321,7 @@ update_config() {
 
     log_success "Configuration files updated"
 }
+
 
 # Build and switch to new configuration
 build_system() {
