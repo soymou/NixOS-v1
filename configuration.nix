@@ -109,6 +109,8 @@ in
       system.enable = true; # enable system module
     */
   };
+  # Add wireshark group
+  users.groups.wireshark = {};
 
   #! EDIT THESE VALUES (must match users defined above)
   users.users.mou = {
