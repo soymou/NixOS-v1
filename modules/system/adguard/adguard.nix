@@ -1,4 +1,3 @@
-
 { config, lib, pkgs, ... }:
 
 {
@@ -13,8 +12,8 @@
           bind_hosts = [ "0.0.0.0" ]; 
           port = 53;
           upstream_dns = [
-            "9.9.9.9#dns.quad9.net"
-            "149.112.112.112#dns.quad9.net"
+            "8.8.8.8"
+            "8.8.4.4"
           ];
         };
         filtering = {
@@ -26,7 +25,10 @@
         filters = map (url: { enabled = true; url = url; }) [
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt"
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt"
-        ];
+          "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+          "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+          "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt"        ];
+        ]; 
       };
     };
   };
