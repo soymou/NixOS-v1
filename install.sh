@@ -103,6 +103,13 @@ get_user_input() {
     read -p "Enter locale [en_US.UTF-8]: " LOCALE
     LOCALE=${LOCALE:-en_US.UTF-8}
     
+    # Validate locale format
+    if [[ ! $LOCALE =~ ^[a-z]{2}_[A-Z]{2}\.UTF-8$ ]]; then
+        log_warning "Invalid locale format: $LOCALE"
+        log_warning "Using default: en_US.UTF-8"
+        LOCALE="en_US.UTF-8"
+    fi
+    
     # Keyboard layout
     echo "Available keyboard layouts (examples):"
     echo "  us (US English), uk (UK English), es (Spanish) latam (Spanish latam)"
@@ -324,21 +331,33 @@ update_config() {
     
     cd "$TARGET_DIR"
     
+    # Check what files exist
+    log_info "Configuration files found:"
+    find . -name "*.nix" -type f | head -10
+    
     # Update flake.nix with new hostname
     if [[ -f "flake.nix" ]]; then
+        log_info "Updating flake.nix..."
         sed -i "s/HOSTNAME = \"mou\"/HOSTNAME = \"$HOSTNAME\"/g" flake.nix
+    else
+        log_warning "flake.nix not found"
     fi
     
     # Update configuration.nix
     if [[ -f "configuration.nix" ]]; then
+        log_info "Updating configuration.nix..."
+        
         # Replace hostname
         sed -i "s/hostname = \"mou\"/hostname = \"$HOSTNAME\"/g" configuration.nix
         
         # Replace timezone
         sed -i "s|timezone = \"America/Mexico_City\"|timezone = \"$TIMEZONE\"|g" configuration.nix
         
-        # Replace locale
-        sed -i "s/locale = \"en_US.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        # Replace locale - be more specific with the replacement
+        sed -i "s/locale = \"en_US\.UTF-8\"/locale = \"$LOCALE\"/g" configuration.nix
+        
+        # Also check for other locale patterns that might exist
+        sed -i "s/defaultLocale = \"en_US\.UTF-8\"/defaultLocale = \"$LOCALE\"/g" configuration.nix
         
         # Replace username in configuration.nix
         sed -i "s/users\.\"mou\"/users.\"$USERNAME\"/g" configuration.nix
@@ -359,12 +378,25 @@ update_config() {
             sed -i 's|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-amd|g' configuration.nix
             sed -i 's|# inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|inputs.hydenix.inputs.nixos-hardware.nixosModules.common-cpu-intel|g' configuration.nix
         fi
+    else
+        log_warning "configuration.nix not found"
     fi
     
     # Update Git configuration in home-manager
     if [[ -f "modules/hm/default.nix" && -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
+        log_info "Updating Git configuration in home-manager..."
         sed -i "s/name = \"emilio-junoy\"/name = \"$GIT_NAME\"/g" modules/hm/default.nix
         sed -i "s/email = \"emilio.junoy@gmail.com\"/email = \"$GIT_EMAIL\"/g" modules/hm/default.nix
+    else
+        log_warning "modules/hm/default.nix not found or Git info not provided"
+    fi
+    
+    # Debug: Show what the locale setting looks like after replacement
+    log_info "Checking locale configuration..."
+    if grep -n "locale\|defaultLocale" configuration.nix 2>/dev/null; then
+        log_info "Locale settings found above"
+    else
+        log_warning "No locale settings found in configuration.nix"
     fi
     
     log_success "Configuration files updated"
