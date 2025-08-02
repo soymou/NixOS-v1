@@ -39,8 +39,8 @@
       firefox.enable = true; # enable firefox module
       git = {
         enable = true; # enable git module
-        name = "emilio-junoy"; # git user name eg "John Doe"
-        email = "emilio.junoy@gmail.com"; # git user email eg "john.doe@example.com"
+        name = "emilio-junoy"
+        email = "emilio.junoy@gmail.com"
       };
       hyde.enable = true; # enable hyde module
       hyprland = {

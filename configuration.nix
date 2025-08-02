@@ -40,7 +40,7 @@ in
 
     #! EDIT THIS SECTION
     # For NVIDIA setups
-    # # # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
+    # # # # inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-nvidia
 
     # For AMD setups
     inputs.hydenix.inputs.nixos-hardware.nixosModules.common-gpu-amd
@@ -113,7 +113,7 @@ in
   users.groups.wireshark = {};
 
   #! EDIT THESE VALUES (must match users defined above)
-  users.users.mou = {
+  users.users.mou
     isNormalUser = true; # Regular user account
     initialPassword = "hydenix"; # Default password (CHANGE THIS after first login with passwd)
     extraGroups = [
@@ -127,7 +127,7 @@ in
   };
  
   # Nordvpn 
-  mou.services.custom.nordvpn = {
+  moumou.services.custom.nordvpn = {
     enable = true;
     autoConnect = true;
   };
