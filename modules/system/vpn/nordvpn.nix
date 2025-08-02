@@ -142,7 +142,7 @@ in
         };
 
         services.nordvpn-autoconnect = mkIf config.mou.services.custom.nordvpn.autoConnect {
-          description = "NordVPN Auto-Connect to Double VPN";
+          description = "NordVPN Auto-Connect best VPN";
           serviceConfig = {
             Type = "oneshot";
             User = "mou";
