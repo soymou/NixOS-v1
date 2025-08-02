@@ -171,7 +171,7 @@ in
               
               # Connect to double VPN
               echo "Connecting to NordVPN Double VPN..."
-              ${nordVpnPkg}/bin/nordvpn connect double_vpn
+              ${nordVpnPkg}/bin/nordvpn connect
             '';
             RemainAfterExit = true;
           };
