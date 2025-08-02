@@ -11,8 +11,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-CONFIG_REPO="https://github.com/emilio-junoy/NixOS"
-TARGET_DIR="/etc/nixos"
+CONFIG_REPO="git@github.com:emilio-junoy/NixOS"
+TARGET_DIR="~/NixOS"
 BACKUP_DIR="/etc/nixos-backup-$(date +%Y%m%d-%H%M%S)"
 
 # Functions
