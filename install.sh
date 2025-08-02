@@ -11,7 +11,8 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-CONFIG_REPO="git@github.com:emilio-junoy/NixOS.git"
+CONFIG_REPO_SSH="git@github.com:emilio-junoy/NixOS"
+CONFIG_REPO_HTTPS="https://github.com/emilio-junoy/NixOS.git"
 # TARGET_DIR and BACKUP_DIR will be set after getting username
 
 # Functions
@@ -192,7 +193,7 @@ backup_existing() {
 
 # Clone configuration
 clone_config() {
-    log_info "Cloning configuration from $CONFIG_REPO"
+    log_info "Cloning configuration repository"
     log_info "Target directory: $TARGET_DIR"
     
     # Ensure the user's home directory exists
@@ -207,10 +208,85 @@ clone_config() {
         rm -rf "$TARGET_DIR"
     fi
     
-    # Clone the repository directly to target directory
-    if ! git clone "$CONFIG_REPO" "$TARGET_DIR"; then
-        log_error "Failed to clone repository. Check your SSH keys and network connection."
-        log_error "Make sure you have access to $CONFIG_REPO"
+    # Try different methods to clone the repository
+    local clone_success=false
+    
+    # Method 1: Try SSH with the original user's SSH agent (if available)
+    if [[ -n "$SUDO_USER" ]] && [[ -S "/tmp/ssh-agent-$SUDO_USER" ]]; then
+        log_info "Attempting to clone via SSH using $SUDO_USER's SSH agent..."
+        export SSH_AUTH_SOCK="/tmp/ssh-agent-$SUDO_USER"
+        if git clone "$CONFIG_REPO_SSH" "$TARGET_DIR" &>/dev/null; then
+            clone_success=true
+            log_success "Cloned successfully via SSH"
+        fi
+    fi
+    
+    # Method 2: Try SSH as the target user (if user exists)
+    if [[ "$clone_success" == false ]] && id "$USERNAME" &>/dev/null; then
+        log_info "Attempting to clone via SSH as user $USERNAME..."
+        if sudo -u "$USERNAME" git clone "$CONFIG_REPO_SSH" "$TARGET_DIR" &>/dev/null; then
+            clone_success=true
+            log_success "Cloned successfully via SSH as $USERNAME"
+        fi
+    fi
+    
+    # Method 3: Try HTTPS (no authentication needed for public repos)
+    if [[ "$clone_success" == false ]]; then
+        log_info "Attempting to clone via HTTPS..."
+        if git clone "$CONFIG_REPO_HTTPS" "$TARGET_DIR"; then
+            clone_success=true
+            log_success "Cloned successfully via HTTPS"
+        fi
+    fi
+    
+    # Method 4: Ask user to clone manually or provide credentials
+    if [[ "$clone_success" == false ]]; then
+        log_error "All automatic clone methods failed."
+        echo
+        log_info "Please choose an option:"
+        echo "  1) Clone manually and press Enter to continue"
+        echo "  2) Enter GitHub username and password (for HTTPS)"
+        echo "  3) Exit and setup SSH keys first"
+        echo
+        read -p "Choose option [1/2/3]: " clone_option
+        
+        case $clone_option in
+            1)
+                echo
+                log_info "Please run the following command in another terminal:"
+                echo "  git clone $CONFIG_REPO_HTTPS $TARGET_DIR"
+                echo
+                read -p "Press Enter after you've cloned the repository..."
+                if [[ ! -d "$TARGET_DIR" ]]; then
+                    log_error "Repository not found at $TARGET_DIR"
+                    exit 1
+                fi
+                clone_success=true
+                ;;
+            2)
+                echo
+                read -p "GitHub username: " gh_user
+                read -s -p "GitHub password/token: " gh_pass
+                echo
+                if git clone "https://$gh_user:$gh_pass@github.com/emilio-junoy/NixOS.git" "$TARGET_DIR"; then
+                    clone_success=true
+                    log_success "Cloned successfully with credentials"
+                fi
+                ;;
+            3)
+                log_info "Setup SSH keys and run the script again"
+                log_info "Guide: https://docs.github.com/en/authentication/connecting-to-github-with-ssh"
+                exit 0
+                ;;
+            *)
+                log_error "Invalid option"
+                exit 1
+                ;;
+        esac
+    fi
+    
+    if [[ "$clone_success" == false ]]; then
+        log_error "Failed to clone repository"
         exit 1
     fi
     
