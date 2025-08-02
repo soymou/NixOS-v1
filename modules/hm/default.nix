@@ -6,6 +6,7 @@
     ./nvchad/nvchad.nix
     ./Hacking/default.nix
     ./kitty/kitty.nix
+    ./mime/mime.nix
   ];
 
   # home-manager options go here
@@ -117,6 +118,6 @@
         userStyle = ""; # custom waybar user-style.css
       };
       wlogout.enable = true; # enable wlogout module
-      xdg.enable = true;
+      xdg.enable = false;
     };
 }

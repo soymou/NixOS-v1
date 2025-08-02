@@ -1,0 +1,13 @@
+[Added Associations]
+
+[Default Applications]
+inode/directory=org.kde.dolphin.desktop
+x-scheme-handler/about=org.kde.dolphin.desktop
+x-scheme-handler/file=org.kde.dolphin.desktop
+x-scheme-handler/http=zen-beta.desktop
+x-scheme-handler/https=zen-beta.desktop
+x-scheme-handler/about=zen-beta.desktop
+text/html=zen-beta.desktop
+application/xhtml+xml=zen-beta.desktop
+
+[Removed Associations]
