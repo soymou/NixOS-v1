@@ -92,9 +92,6 @@ get_user_input() {
         log_info "Using default target directory: $TARGET_DIR"
     fi
     
-    TEMP_TARGET_DIR="$USER_HOME/NixOS-installer"
-    BACKUP_DIR="$USER_HOME/nixos-backup-$(date +%Y%m%d-%H%M%S)"
-    
     # Hostname
     read -p "Enter hostname [nixos]: " HOSTNAME
     HOSTNAME=${HOSTNAME:-nixos}
@@ -245,9 +242,8 @@ clone_config() {
 # Generate hardware configuration
 generate_hardware_config() {
     log_info "Generating hardware configuration..."
-    mkdir -p "$TEMP_TARGET_DIR"
-    nixos-generate-config --show-hardware-config > "$TEMP_TARGET_DIR/hardware-configuration.nix"
-    log_success "Hardware configuration generated at $TEMP_TARGET_DIR/hardware-configuration.nix"
+    nixos-generate-config --show-hardware-config > "$TARGET_DIR/hardware-configuration.nix"
+    log_success "Hardware configuration generated at $TARGET_DIR/hardware-configuration.nix"
 }
 
 # Update configuration files
