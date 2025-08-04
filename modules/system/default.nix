@@ -5,6 +5,7 @@
     # ./example.nix - add your modules here
     ./vpn/nordvpn.nix
     ./adguard/adguard.nix 
+    ./hosts/hosts.nix
   ];
   
   my.adguard.enable = true;

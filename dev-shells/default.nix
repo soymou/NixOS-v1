@@ -3,6 +3,10 @@ rec {
     path = ./empty;
     description = "Empty development environment";
   };
+  python2 = {
+    path = ./python2;
+    description = "Python2 development environment";
+  };
   android = {
     path = ./android; 
     description = "Android development environment";

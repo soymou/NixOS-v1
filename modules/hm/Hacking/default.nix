@@ -14,6 +14,13 @@
     sherlock
     wireshark-qt
     openvpn
+    ffuf 
+    gobuster
+    dnsutils
+    exploitdb
+    thc-hydra
+    hashcat
+    john
   ];
 }
 
