@@ -13,10 +13,6 @@
   };
 
   nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-      sha256 = "sha256:0kjlg684dmz179x2m276nc8mf5y6z5xlsdr1lrzj05clj2hs5jah";
-    })) 
   ];
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

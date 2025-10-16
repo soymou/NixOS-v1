@@ -12,6 +12,9 @@
     # SDDM configuration with the Astronaut theme
     outputs.nixosModules.sddm
     outputs.nixosModules.minecraft-servers
+    
+    # Illogical Impulse Hyprland setup
+    outputs.nixosModules.illogical-impulse
   ];
 
   # Nvidia
@@ -44,8 +47,7 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Networking is handled by illogical-impulse module
 
   # Set your time zone.
   time.timeZone = "America/Mexico_City";
@@ -53,14 +55,24 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  # X11 and desktop environment are handled by illogical-impulse module
+  # services.xserver.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable Hyprland
-  programs.hyprland.enable = true;
+  # Illogical Impulse Hyprland setup
+  services.illogical-impulse = {
+    enable = true;
+    user = "mou";
+    dotfiles = {
+      fish.enable = true;
+      kitty.enable = true;
+      starship.enable = true;
+    };
+    hyprland = {
+      enable = true;
+      ozoneWayland.enable = true;
+    };
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -74,38 +86,13 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
+  # Audio is handled by illogical-impulse module
   services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with 'passwd'.
-  users.users.mou = {
-    isNormalUser = true;
-    description = "mou";
-    shell = pkgs.fish;
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
-  };
-
-  # Enable fish shell
-  programs.fish.enable = true;
+  # User account is handled by illogical-impulse module
 
   # Install firefox.
   programs.firefox.enable = true;

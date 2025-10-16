@@ -6,4 +6,5 @@
   # my-module = import ./my-module.nix;
   sddm = import ./ui/sddm;
   minecraft-servers = import ./misc/minecraft;
+  illogical-impulse = import ./ui/illogical-impulse;
 }

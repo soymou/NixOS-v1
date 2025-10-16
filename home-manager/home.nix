@@ -8,22 +8,12 @@
   ...
 }: {
   imports = [
-    outputs.homeManagerModules.illogical-impulse
     outputs.homeManagerModules.nixvim
     outputs.homeManagerModules.zen-browser
     outputs.homeManagerModules.minecraft
-    outputs.homeManagerModules.emacs
   ];
 
-
-  illogical-impulse = {
-    enable = true;
-    dotfiles = {
-      fish.enable = true;
-      kitty.enable = true;
-      starship.enable = true;
-    };
-  };
+  # illogical-impulse is now configured as a NixOS module
 
   nixpkgs = {
     overlays = [
