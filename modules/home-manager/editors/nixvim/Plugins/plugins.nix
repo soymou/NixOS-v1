@@ -10,10 +10,41 @@ in
       markdown
       markdown_inline
       tsx
+      norg
     ];
   };
   treesitter-textobjects.enable = true;
   treesitter-context.enable = true;
+
+  neorg = {
+    enable = true;
+    settings = {
+      load = {
+        "core.concealer" = {
+          icon_preset = "varied";
+        };
+
+        "core.defaults" = {
+          __emtpy = null;
+        };
+
+        "core.dirman" = {
+          config = {
+            workspaces = {
+              home = "~/notas";
+            };
+          };
+        };
+
+        "core.keybinds" = {
+          config = {
+            default_keybinds = true;
+          };
+        };
+      };
+    };
+  };
+
   blink-cmp = {
     enable = true;
     settings = {

@@ -1,6 +1,15 @@
 ''
   require('mdx').setup()
 
+  vim.treesitter.language.register('tsx', 'mdx')
+
+  require('nvim-treesitter.configs').setup {
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = { "markdown", "mdx" },
+    },
+  }
+
   -- LuaSnip snippets
   local ls = require("luasnip")
   local s = ls.snippet
@@ -101,7 +110,7 @@
   vim.lsp.config.nil_ls = {}
   vim.lsp.config.nixd = {}
   vim.lsp.config.ts_ls = {
-    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "mdx" }
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   }
   vim.lsp.config.marksman = {
     filetypes = { "markdown", "mdx" }

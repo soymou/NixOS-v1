@@ -175,6 +175,10 @@ in
           QT_QPA_PLATFORMTHEME = "kde";
           QT_STYLE_OVERRIDE = "";
         };
+        
+        home.sessionPath = [
+          "${config.home.homeDirectory}/.local/bin"
+        ];
 
         home.packages =
           (with pkgs; [
@@ -378,11 +382,29 @@ in
           "hypr/custom".source = mkDotfile "/.config/hypr/custom";
           "hypr/workspaces.conf".source = mkDotfile "/.config/hypr/workspaces.conf";
           "hypr/monitors.conf".source = mkDotfile "/.config/hypr/monitors.conf";
-          "illogical-impulse/config.json".source = mkDotfile "/.config/illogical-impulse/config.json";
         };
       }
 
       {
+        home.activation.illogicalImpulseConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+          # Copy config.json instead of symlinking it for proper FileView monitoring
+          CONFIG_DIR="${config.home.homeDirectory}/.config/illogical-impulse"
+          CONFIG_SOURCE="${dotfilesRoot}/.config/illogical-impulse/config.json"
+          CONFIG_TARGET="$CONFIG_DIR/config.json"
+          
+          mkdir -p "$CONFIG_DIR"
+          if [ -L "$CONFIG_TARGET" ] || [ ! -f "$CONFIG_TARGET" ] || [ "$CONFIG_SOURCE" -nt "$CONFIG_TARGET" ]; then
+            rm -f "$CONFIG_TARGET"
+            cp "$CONFIG_SOURCE" "$CONFIG_TARGET"
+            echo "Copied config.json to enable proper file monitoring"
+          fi
+          
+          # Ensure correct quickshell/qs commands are available in ~/.local/bin
+          mkdir -p "${config.home.homeDirectory}/.local/bin"
+          ln -sf ${quickshellWrapped}/bin/quickshell "${config.home.homeDirectory}/.local/bin/quickshell"
+          ln -sf ${quickshellWrapped}/bin/qs "${config.home.homeDirectory}/.local/bin/qs"
+        '';
+        
         home.activation.illogicalImpulseVenv = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
           VENV="${config.home.homeDirectory}/.local/state/quickshell/.venv"
           mkdir -p "$VENV/bin"
