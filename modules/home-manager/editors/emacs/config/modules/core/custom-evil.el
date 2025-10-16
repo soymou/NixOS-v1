@@ -14,7 +14,7 @@
         evil-want-C-i-jump nil
         evil-undo-system 'undo-redo)
   :config
-  (evil-mode 1)
+  (evil-mode 1))
 
 ;; Evil Collection for better Evil integration
 (use-package evil-collection
@@ -22,5 +22,5 @@
   :config
   (evil-collection-init))
 
-(provide 'custom-evil)
+(provide 'modules/core/custom-evil)
 ;;; custom-evil.el ends here

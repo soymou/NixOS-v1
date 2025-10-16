@@ -158,8 +158,8 @@ in
         gtk = {
           enable = true;
           iconTheme = {
-            package = pkgs.adwaita-icon-theme;
-            name = "Adwaita";
+            package = pkgs.illogical-impulse-oneui4-icons;
+            name = "OneUI";
           };
         };
 
@@ -172,6 +172,8 @@ in
           ILLOGICAL_IMPULSE_VIRTUAL_ENV = "~/.local/state/quickshell/.venv";
           QML_IMPORT_PATH = quickshellQmlPath;
           QML2_IMPORT_PATH = quickshellQmlPath;
+          QT_QPA_PLATFORMTHEME = "kde";
+          QT_STYLE_OVERRIDE = "";
         };
 
         home.packages =
@@ -264,6 +266,7 @@ in
             kdePackages.qtwebsockets
             kdePackages.syntax-highlighting
             libsForQt5.qtgraphicaleffects
+            libsForQt5.qtsvg
           ])
           ++ (with pkgs.nerd-fonts; [
             ubuntu

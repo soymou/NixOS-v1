@@ -24,7 +24,7 @@
 ;; Keybindings
 ;;------------------------------------------------------------------------------
 
-(defun set-keybinds
+(defun set-keybinds ()
   "Set global keybindings."
   (use-package general
     :ensure t
@@ -65,11 +65,10 @@
       "bd" '((lambda () (interactive)
                (kill-buffer (current-buffer)))
              :which-key "Kill current buffer")
-      "be" '(eval-buffer :which-key "Eval buffer")
-
+      "be" '(eval-buffer :which-key "Eval buffer"))
 
     ;;------------------------------------------------------------------------------
-
+    ))
 
 ;;------------------------------------------------------------------------------
 ;; Which-key integration
@@ -81,5 +80,5 @@
   (setq which-key-idle-delay 0.3))
 
 
-(provide 'custom-keybinds)
+(provide 'modules/core/custom-keybinds)
 ;;; custom-keybinds.el ends here

@@ -71,5 +71,5 @@
       (forward-line -1)
       (forward-char 1))))
 
-(provide 'custom-mdx)
+(provide 'modules/languages/custom-mdx)
 ;;; custom-mdx.el ends here

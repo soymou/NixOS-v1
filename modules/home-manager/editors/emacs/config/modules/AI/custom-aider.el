@@ -13,5 +13,5 @@
   :custom
   (aidermacs-default-model "openrouter/anthropic/claude-sonnet-4.5"))
 
-(provide 'custom-aider)
+(provide 'modules/AI/custom-aider)
 ;;; custom-aider.el ends here

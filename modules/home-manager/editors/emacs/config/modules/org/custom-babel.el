@@ -4,7 +4,7 @@
 
 ;;; Code:
 
-(defvar languages '("python" "lean"))
+(defvar languages '(python))
 
 (defun consume (string)
   (split-string string))  ; No need for format here since split-string already returns a list
@@ -22,5 +22,5 @@
 
 (setq org-confirm-babel-evaluate nil)
 
-(provide 'custom-babel)
+(provide 'modules/org/custom-babel)
 ;;; custom-babel.el ends here

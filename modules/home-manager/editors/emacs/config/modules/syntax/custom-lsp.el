@@ -16,5 +16,5 @@
 (use-package nix-mode
   :hook (nix-mode . lsp-deferred))
 
-(provide 'custom-lsp)
+(provide 'modules/syntax/custom-lsp)
 ;;; custom-lsp.el ends here

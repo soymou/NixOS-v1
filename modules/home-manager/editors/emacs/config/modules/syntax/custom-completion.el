@@ -30,5 +30,5 @@
   (setq company-idle-delay 0.2
 	company-minimum-prefix-length 1))
 
-(provide 'custom-completion)
+(provide 'modules/syntax/custom-completion)
 ;;; custom-completion.el ends here

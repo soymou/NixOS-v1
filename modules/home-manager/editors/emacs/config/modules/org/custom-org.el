@@ -14,5 +14,5 @@
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("le" . "src lean4"))
 (add-to-list 'org-structure-template-alist '("nix" . "src nix"))
-(provide 'custom-org)
+(provide 'modules/org/custom-org)
 ;;; custom-org.el ends here

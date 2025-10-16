@@ -43,5 +43,5 @@
   (which-key-mode)
   (setq which-key-idle-delay 0.5))
 
-(provide 'custom-ui)
+(provide 'modules/core/custom-ui)
 ;;; custom-ui.el ends here

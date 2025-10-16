@@ -19,5 +19,5 @@
   (doom-themes-org-config)
   (doom-themes-treemacs-config))
 
-(provide 'custom-appearance)
+(provide 'modules/core/custom-appearance)
 ;;; custom-appearance.el ends here

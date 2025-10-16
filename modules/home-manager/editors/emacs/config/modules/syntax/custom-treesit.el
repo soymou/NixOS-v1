@@ -24,5 +24,5 @@
 (use-package typst-ts-mode
   :mode "\\.typ\\'")
 
-(provide 'custom-treesit)
+(provide 'modules/syntax/custom-treesit)
 ;;; custom-treesit.el ends here

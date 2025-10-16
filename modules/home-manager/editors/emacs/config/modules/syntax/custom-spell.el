@@ -30,5 +30,5 @@
   (markdown-mode . flyspell-mode)
   (latex-mode . flyspell-mode))
 
-(provide 'custom-spell)
+(provide 'modules/syntax/custom-spell)
 ;;; custom-spell.el ends here

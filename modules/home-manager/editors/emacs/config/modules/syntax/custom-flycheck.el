@@ -9,5 +9,5 @@
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
-(provide 'custom-flycheck)
+(provide 'modules/syntax/custom-flycheck)
 ;;; custom-flycheck ends here
