@@ -247,6 +247,11 @@ in
             wlogout
             hyprpicker
             hyprlock
+            hypridle
+            hyprsunset
+            redshift
+            swayidle
+            wayland-protocols
             quickshellWrapped
             qtGraphicalEffectsPkg
             kdePackages.kdialog
