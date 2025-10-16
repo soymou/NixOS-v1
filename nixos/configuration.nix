@@ -2,15 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs,  ... }:
+{ config, pkgs, inputs, outputs, system, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      # Modules
-    ];
+    # SDDM configuration with the Astronaut theme
+    outputs.nixosModules.sddm
+    outputs.nixosModules.minecraft-servers
+  ];
 
   # Nvidia
   hardware.graphics.enable = true;
@@ -55,8 +57,10 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  # Enable Hyprland
+  programs.hyprland.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -94,7 +98,7 @@
     isNormalUser = true;
     description = "mou";
     shell = pkgs.fish;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -112,6 +116,7 @@
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
+    unzip 
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
