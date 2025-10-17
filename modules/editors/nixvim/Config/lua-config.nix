@@ -6,7 +6,6 @@
   require('nvim-treesitter.configs').setup {
     highlight = {
       enable = true,
-      additional_vim_regex_highlighting = { "markdown", "mdx" },
     },
   }
 
@@ -112,8 +111,6 @@
   vim.lsp.config.ts_ls = {
     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" }
   }
-  vim.lsp.config.marksman = {
-    filetypes = { "markdown", "mdx" }
-  }
+  
   vim.lsp.enable({"pyright", "rust_analyzer", "lua_ls", "nil_ls", "nixd", "ts_ls", "marksman" })
 ''

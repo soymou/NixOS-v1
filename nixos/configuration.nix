@@ -2,19 +2,21 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, outputs, system, ... }:
+{  pkgs, outputs, inputs, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
+    # Home Manager NixOS module
+    inputs.home-manager.nixosModules.home-manager
+
     # SDDM configuration with the Astronaut theme
     outputs.nixosModules.sddm
     outputs.nixosModules.minecraft-servers
-    
+
     # Illogical Impulse Hyprland setup
-    outputs.nixosModules.illogical-impulse
   ];
 
   # Nvidia
@@ -22,15 +24,70 @@
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.open = true;
 
-  
+
+  # Users
+  users.users.mou = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
+  };
+
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs outputs; };
+    users.mou = {
+      imports = [
+        outputs.homeManagerModules.nixvim
+        outputs.homeManagerModules.zen-browser
+        outputs.homeManagerModules.minecraft
+      ];
+
+      home = {
+        username = "mou";
+        homeDirectory = "/home/mou";
+        stateVersion = "25.05";
+
+        packages = with pkgs; [
+          claude-code
+          discord
+          spotify
+          zathura
+          fastfetch
+        ];
+
+        pointerCursor = {
+          name = "Bibata-Modern-Ice";
+          package = pkgs.bibata-cursors;
+          size = 24;
+        };
+      };
+
+      programs.home-manager.enable = true;
+
+      programs.direnv = {
+        enable = true;
+        nix-direnv.enable = true;
+      };
+
+      programs.git = {
+        enable    = true;
+        userName  = "soymou";
+        userEmail = "emilio.junoy@gmail.com";
+      };
+
+      systemd.user.startServices = "sd-switch";
+    };
+  };
+
   # Allow Unfree
   nixpkgs.config.allowUnfree = true;
 
 
   # Experimental features
   nix.settings.experimental-features = [
-	"nix-command"
-	"flakes"
+	  "nix-command"
+	  "flakes"
   ];
 
   # Bootloader.
@@ -47,7 +104,15 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Networking is handled by illogical-impulse module
+  # Network Managere
+  networking.networkmanager.enable = true;
+  
+  # Bluetooth 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
+
 
   # Set your time zone.
   time.timeZone = "America/Mexico_City";
@@ -55,15 +120,21 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # X11 and desktop environment are handled by illogical-impulse module
-  # services.xserver.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  # X11 and desktop environment 
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Illogical Impulse Hyprland setup
-  services.illogical-impulse = {
+  services.illogical-flake = {
     enable = true;
     user = "mou";
     dotfiles = {
+      source = {
+          url = "github:soymou/dots-hyprland";
+        sha256 = "sha256-XRh0o56ILAgdro0u7kYcO81jPAxJvM75k9mBqXObj7g=";
+      };
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;
@@ -86,8 +157,16 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Audio is handled by illogical-impulse module
+  # Audio
   services.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;

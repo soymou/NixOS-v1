@@ -10,7 +10,6 @@ in
       markdown
       markdown_inline
       tsx
-      norg
     ];
   };
   treesitter-textobjects.enable = true;

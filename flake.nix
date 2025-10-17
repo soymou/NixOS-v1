@@ -3,16 +3,15 @@
 
   inputs = {
     # Stable Nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Unstable Nixpkgs
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    # Other flakes
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Unstable Nixpkgs
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     hyprland.url = "github:hyprwm/Hyprland";
 
@@ -42,12 +41,18 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+  
+    illogical-flake = {
+      url = "github:soymou/illogical-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs:
+  outputs = { self, nixpkgs, home-manager, illogical-flake, ... } @ inputs:
     let
       # Supported systems
       systems = [
@@ -92,8 +97,8 @@
       overlays = allOverlays;
 
       # Export reusable modules
-      nixosModules = import ./modules/nixos;
-      homeManagerModules = import ./modules/home-manager;
+      nixosModules = (import ./modules).nixosModules;
+      homeManagerModules = (import ./modules).homeManagerModules;
 
       # NixOS configuration
       nixosConfigurations = {
@@ -101,6 +106,7 @@
           specialArgs = {
             inherit system inputs;
             outputs = self.outputs;
+            inherit (illogical-flake.inputs) hyprland nur dotfiles;
           };
           modules = [
             ./nixos/configuration.nix
@@ -108,6 +114,7 @@
             {
               nixpkgs.overlays = myOverlays ++ [ inputs.nix-minecraft.overlay ];
             }
+            inputs.illogical-flake.nixosModules.default
           ];
         };
       };
