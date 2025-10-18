@@ -60,11 +60,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1760762956,
-        "narHash": "sha256-EnLxia8B/fSHtGgYHCiorlXon5MCIW+fUbtNNyMBFq0=",
+        "lastModified": 1760776599,
+        "narHash": "sha256-JukB5UgsCX0rxK/2N6CgmnwVAGbctn6A6mZvkNuoXyA=",
         "owner": "soymou",
         "repo": "dots-hyprland",
-        "rev": "47515d6eb4700463423b75eca5b17627a13e1fbe",
+        "rev": "b551c1113e9d23b38dbda940f9a6952e67189ef4",
         "type": "github"
       },
       "original": {
@@ -621,11 +621,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1760775662,
-        "narHash": "sha256-DEZO7m+pKNOkeCk8fCBHgMCPi44P/+ng8Be9C6zK2Rk=",
+        "lastModified": 1760776019,
+        "narHash": "sha256-51gThO59+Gkz6EszVCz0nkhkKLsSxhW3hv3oc33p07s=",
         "owner": "soymou",
         "repo": "illogical-flake",
-        "rev": "0328c233194726b7807c37e9afd60c1746e7b518",
+        "rev": "ec378e7338f133048db6238e3fe959dc75c8e0c1",
         "type": "github"
       },
       "original": {
