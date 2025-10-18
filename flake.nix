@@ -2,12 +2,11 @@
   description = "Your new nix config";
 
   inputs = {
-    # Stable Nixpkgs
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     # Unstable Nixpkgs
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+
     burpsuitepro = {
       url = "github:soymou/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";

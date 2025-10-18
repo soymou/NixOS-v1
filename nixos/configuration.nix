@@ -85,7 +85,7 @@ in
     dotfiles = {
       source = {
           url = "github:soymou/dots-hyprland";
-        sha256 = "sha256-qkSuAFUY2yuVdfhPKWcsD1pl0IRhXMdaIdG0o6CDUcs="; 
+        sha256 = "sha256-EnLxia8B/fSHtGgYHCiorlXon5MCIW+fUbtNNyMBFq0="; 
       };
       fish.enable = true;
       kitty.enable = true;
