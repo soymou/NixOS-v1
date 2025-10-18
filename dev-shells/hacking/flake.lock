@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "burpsuitepro": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1760753497,
-        "narHash": "sha256-FNFnj8fF0dpPijU6rk1XJNWPMuJLSprDNpa6wktl8Go=",
-        "owner": "soymou",
-        "repo": "Burpsuite-Professional",
-        "rev": "7cb64f22b9a782c9cb693596d66baeb75f487d39",
-        "type": "github"
-      },
-      "original": {
-        "owner": "soymou",
-        "repo": "Burpsuite-Professional",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1760580664,
@@ -38,7 +18,6 @@
     },
     "root": {
       "inputs": {
-        "burpsuitepro": "burpsuitepro",
         "nixpkgs": "nixpkgs"
       }
     }
