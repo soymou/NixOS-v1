@@ -5,13 +5,19 @@
     # Stable Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
+    # Unstable Nixpkgs
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    
+    burpsuitepro = {
+      url = "github:soymou/Burpsuite-Professional";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     quickshell = {
       url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Unstable Nixpkgs
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     hyprland.url = "github:hyprwm/Hyprland";
 
@@ -108,8 +114,8 @@
       overlays = allOverlays;
 
       # Export reusable modules
-      nixosModules = (import ./modules).nixosModules;
-      homeManagerModules = (import ./modules).homeManagerModules;
+      nixosModules = import ./modules/nixos;
+      homeManagerModules = import ./modules/home-manager;
 
       # NixOS configuration
       nixosConfigurations = {

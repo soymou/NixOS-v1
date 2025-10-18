@@ -3,18 +3,20 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 {  pkgs, outputs, inputs, ... }:
-
+let
+  system = "x86_64-linux";
+  burpsuitepro = inputs.burpsuitepro.packages."${system}".default;
+in
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-
-    # Home Manager NixOS module
-    inputs.home-manager.nixosModules.home-manager
-
     # SDDM configuration with the Astronaut theme
     outputs.nixosModules.sddm
     outputs.nixosModules.minecraft-servers
+
+    # Home Manager as NixOS module
+    inputs.home-manager.nixosModules.home-manager
 
     # Illogical Impulse Hyprland setup
   ];
@@ -30,57 +32,6 @@
   users.users.mou = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
-  };
-
-  # Home Manager configuration
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
-    users.mou = {
-      imports = [
-        #outputs.homeManagerModules.nixvim
-        outputs.homeManagerModules.zen-browser
-        outputs.homeManagerModules.minecraft
-        outputs.homeManagerModules.nvchad
-      ];
-
-      home = {
-        username = "mou";
-        homeDirectory = "/home/mou";
-        stateVersion = "25.05";
-
-        packages = with pkgs; [
-          claude-code
-          discord
-          spotify
-          zathura
-          fastfetch
-          protonvpn-gui
-        ];
-
-        pointerCursor = {
-          name = "Bibata-Modern-Ice";
-          package = pkgs.bibata-cursors;
-          size = 24;
-        };
-      };
-
-      programs.home-manager.enable = true;
-
-      programs.direnv = {
-        enable = true;
-        nix-direnv.enable = true;
-      };
-
-      programs.git = {
-        enable    = true;
-        userName  = "soymou";
-        userEmail = "emilio.junoy@gmail.com";
-      };
-
-      systemd.user.startServices = "sd-switch";
-    };
   };
 
   # Allow Unfree
@@ -114,9 +65,7 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
-
-
-
+  
   # Set your time zone.
   time.timeZone = "America/Mexico_City";
 
@@ -136,7 +85,7 @@
     dotfiles = {
       source = {
           url = "github:soymou/dots-hyprland";
-        sha256 = "sha256-bitLWJh2p6vL8R8yLSop9eFJXZAuqmbwtHS0M8Fe/2M=";
+        sha256 = "sha256-qkSuAFUY2yuVdfhPKWcsD1pl0IRhXMdaIdG0o6CDUcs="; 
       };
       fish.enable = true;
       kitty.enable = true;
@@ -186,12 +135,21 @@
   programs.firefox.enable = true;
 
 
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.mou = import ../home-manager/home.nix;
+    extraSpecialArgs = { inherit inputs outputs system; };
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
-    unzip 
+    unzip
+    home-manager
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
