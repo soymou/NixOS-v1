@@ -60,11 +60,11 @@
     "dotfiles": {
       "flake": false,
       "locked": {
-        "lastModified": 1760776599,
-        "narHash": "sha256-JukB5UgsCX0rxK/2N6CgmnwVAGbctn6A6mZvkNuoXyA=",
+        "lastModified": 1760777436,
+        "narHash": "sha256-yxBW25tGS6JjEzblZ2GfKHNbujYlp7Awz0roEmi0Wxs=",
         "owner": "soymou",
         "repo": "dots-hyprland",
-        "rev": "b551c1113e9d23b38dbda940f9a6952e67189ef4",
+        "rev": "e28ab1ebad7c23d161b78884503220bf2b3aacd6",
         "type": "github"
       },
       "original": {
