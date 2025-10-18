@@ -23,6 +23,7 @@
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia.open = true;
+  hardware.nvidia.powerManagement.enable = true;
 
 
   # Users
@@ -55,6 +56,7 @@
           spotify
           zathura
           fastfetch
+          protonvpn-gui
         ];
 
         pointerCursor = {
@@ -134,7 +136,7 @@
     dotfiles = {
       source = {
           url = "github:soymou/dots-hyprland";
-        sha256 = "sha256-XRh0o56ILAgdro0u7kYcO81jPAxJvM75k9mBqXObj7g=";
+        sha256 = "sha256-bitLWJh2p6vL8R8yLSop9eFJXZAuqmbwtHS0M8Fe/2M=";
       };
       fish.enable = true;
       kitty.enable = true;
@@ -167,6 +169,12 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+  };
+
+  # Power management for proper suspend/resume
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandlePowerKey = "suspend";
   };
 
   # Enable touchpad support (enabled default in most desktopManager).

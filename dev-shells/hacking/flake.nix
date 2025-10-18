@@ -9,30 +9,28 @@
     };
   };
 
-  outputs = { self, nixpkgs, burpsuitepro, ... }: 
-  let 
+  outputs = { self, nixpkgs, burpsuitepro, ... }:
+  let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
+    burpsuite = burpsuitepro.packages."${system}".default;
   in {
-    devshells."${system}".default = pkgs.mkShell {
+    devShells."${system}".default = pkgs.mkShell {
       packages = with pkgs; [
-        # Basic tools 
-        burpsuitepro
+        # Basic tools
+        burpsuite
         nmap 
         nikto
         tcpdump
         dnsmap
         zap 
-        massscan
         bettercap
         aircrack-ng
         sherlock
-        theHarvester
-        nessus
+        theharvester
         armitage
         sqlmap
         kismet
-        reaver
         medusa
         wifite2
         ffuf
@@ -47,8 +45,7 @@
         nuclei
         subfinder
         metasploit
-        python3.withPackages (packages: with packages; [
-        ]) 
+        python3
       ];
     };
   };

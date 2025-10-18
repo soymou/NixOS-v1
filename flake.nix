@@ -35,9 +35,15 @@
       url = "github:nix-community/nixvim";
     };
 
+    nvchad = {
+      url = "github:soymou/nvchad";
+      flake = false;
+    };
+
     nix4nvchad = {
       url = "github:nix-community/nix4nvchad";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nvchad-starter.follows = "nvchad";
     }; 
 
     zen-browser = {

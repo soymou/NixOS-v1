@@ -1,7 +1,7 @@
 { inputs, config, pkgs, ... }:
 {
   imports = [
-    inputs.nix4nvchad.homeMangerModule
+    inputs.nix4nvchad.homeManagerModules.default
   ]; 
 
   programs.nvchad = {
@@ -13,8 +13,6 @@
         python-lsp-server
       ]))
     ];
-    
-    extraPlugins = builtins.readFile ./plugins/extraPlugins.lua;
     
     hm-activation = true;
   };
