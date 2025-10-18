@@ -31,7 +31,7 @@ in
   # Users
   users.users.mou = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "audio" "video" "wireshark"];
   };
 
   # Allow Unfree
