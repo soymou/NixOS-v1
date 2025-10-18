@@ -7,34 +7,21 @@
     
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     burpsuitepro = {
       url = "github:soymou/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-
-    hyprland.url = "github:hyprwm/Hyprland";
-
     nix-minecraft = {
       url = "github:Infinidoge/nix-minecraft";
     };
 
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
-
     systems.url = "github:nix-systems/default-linux";
-
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     nixvim = {
       url = "github:nix-community/nixvim";
@@ -60,11 +47,18 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  
+
+    # Dotfiles for Hyprland setup
+    dotfiles = {
+      url = "github:soymou/dots-hyprland";
+      flake = false;
+    };
+
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
+      inputs.dotfiles.follows = "dotfiles";
     };
   };
 
@@ -122,7 +116,6 @@
           specialArgs = {
             inherit system inputs;
             outputs = self.outputs;
-            inherit (illogical-flake.inputs) hyprland nur dotfiles;
           };
           modules = [
             ./nixos/configuration.nix
