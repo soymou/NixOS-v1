@@ -25,6 +25,7 @@ in
       protonvpn-gui
       gemini-cli
       burpsuitepro
+      jython
     ];
 
     pointerCursor = {
