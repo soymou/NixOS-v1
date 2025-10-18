@@ -12,43 +12,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    burpsuitepro = {
-      url = "github:soymou/Burpsuite-Professional";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    nix-minecraft = {
-      url = "github:Infinidoge/nix-minecraft";
-    };
-
     systems.url = "github:nix-systems/default-linux";
-
-    nixvim = {
-      url = "github:nix-community/nixvim";
-    };
-
-    nvchad = {
-      url = "github:soymou/nvchad";
-      flake = false;
-    };
-
-    nix4nvchad = {
-      url = "github:nix-community/nix4nvchad";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nvchad-starter.follows = "nvchad";
-    }; 
-
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Dotfiles for Hyprland setup
     dotfiles = {
       url = "github:soymou/dots-hyprland";
       flake = false;
@@ -60,6 +30,32 @@
       inputs.home-manager.follows = "home-manager";
       inputs.dotfiles.follows = "dotfiles";
     };
+
+    burpsuitepro = {
+      url = "github:soymou/Burpsuite-Professional";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-minecraft = {
+      url = "github:Infinidoge/nix-minecraft";
+    };
+
+    nix4nvchad = {
+      url = "github:nix-community/nix4nvchad";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nvchad-starter.follows = "nvchad";
+    }; 
+
+    nvchad = {
+      url = "github:soymou/nvchad";
+      flake = false;
+    };
+
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = { self, nixpkgs, home-manager, illogical-flake, ... } @ inputs:
