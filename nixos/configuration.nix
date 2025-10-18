@@ -83,10 +83,6 @@ in
     enable = true;
     user = "mou";
     dotfiles = {
-      source = {
-          url = "github:soymou/dots-hyprland";
-        sha256 = "sha256-EnLxia8B/fSHtGgYHCiorlXon5MCIW+fUbtNNyMBFq0="; 
-      };
       fish.enable = true;
       kitty.enable = true;
       starship.enable = true;
