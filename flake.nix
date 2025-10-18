@@ -7,6 +7,11 @@
     
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     burpsuitepro = {
       url = "github:soymou/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
