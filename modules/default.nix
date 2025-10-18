@@ -3,7 +3,8 @@
 {
   # Home Manager modules
   homeManagerModules = {
-    nixvim = import ./editors/nixvim;
+    #nixvim = import ./editors/nixvim;
+    nvchad = import ./editors/nix4nvchad;
     zen-browser = import ./browsers/zen-browser;
     minecraft = import ./minecraft-home;
   };

@@ -163,6 +163,11 @@ rec {
     path = ./zig;
     description = "Zig development environment";
   };
+  
+  hacking = {
+    path = ./hacking; 
+    description = "Hacking environment";
+  };
 
   # Aliases
   c = c-cpp;

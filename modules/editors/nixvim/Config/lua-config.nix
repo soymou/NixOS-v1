@@ -1,6 +1,4 @@
 ''
-  require('mdx').setup()
-
   vim.treesitter.language.register('tsx', 'mdx')
 
   require('nvim-treesitter.configs').setup {

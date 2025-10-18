@@ -38,9 +38,10 @@
     extraSpecialArgs = { inherit inputs outputs; };
     users.mou = {
       imports = [
-        outputs.homeManagerModules.nixvim
+        #outputs.homeManagerModules.nixvim
         outputs.homeManagerModules.zen-browser
         outputs.homeManagerModules.minecraft
+        outputs.homeManagerModules.nvchad
       ];
 
       home = {

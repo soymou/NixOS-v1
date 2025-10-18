@@ -1,11 +1,12 @@
 {
   inputs,
   pkgs,
+  lib,
   ...
 }:
 let
   plugins = import ./Plugins/plugins.nix { inherit pkgs; };
-  extraPlugins = import ./Plugins/extraPlugins.nix { inherit pkgs; };
+  extraPlugins = import ./Plugins/extraPlugins.nix { inherit pkgs lib; };
   extraPackages = import ./Packages/extraPackages.nix { inherit pkgs; };
   luaConfig = import ./Config/lua-config.nix;
   opts = import ./Config/opts.nix;
