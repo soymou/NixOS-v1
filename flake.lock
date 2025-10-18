@@ -1200,11 +1200,11 @@
     "nvchad": {
       "flake": false,
       "locked": {
-        "lastModified": 1760750251,
-        "narHash": "sha256-wnmjzbVfsTU2ziJB1RQpfHaF/pRZVoDy3gi2vC3OC84=",
+        "lastModified": 1760764202,
+        "narHash": "sha256-x9ANxiXgiAtPSpEnOntIUQjXGeUf3fwhEsbr3ejl9+Q=",
         "owner": "soymou",
         "repo": "nvchad",
-        "rev": "067866938deede132662240ae38e1b5562fc15b7",
+        "rev": "1cec4b974c258c22f3ff0d074e2b92534d1eed10",
         "type": "github"
       },
       "original": {

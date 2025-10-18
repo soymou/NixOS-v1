@@ -12,6 +12,7 @@
       (python3.withPackages(ps: with ps; [
         python-lsp-server
       ]))
+      rust-analyzer
     ];
     
     hm-activation = true;
