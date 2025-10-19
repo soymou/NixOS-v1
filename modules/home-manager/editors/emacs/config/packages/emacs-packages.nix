@@ -1,0 +1,31 @@
+epkgs:
+with epkgs; [
+    use-package
+	  all-the-icons
+  # Packages from modules
+    evil
+    evil-collection
+    xelb
+    which-key
+    ivy
+    counsel
+    doom-modeline
+    doom-themes
+    company
+    general
+    dashboard
+    lsp-mode
+    flycheck
+    markdown-mode
+    vterm
+    vterm-toggle
+    ob-lean4
+    magit
+    magit-section
+    dash
+    lean4-mode
+    ob-nix
+    aidermacs
+    transient
+    typst-ts-mode
+]
