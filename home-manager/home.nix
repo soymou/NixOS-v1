@@ -45,8 +45,10 @@ in
 
   programs.git = {
     enable    = true;
-    userName  = "soymou";
-    userEmail = "emilio.junoy@gmail.com";
+    settings = {
+      user.name  = "soymou";
+      user.email = "emilio.junoy@gmail.com";
+    }; 
   };
 
   programs.nyxt = {

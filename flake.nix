@@ -27,6 +27,8 @@
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.dotfiles.follows = "dotfiles";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
 
     burpsuitepro = {

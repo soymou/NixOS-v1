@@ -131,7 +131,13 @@ in
   programs.firefox.enable = true;
 
 
-  # Home Manager configuration handled by illogical-flake module
+  # Home Manager configuration
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.mou = import ../home-manager/home.nix;
+    extraSpecialArgs = { inherit inputs outputs system; };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
