@@ -9,7 +9,6 @@ in
     outputs.homeManagerModules.zen-browser
     outputs.homeManagerModules.minecraft
     outputs.homeManagerModules.nvchad
-    outputs.homeManagerModules.emacs
     outputs.homeManagerModules.nyxt
 ];
   home = {
