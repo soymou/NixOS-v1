@@ -25,7 +25,7 @@
     };
 
     illogical-flake = {
-      url = "./illogical-flake";
+      url = ./illogical-flake;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
       inputs.dotfiles.follows = "dotfiles";
