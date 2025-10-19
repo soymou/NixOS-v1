@@ -14,7 +14,7 @@
 ;; Theme
 (use-package doom-themes
   :config
-  (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-nord t)
   (doom-themes-visual-bell-config)
   (doom-themes-org-config)
   (doom-themes-treemacs-config))
