@@ -1,0 +1,36 @@
+{ config, pkgs, ... }:
+
+{
+  # Enable Xorg and the open-source NVIDIA driver
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    # Enable the open-source kernel module
+    open = true;
+    # Modesetting is required for most modern NVIDIA setups
+    modesetting.enable = true;
+
+    # You may want to enable power management for laptops, but test carefully
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+
+    # Enable `nvidia-settings` utility (even with open drivers, some tools are proprietary)
+    # nvidiaSettings = true;
+
+    # For NVIDIA Optimus laptops (hybrid graphics)
+    # prime = {
+    #   offload.enable = true;
+    #   sync.enable = true;
+    #   # Replace with your Intel integrated GPU bus ID
+    #   # intelBusId = "PCI:0:2:0";
+    #   # Replace with your NVIDIA discrete GPU bus ID
+    #   # nvidiaBusId = "PCI:1:0:0";
+    # };
+  };
+
+  # Common OpenGL setup for NVIDIA
+  hardware.graphics = {
+    enable = true;
+    # For NVIDIA, you generally don't need extraPackages unless for specific applications
+  };
+}
