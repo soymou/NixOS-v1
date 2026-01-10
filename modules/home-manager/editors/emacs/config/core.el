@@ -28,7 +28,7 @@
 ;; Ai integration
 (use-package ai-code
   :config
-  (ai-code-set-backend 'gemini-cli)
+  (ai-code-set-backend 'gemini)
   (global-set-key (kbd "C-c a") #'ai-code-menu)
   (global-auto-revert-mode 1)
   (setq auto-revert-interval 1)

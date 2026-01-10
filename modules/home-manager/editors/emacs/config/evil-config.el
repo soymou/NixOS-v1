@@ -63,6 +63,15 @@
     "vv" '(vterm :which-key "vterm")
     "vs" '(vterm-other-window :which-key "vterm split")
 
+    "a" '("C-c a" :which-key "ai")
+
+    "<escape>" '((lambda () (interactive)
+                   (cond
+                    ((derived-mode-p 'vterm-mode) (vterm-send-key "<escape>"))
+                    ((derived-mode-p 'eat-mode) (eat-self-input 1 ?\e))
+                    (t (setq unread-command-events (listify-key-sequence [?\e])))))
+                 :which-key "send ESC")
+
     "?"  '(which-key-show-top-level :which-key "show all keys")
 
     "h"  '(:ignore t :which-key "help")

@@ -51,8 +51,9 @@ with epkgs; [
   org-roam
   org-download
   dimmer
+  eat
 
   # Ai
-  ai-code
   (import ./gemini-cli.nix { inherit pkgs epkgs; })
+  (import ./ai-code.nix { inherit pkgs epkgs; })
 ]

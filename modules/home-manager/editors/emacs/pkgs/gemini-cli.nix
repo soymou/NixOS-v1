@@ -14,5 +14,8 @@ epkgs.trivialBuild {
   packageRequires = with epkgs; [
     markdown-mode
     request
+    popup
+    projectile
+    magit
   ];
 }
