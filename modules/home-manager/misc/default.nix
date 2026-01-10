@@ -17,7 +17,6 @@ in
     lmstudio
     vscode
     neovim
-    elan
     protonvpn-gui
     tor
   ]; 

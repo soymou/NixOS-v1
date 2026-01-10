@@ -33,6 +33,7 @@ with epkgs; [
   projectile
   lsp-mode
   (import ./lean4-mode.nix { inherit pkgs epkgs; })
+  (import ./ob-lean4.nix { inherit pkgs epkgs; })
   org-modern
   org-appear
   yasnippet

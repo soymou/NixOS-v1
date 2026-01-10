@@ -80,13 +80,13 @@
     "hk" '(helpful-key :which-key "key")))
 
 ;; Evil: Vim emulation
+(setq evil-want-integration t)
+(setq evil-want-keybinding nil)
+(setq evil-want-C-u-scroll t)
+(setq evil-want-C-i-jump nil)
+(setq evil-undo-system 'undo-redo)
+
 (use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  (setq evil-undo-system 'undo-redo)
   :config
   (evil-mode 1)
   (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)

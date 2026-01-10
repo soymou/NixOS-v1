@@ -39,7 +39,7 @@
 	 ("C-c n j" . org-roam-dailies-capture-today))
   :config
   ;; If you want org-roam-ui later, it goes here
-  (org-roam-setup))
+  (org-roam-db-autosync-enable))
 
 ;; Org Download: Drag and drop images
 (use-package org-download
@@ -53,9 +53,10 @@
 
 ;; Ob-lean4
 (use-package ob-lean4
-  :load-path "/home/mou/Desktop/Personal/dotfiles/ob-lean4"
   :ensure nil
-  :demand t)
+  :demand t
+  :config
+  (require 'ob-lean4))
 
 ;; env-rc
 (use-package envrc
