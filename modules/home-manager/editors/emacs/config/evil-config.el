@@ -59,6 +59,7 @@
     "gp" '(magit-pull :which-key "pull")
 
     "v"  '(:ignore t :which-key "vterm")
+    "vt" '(vterm-toggle :which-key "toggle")
     "vv" '(vterm :which-key "vterm")
     "vs" '(vterm-other-window :which-key "vterm split")
 

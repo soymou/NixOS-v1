@@ -28,7 +28,33 @@
   :commands vterm
   :config
   (setq vterm-shell (executable-find "fish"))
-  (setq vterm-max-scrollback 10000))
+  (setq vterm-max-scrollback 10000)
+  ;; Open vterm in the current window's directory
+  (setq vterm-always-compile-module t)
+  
+  ;; Evil integration for Vterm
+  (with-eval-after-load 'evil
+    (evil-set-initial-state 'vterm-mode 'insert))
+  
+  (add-hook 'vterm-mode-hook
+            (lambda ()
+              (setq-local evil-insert-state-cursor 'box)
+              (evil-insert-state))))
+
+;; Vterm Toggle: Show/Hide terminal
+(use-package vterm-toggle
+  :after vterm
+  :config
+  (setq vterm-toggle-fullscreen-p nil)
+  (setq vterm-toggle-scope 'project)
+  (add-to-list 'display-buffer-alist
+               '((lambda (buffer-or-name _)
+                   (let ((buffer (get-buffer buffer-or-name)))
+                     (with-current-buffer buffer
+                       (or (equal major-mode 'vterm-mode)
+                           (string-prefix-p vterm-buffer-name (buffer-name buffer))))))
+                 (display-buffer-reuse-window display-buffer-at-bottom)
+                 (window-height . 0.3))))
 
 ;; Apheleia: Async code formatting
 (use-package apheleia

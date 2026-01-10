@@ -45,6 +45,7 @@ with epkgs; [
   avy
   dirvish
   vterm
+  vterm-toggle
   diff-hl
   apheleia
   org-roam

@@ -5,6 +5,17 @@
   :init
   (vertico-mode))
 
+;; Vertico Directory extension
+;; Enables "delete folder by folder" behavior (on RET/DEL)
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+	      ("RET" . vertico-directory-enter)
+	      ("DEL" . vertico-directory-delete-char)
+	      ("M-DEL" . vertico-directory-delete-word))
+  :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+
 ;; Save history
 (use-package savehist
   :init

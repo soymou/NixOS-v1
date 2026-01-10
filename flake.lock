@@ -102,11 +102,11 @@
     "illogical-dots": {
       "flake": false,
       "locked": {
-        "lastModified": 1768027110,
-        "narHash": "sha256-thaQcO7PnOdwuEUZEN5BO098CiAjgInskVs/vKWsfiw=",
+        "lastModified": 1768057712,
+        "narHash": "sha256-X77BQddGlTBc7Hi8jAs5SsLJpmfv3QI5PF4debHXPow=",
         "ref": "refs/heads/main",
-        "rev": "fbbb186a69ff61b2685bf641894a63b09733a424",
-        "revCount": 5822,
+        "rev": "ca3b9917a3e70738abd0ff3b8014aea9618be6cd",
+        "revCount": 5823,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/soymou/dots-hyprland/"

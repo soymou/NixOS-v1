@@ -32,18 +32,20 @@
 	(centaur-tabs-mode 1))))
 
   ;; 3. Hook it to run when a client connects
-  (add-hook 'after-make-frame-functions #'mou/centaur-tabs-gui-setup)
+  ;; (add-hook 'after-make-frame-functions #'mou/centaur-tabs-gui-setup)
 
   :config
   ;; 4. If running standalone (Normal Emacs), run setup immediately
-  (unless (daemonp)
-    (mou/centaur-tabs-gui-setup (selected-frame)))
+  ;; (unless (daemonp)
+  ;;   (mou/centaur-tabs-gui-setup (selected-frame)))
 
   (defun centaur-tabs-buffer-groups ()
     "Group buffers into 'Special' and 'Tabs'."
     (list
      (cond
-      ((or (string-equal "*" (substring (buffer-name) 0 1))
+      ((or (and (stringp (buffer-name)) 
+                (> (length (buffer-name)) 0)
+                (string-equal "*" (substring (buffer-name) 0 1)))
 	   (memq major-mode '(magit-process-mode
 			      magit-status-mode
 			      magit-diff-mode
@@ -194,12 +196,12 @@
   ([remap describe-key] . helpful-key))
 
 ;; Dimmer: Focus the active window
-(use-package dimmer
-  :config
-  (setq dimmer-fraction 0.2)
-  (dimmer-configure-which-key)
-  (dimmer-configure-helm)
-  (dimmer-mode t))
+;; (use-package dimmer
+;;   :config
+;;   (setq dimmer-fraction 0.2)
+;;   (dimmer-configure-which-key)
+;;   (dimmer-configure-helm)
+;;   (dimmer-mode t))
 
 ;; Diff-hl: Git gutter
 (use-package diff-hl
