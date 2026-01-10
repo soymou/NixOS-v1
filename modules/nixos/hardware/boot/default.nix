@@ -10,20 +10,7 @@
     # 2. Advanced GRUB Theming
     loader = {
       timeout = 5;
-      grub = {
-        enable = true;
-        efiSupport = true;
-        useOSProber = true;
-        configurationLimit = 10; # Added for safety
-        device = "nodev";
-
-        # Installs a nice NixOS theme for GRUB
-        theme = pkgs.nixos-grub2-theme;
-        
-        # Ensures the boot menu looks good on HiDPI/4K screens
-        gfxmodeEfi = "1920x1080";
-      };
-      
+      systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
 

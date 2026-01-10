@@ -1,0 +1,17 @@
+{ config, pkgs, inputs, ... }:
+{
+  imports = [ inputs.nix4nvchad.homeManagerModules.default ];
+
+  programs.nvchad = {
+    enable = true;
+    extraPackages = with pkgs; [
+      nodePackages.bash-language-server
+      nixd
+      (python3.withPackages(ps: with ps; [
+	python-lsp-server
+      ]))
+      rust-analyzer
+    ];
+    hm-activation = true;
+  };
+}

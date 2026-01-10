@@ -3,6 +3,9 @@
 
   imports = [
     ./../../modules/home-manager/browsers/${vars.browser}
+    ./../../modules/home-manager/desktops/${vars.desktop}
+    ./../../modules/home-manager/editors/${vars.editor}
+    ./../../modules/home-manager/misc
   ];
 
   # Home Manager needs a bit of information about you and the

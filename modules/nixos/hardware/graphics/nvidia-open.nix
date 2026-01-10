@@ -10,8 +10,8 @@
     # Modesetting is required for most modern NVIDIA setups
     modesetting.enable = true;
 
-    # You may want to enable power management for laptops, but test carefully
-    powerManagement.enable = false;
+    # Required for proper suspend/resume on NVIDIA (saves VRAM)
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
 
     # Enable `nvidia-settings` utility (even with open drivers, some tools are proprietary)

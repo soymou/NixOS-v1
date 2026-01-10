@@ -11,4 +11,8 @@
   hostName = "mou";
   graphicsDriver = "nvidia-open";
   browser = "zen-browser";
+  desktop = "illogical-impulse";
+  wm = "hyprland";
+  dm = "sddm";
+  editor = "emacs";
 }
