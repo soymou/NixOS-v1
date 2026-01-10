@@ -59,35 +59,31 @@
 
 ;; env-rc
 (use-package envrc
-:ensure nil
-:config
-(envrc-global-mode))
+  :ensure nil
+  :config
+  (envrc-global-mode))
 
 (defun my/org-babel-tramp-inject-path (params)
-(let ((dir (alist-get :dir params)))
-  (if (and dir (string-prefix-p "/sudo::" dir))
-      (cons (cons :prologue (format "export PATH='%s'" (mapconcat 'identity exec-path ":")))
-      params)
-params)))
+  (let ((dir (alist-get :dir params)))
+    (if (and dir (string-prefix-p "/sudo::" dir))
+	(cons (cons :prologue (format "export PATH='%s'" (mapconcat 'identity exec-path ":")))
+	      params)
+      params)))
 
 (advice-add 'org-babel-get-src-block-info :filter-return #'my/org-babel-tramp-inject-path)
 
 ;; ob-async
 (use-package ob-async
-:ensure nil
-(require 'ob-async))
+  :ensure nil
+  :config
+  (require 'ob-async))
 
 (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (shell . t)
-     (lean4 . t)
-     (restclient . t)))
-
-(use-package yasnippet
-  :config
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
-  (yas-reload-all)
-  (yas-global-mode 1))
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (shell . t)
+   (lean4 . t)
+   (restclient . t)
+   (python . t)))
 
 (provide 'org-config)

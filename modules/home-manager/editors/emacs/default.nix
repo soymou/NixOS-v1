@@ -19,4 +19,6 @@
     ];
 
   };
+
+  home.file.".emacs.d/snippets".source = ./snippets;
 }

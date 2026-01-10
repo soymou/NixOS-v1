@@ -106,4 +106,11 @@
   (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   (corfu-scroll-margin 5))       ;; Use scroll margin
 
+;; Yasnippet
+(use-package yasnippet
+  :config
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+  (yas-reload-all)
+  (yas-global-mode 1))
+
 (provide 'completion)
