@@ -26,11 +26,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1768182537,
-        "narHash": "sha256-1Ff3WJ57qPtX8D5srMKzXbsWD+bmC0sZzWIIRdAkmNo=",
+        "lastModified": 1768238022,
+        "narHash": "sha256-lc40dAJi/AE38Oz3ebmzpnoPILUg7gzT2s93gzUzafc=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "35a115b97a6dfc196cc479c676556ce3c874ee81",
+        "rev": "28210bc3e3aa1dfb883504d95c07705afcab4670",
         "type": "github"
       },
       "original": {
@@ -86,11 +86,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768068402,
-        "narHash": "sha256-bAXnnJZKJiF7Xr6eNW6+PhBf1lg2P1aFUO9+xgWkXfA=",
+        "lastModified": 1768238716,
+        "narHash": "sha256-q9fkcIZ1mhtzHhEr+yBxjm9mZRvT2iNo5/fob4rD3bQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "8bc5473b6bc2b6e1529a9c4040411e1199c43b4c",
+        "rev": "cdf6d7d594992939b5aa239674ada74a46720edc",
         "type": "github"
       },
       "original": {
@@ -102,11 +102,11 @@
     "illogical-dots": {
       "flake": false,
       "locked": {
-        "lastModified": 1768203100,
-        "narHash": "sha256-2Gaufkgc6+O0gU208LT/9vKWNpEn5NpVcCQyGRG/PgI=",
+        "lastModified": 1768205472,
+        "narHash": "sha256-OAmFZtq8IYfxmnG5SawbUPIe2aslE1o9cPVE7HATnkA=",
         "ref": "refs/heads/main",
-        "rev": "befe25dd43f554c4e37f8025055ddd21df612bde",
-        "revCount": 5824,
+        "rev": "053765627bcb46d3897d5b3e1a48813b564f3af3",
+        "revCount": 5825,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/soymou/dots-hyprland/"
@@ -153,11 +153,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768107595,
-        "narHash": "sha256-mWguzz9T5HLiwdmcE7se44ZlhTFeHRmwqzdRP78pVKQ=",
+        "lastModified": 1768227255,
+        "narHash": "sha256-3aOAJXTHQiX0pAPoozgTTyESrvyipAyd9OXa+C4WG90=",
         "owner": "nix-community",
         "repo": "nix4nvchad",
-        "rev": "0831de993679ec424ff3722ce7eb4c58a34f212a",
+        "rev": "1520daa7ea620ed7a4d780227d7bf913f801d86b",
         "type": "github"
       },
       "original": {

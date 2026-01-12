@@ -42,6 +42,11 @@ with epkgs; [
   s
   f
 
+  # Latex
+  auctex
+  cdlatex
+  pdf-tools
+
   # New additions (Navigation, Dev, Org, UI)
   avy
   dirvish
@@ -53,6 +58,7 @@ with epkgs; [
   org-download
   dimmer
   eat
+
 
   # Ai
   (import ./gemini-cli.nix { inherit pkgs epkgs; })
