@@ -89,6 +89,7 @@
 
   :init
   ;; Use Consult to select xref locations with preview
+  (require 'xref)
   (setq xref-show-xrefs-function #'consult-xref
 	xref-show-definitions-function #'consult-xref)
 )

@@ -168,7 +168,7 @@
 
 (use-package nerd-icons-corfu
   :after corfu
-  :init (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+  :config (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1)
@@ -208,7 +208,7 @@
   :init
   (global-diff-hl-mode)
   :hook
-  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+  (magit-pre-refresh . ignore)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
 (provide 'ui)

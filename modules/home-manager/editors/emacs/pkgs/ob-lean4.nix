@@ -7,8 +7,8 @@ epkgs.trivialBuild {
   src = pkgs.fetchFromGitHub {
     owner = "soymou";
     repo = "ob-lean4";
-    rev = "7e182baa6091e794a00940c96b919f59a6faa968";
-    sha256 = "1ywjxi5iq8i0rwwfqi5mks9mjxi35v2lv0kr7v5asrj4ph8ybcfh";
+    rev = "b6b7a3bbc80fa3cb9e92c975253e8f1049946d9b";
+    sha256 = "sha256-ygOf0Fb7zlizFZp2IE4jKA+/Ev3fIBkIgeyVZ2Nx+v0=";
   };
 
   packageRequires = with epkgs; [

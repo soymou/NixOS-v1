@@ -19,6 +19,7 @@
   :init
   (setq lsp-keymap-prefix "C-c l"))
 
+(defvar lean4-mode-required-packages nil)
 (use-package lean4-mode
   :init
   ;; Enable lsp-mode support for Lean 4

@@ -18,13 +18,29 @@
   (org-appear-autostars t)
   (org-appear-inside-latex t))
 
+(use-package ob-lean4)
+
 (use-package org
   :ensure nil
   :hook (org-mode . (lambda () (org-indent-mode)))
   :custom
   (org-hide-emphasis-markers t)
   (org-ellipsis "…")
-  (org-confirm-babel-evaluate nil))
+  (org-confirm-babel-evaluate nil)
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (shell . t)
+     (restclient . t)
+     (python . t)
+     (lean4 . t))))
+
+;; Load Lean4 Babel support separately to avoid recursive load loops
+;; (with-eval-after-load 'org
+;;   (when (require 'ob-lean4 nil t)
+;;     (add-to-list 'org-babel-load-languages '(lean4 . t))
+;;     (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)))
 
 ;; Org Roam: Knowledge Base
 (use-package org-roam
@@ -39,7 +55,7 @@
 	 ("C-c n j" . org-roam-dailies-capture-today))
   :config
   ;; If you want org-roam-ui later, it goes here
-  (org-roam-db-autosync-enable))
+  (org-roam-db-autosync-mode 1))
 
 ;; Org Download: Drag and drop images
 (use-package org-download
@@ -50,13 +66,6 @@
   (setq org-download-image-dir "images")
   (setq org-download-heading-lvl nil)
   (setq org-download-timestamp "%Y%m%d-%H%M%S_"))
-
-;; Ob-lean4
-(use-package ob-lean4
-  :ensure nil
-  :demand t
-  :config
-  (require 'ob-lean4))
 
 ;; env-rc
 (use-package envrc
@@ -75,16 +84,6 @@
 
 ;; ob-async
 (use-package ob-async
-  :ensure nil
-  :config
-  (require 'ob-async))
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (shell . t)
-   (lean4 . t)
-   (restclient . t)
-   (python . t)))
+  :ensure nil)
 
 (provide 'org-config)

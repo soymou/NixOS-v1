@@ -80,6 +80,12 @@
     "hk" '(helpful-key :which-key "key")))
 
 ;; Evil: Vim emulation
+(defvar evil-want-integration t)
+(defvar evil-want-keybinding nil)
+(defvar evil-want-C-u-scroll t)
+(defvar evil-want-C-i-jump nil)
+(defvar evil-undo-system 'undo-redo)
+
 (setq evil-want-integration t)
 (setq evil-want-keybinding nil)
 (setq evil-want-C-u-scroll t)
