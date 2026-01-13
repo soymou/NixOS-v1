@@ -26,6 +26,10 @@
   (setq lean4-mode-required-packages '(dash flycheck f s lsp-mode))
   :hook (lean4-mode . lsp-deferred))
 
+(use-package idris2-mode
+  :mode "\\.idr\\'"
+  :hook (idris2-mode . lsp-deferred))
+
 ;; LaTeX
 (use-package tex
   :ensure auctex

@@ -34,6 +34,7 @@
      (shell . t)
      (restclient . t)
      (python . t)
+     (idris2 . t)
      (lean4 . t))))
 
 ;; Load Lean4 Babel support separately to avoid recursive load loops

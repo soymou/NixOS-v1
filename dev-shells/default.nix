@@ -169,6 +169,11 @@ rec {
     description = "Hacking environment";
   };
 
+  idris2 = {
+    path = ./idris2;
+    description = "Idris2 development environment";
+  };
+  
   # Aliases
   c = c-cpp;
   cpp = c-cpp;

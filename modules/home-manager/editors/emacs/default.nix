@@ -14,6 +14,7 @@
       (builtins.readFile ./config/completion.el)
       (builtins.readFile ./config/dev.el)
       (builtins.readFile ./config/lang.el)
+      (builtins.readFile ./config/ob-idris2.el)
       (builtins.readFile ./config/org-config.el)
       (builtins.readFile ./config/ai.el)
     ];

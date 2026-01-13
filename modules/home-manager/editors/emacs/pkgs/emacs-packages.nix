@@ -10,6 +10,7 @@ with epkgs; [
   which-key
   rainbow-delimiters
   nix-mode
+  idris2-mode
   envrc
   ob-async
   tramp
