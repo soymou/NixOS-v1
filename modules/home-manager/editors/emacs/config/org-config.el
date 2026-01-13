@@ -34,8 +34,10 @@
      (shell . t)
      (restclient . t)
      (python . t)
-     (idris2 . t)
-     (lean4 . t))))
+     (idris . t)
+     (lean4 . t)))
+
+  (add-to-list 'org-src-lang-modes '("idris" . idris2)))
 
 ;; Load Lean4 Babel support separately to avoid recursive load loops
 ;; (with-eval-after-load 'org

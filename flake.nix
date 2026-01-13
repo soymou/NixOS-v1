@@ -28,7 +28,7 @@
    
     illogical-flake = 
     {
-      url = "github:soymou/illogical-flake";
+      url = "path:/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dotfiles.follows = "illogical-dots";
     };

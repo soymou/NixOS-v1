@@ -18,6 +18,7 @@ in
     vscode
     neovim
     protonvpn-gui
+    zathura
     tor
   ]; 
 }
