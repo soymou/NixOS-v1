@@ -16,6 +16,7 @@
       ./../../modules/nixos/wm/${vars.wm}
       ./../../modules/nixos/dm/${vars.dm}
       ./../../modules/nixos/misc
+      ./../../modules/nixos/custom/minecraft-server
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

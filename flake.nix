@@ -3,14 +3,12 @@
   description = "NixOS flake configuration";
 
   # Flake inputs 
-
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     
     home-manager = {
-	url = "github:nix-community/home-manager";
-	inputs.nixpkgs.follows = "nixpkgs";
+        url = "github:nix-community/home-manager";
+        inputs.nixpkgs.follows = "nixpkgs";
     };
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
@@ -50,6 +48,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nvchad-starter.follows = "nvchad";
     };
+
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   # Flake outputs
@@ -60,6 +60,7 @@
     illogical-flake,
     burpsuitepro,
     nix4nvchad,
+    nix-minecraft,
     ... 
     }@inputs:
   let 
@@ -72,15 +73,20 @@
       system = "x86_64-linux";
       specialArgs = { inherit vars; inherit inputs; };
       modules = [
-        { nixpkgs.overlays = [ inputs.emacs-overlay.overlays.default ]; }
-	./hosts/${vars.username}/configuration.nix
-	home-manager.nixosModules.home-manager
-	{
-	  home-manager.useGlobalPkgs = true;
-	  home-manager.useUserPackages = true;
-	  home-manager.users."${vars.username}" = import ./hosts/${vars.username}/home.nix;
-	  home-manager.extraSpecialArgs = {inherit vars; inherit inputs;};
-	}
+        {
+          nixpkgs.overlays = [
+            inputs.emacs-overlay.overlays.default
+            inputs.nix-minecraft.overlay
+          ];
+        }
+        ./hosts/${vars.username}/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users."${vars.username}" = import ./hosts/${vars.username}/home.nix;
+            home-manager.extraSpecialArgs = {inherit vars; inherit inputs;};
+        }
       ];
     };
   };

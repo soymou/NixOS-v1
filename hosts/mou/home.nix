@@ -6,6 +6,7 @@
     ./../../modules/home-manager/desktops/${vars.desktop}
     ./../../modules/home-manager/editors/${vars.editor}
     ./../../modules/home-manager/misc
+    ./../../modules/home-manager/custom/minecraft
   ];
 
   # Home Manager needs a bit of information about you and the
