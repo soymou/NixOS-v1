@@ -16,7 +16,9 @@
     devShells."${system}".default = pkgs.mkShell {
       packages = with pkgs; [
         # Basic tools
+	      dnsutils
         nmap
+	      caido
         nikto
         tcpdump
         dnsmap
@@ -46,11 +48,13 @@
         metasploit
         exploitdb
         python3
+        nodejs
+        jython
 
-	androidenv.androidPkgs.platform-tools
-	jadx
-	apktool
-	android-studio
+        androidenv.androidPkgs.platform-tools
+        jadx
+        apktool
+        android-studio
       ];
 
       shellHook = ''
@@ -59,6 +63,12 @@
         if [ ! -e "$SECLISTS_LINK" ]; then
           ln -s ${pkgs.seclists}/share/wordlists/seclists "$SECLISTS_LINK"
           echo "Created symlink: seclists -> ${pkgs.seclists}/share/wordlists/seclists"
+        fi
+
+        JYTHON_LINK="$PWD/jython.jar"
+        if [ ! -e "$JYTHON_LINK" ]; then
+          ln -s ${pkgs.jython}/jython.jar "$JYTHON_LINK"
+          echo "Created symlink: jython.jar ${pkgs.jython}/jython.jar"
         fi
       '';
     };

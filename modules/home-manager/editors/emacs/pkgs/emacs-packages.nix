@@ -10,7 +10,9 @@ with epkgs; [
   which-key
   rainbow-delimiters
   nix-mode
-  idris2-mode
+  rustic
+  clojure-mode
+  cider
   envrc
   ob-async
   tramp
@@ -18,6 +20,7 @@ with epkgs; [
   # Added packages
   restclient
   ob-restclient
+  ob-rust
   gcmh
   general
   evil

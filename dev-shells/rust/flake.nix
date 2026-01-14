@@ -60,6 +60,7 @@
               cargo-edit
               cargo-watch
               rust-analyzer
+              rust-script
             ];
 
             env = {
