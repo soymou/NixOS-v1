@@ -27,6 +27,8 @@
 
     "u"  '(vundo :which-key "undo tree")
 
+    "e"  '(treemacs :which-key "treemacs")
+
     "t"  '(:ignore t :which-key "tabs")
     "tn" '(centaur-tabs--create-new-tab :which-key "new tab")
     "tl" '(centaur-tabs-forward :which-key "next tab")

@@ -17,7 +17,15 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq lsp-keymap-prefix "C-c l"))
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-show-with-mouse t))
 
 (defvar lean4-mode-required-packages nil)
 (use-package lean4-mode
@@ -26,9 +34,28 @@
   (setq lean4-mode-required-packages '(dash flycheck f s lsp-mode))
   :hook (lean4-mode . lsp-deferred))
 
-(use-package idris2-mode
-  :mode "\\.idr\\'"
-  :hook (idris2-mode . lsp-deferred))
+(use-package clojure-mode
+  :config
+  (setq clojure-align-forms-automatically t))
+
+(use-package cider
+  :hook (clojure-mode . cider-mode)
+  :config
+  (setq cider-repl-display-help-banner nil)
+  (setq cider-repl-pop-to-buffer-on-connect 'display-only))
+
+(use-package rustic
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  (setq rustic-format-on-save t))
 
 ;; LaTeX
 (use-package tex

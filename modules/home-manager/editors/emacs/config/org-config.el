@@ -27,17 +27,21 @@
   (org-hide-emphasis-markers t)
   (org-ellipsis "…")
   (org-confirm-babel-evaluate nil)
+  (org-src-preserve-indentation t)
+  (org-edit-src-content-indentation 0)
+  (org-src-tab-acts-natively t)
+  (org-src-fontify-natively t)
   :config
+  (setq org-babel-clojure-backend 'cider)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
      (shell . t)
      (restclient . t)
      (python . t)
-     (idris . t)
-     (lean4 . t)))
-
-  (add-to-list 'org-src-lang-modes '("idris" . idris2)))
+     (clojure . t)
+     (rust . t)
+     (lean4 . t))))
 
 ;; Load Lean4 Babel support separately to avoid recursive load loops
 ;; (with-eval-after-load 'org

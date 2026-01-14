@@ -47,10 +47,15 @@
         exploitdb
         python3
 
-	androidenv.androidPkgs.platform-tools
-	jadx
-	apktool
-	android-studio
+        androidenv.androidPkgs.platform-tools
+        jadx
+        apktool
+        android-studio
+
+        ghidra
+        gdb
+        gef
+        nasm
       ];
 
       shellHook = ''

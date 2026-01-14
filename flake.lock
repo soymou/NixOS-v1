@@ -26,11 +26,11 @@
         "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
-        "lastModified": 1768324822,
-        "narHash": "sha256-tkGnrfy4vtAdJz+He2e5JES3lDQjsNAQWaKpjZ3rbiM=",
+        "lastModified": 1768355288,
+        "narHash": "sha256-JQSOq36FYgvN7yJ5ESRRDgTmWTjhzr6q7eRd6Jrj95o=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "fc4bc6ef382295bc73fa900753014e52b0da2dc7",
+        "rev": "cae812390eb4a0b67e6676d601ac734085c19ca1",
         "type": "github"
       },
       "original": {
@@ -120,11 +120,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768325819,
-        "narHash": "sha256-mBKqOJkxCRwEhIXfq93WTcDXsBlJ/f1Dfv9thJxrDPs=",
+        "lastModified": 1768366276,
+        "narHash": "sha256-NUdsaB6H1wvbOC7oh1UZ7Ojg1I+mYBQv8ovlMB6FbHk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b1fa714d6cd656e3105d1965637be6ab7541d7d7",
+        "rev": "4e235a8746b195e335306d898f0cc93ad6c4564c",
         "type": "github"
       },
       "original": {
@@ -163,14 +163,17 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1768329456,
-        "narHash": "sha256-pSr8hMLLfpht0pcvaW7uAklzOTxsYJIh1jTvlMJTQJw=",
-        "path": "/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake",
-        "type": "path"
+        "lastModified": 1768329647,
+        "narHash": "sha256-UWLdOuwRL5d3JxXILQEF9ok0+fpGumRPQWbZRG8RJ6Y=",
+        "owner": "soymou",
+        "repo": "illogical-flake",
+        "rev": "3b26289b101d6c359af3a664a4ca9242cb5cc0ca",
+        "type": "github"
       },
       "original": {
-        "path": "/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake",
-        "type": "path"
+        "owner": "soymou",
+        "repo": "illogical-flake",
+        "type": "github"
       }
     },
     "nix-minecraft": {
@@ -180,11 +183,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1767838769,
-        "narHash": "sha256-KCLU6SUU80tEBKIVZsBrSjRYX6kn1eVIYI3fEEqOp24=",
+        "lastModified": 1768357481,
+        "narHash": "sha256-LpOWVXsHx20x8eRIhn23Q0icmV3Z6ZeFpAPzEqldXFk=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "4da21f019f6443f513f16af7f220ba4db1cdfc04",
+        "rev": "f888492aa1a1eeb0114cf78af40d44e8300e002e",
         "type": "github"
       },
       "original": {
