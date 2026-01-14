@@ -16,6 +16,7 @@
       ./../../modules/nixos/wm/${vars.wm}
       ./../../modules/nixos/dm/${vars.dm}
       ./../../modules/nixos/misc
+      ./../../modules/hardware/networking/aic8800.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
