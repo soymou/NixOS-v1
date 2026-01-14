@@ -16,8 +16,6 @@
       ./../../modules/nixos/wm/${vars.wm}
       ./../../modules/nixos/dm/${vars.dm}
       ./../../modules/nixos/misc
-      ./../../modules/nixos/custom/minecraft-server
-      ./../../modules/nixos/AI
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -27,8 +25,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  hardware.bluetooth.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;

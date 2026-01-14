@@ -75,7 +75,7 @@
       modules = [
         {
           nixpkgs.overlays = [
-            inputs.emacs-overlay.overlays.default
+            inputs.emacs-overlay.overlays.smog
             inputs.nix-minecraft.overlay
           ];
         }

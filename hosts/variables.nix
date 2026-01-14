@@ -1,15 +1,15 @@
 {
-  username = "mou";
-  github-username = "soymou";
-  github-email = "emilio.junoy@gmail.com";
-  keymap = "la-latin1";
+  username = "smog";
+  github-username = "";
+  github-email = "";
+  keymap = "us";
   timeZone = "America/Mexico_City";
   locale = "en_US.UTF-8";
-  keyboardLayout = "latam";
-  keyboardVariant = "";
-  consoleKeymap = "la-latin1";
-  hostName = "mou";
-  graphicsDriver = "nvidia-open";
+  keyboardLayout = "us";
+  keyboardVariant = "intl";
+  consoleKeymap = "us";
+  hostName = "smog";
+  graphicsDriver = "amd";
   browser = "zen-browser";
   desktop = "illogical-impulse";
   wm = "hyprland";
