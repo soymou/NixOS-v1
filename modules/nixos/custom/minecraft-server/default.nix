@@ -8,18 +8,9 @@ in
   ];
 
   services.minecraft-servers = {
-    enable = true;
+    enable = false;
     eula = true;
     openFirewall = true;
-    servers.Squigs = {
-      enable = true;
-      package = pkgs.fabricServers.fabric-1_21_11.override {
-        loaderVersion = "0.18.4";
-      };
-      serverProperties = {
-        level-name = "Squigs";
-        difficulty = "peaceful";
-      };
     };
   };
 }

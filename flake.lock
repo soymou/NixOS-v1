@@ -163,14 +163,17 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1768329456,
-        "narHash": "sha256-pSr8hMLLfpht0pcvaW7uAklzOTxsYJIh1jTvlMJTQJw=",
-        "path": "/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake",
-        "type": "path"
+        "lastModified": 1768329647,
+        "narHash": "sha256-UWLdOuwRL5d3JxXILQEF9ok0+fpGumRPQWbZRG8RJ6Y=",
+        "owner": "soymou",
+        "repo": "illogical-flake",
+        "rev": "3b26289b101d6c359af3a664a4ca9242cb5cc0ca",
+        "type": "github"
       },
       "original": {
-        "path": "/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake",
-        "type": "path"
+        "owner": "soymou",
+        "repo": "illogical-flake",
+        "type": "github"
       }
     },
     "nix-minecraft": {

@@ -28,7 +28,7 @@
    
     illogical-flake = 
     {
-      url = "path:/home/mou/Desktop/Personal/dotfiles/Illogical-impulse/illogical-flake";
+      url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.dotfiles.follows = "illogical-dots";
     };
@@ -75,7 +75,7 @@
       modules = [
         {
           nixpkgs.overlays = [
-            inputs.emacs-overlay.overlays.smog
+            inputs.emacs-overlay.overlays.default
             inputs.nix-minecraft.overlay
           ];
         }
