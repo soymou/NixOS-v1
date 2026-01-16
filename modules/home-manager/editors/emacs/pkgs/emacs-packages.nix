@@ -37,6 +37,8 @@ with epkgs; [
   projectile
   lsp-mode
   lsp-ui
+  lsp-treemacs
+  consult-lsp
   (import ./lean4-mode.nix { inherit pkgs epkgs; })
   (import ./ob-lean4.nix { inherit pkgs epkgs; })
   org-modern
