@@ -21,7 +21,7 @@
     #    enable = true;
     #    enableOffloadCmd = true;
     #  };
-    #  # sync.enable = true;
+    #  sync.enable = true;
     #  # Replace with your Intel integrated GPU bus ID
     #  intelBusId = "PCI:0:2:0";
     #  # Replace with your NVIDIA discrete GPU bus ID
