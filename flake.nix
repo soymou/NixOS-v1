@@ -22,7 +22,7 @@
     };
 
     illogical-dots = {
-      url = "git+https://github.com/soymou/dots-hyprland/?submodules=1&rev=Laptop";
+      url = "git+https://github.com/soymou/dots-hyprland/?submodules=1&ref=Laptop";
       flake = false;
     };
    
