@@ -5,7 +5,6 @@
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-git;
     extraPackages = epkgs: import ./pkgs/emacs-packages.nix { inherit epkgs pkgs; };
     extraConfig = builtins.concatStringsSep "\n" [
       (builtins.readFile ./config/core.el)

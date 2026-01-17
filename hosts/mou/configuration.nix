@@ -17,7 +17,7 @@
       ./../../modules/nixos/dm/${vars.dm}
       ./../../modules/nixos/misc
       ./../../modules/nixos/custom/minecraft-server
-      ./../../modules/nixos/AI
+      #./../../modules/nixos/AI
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
