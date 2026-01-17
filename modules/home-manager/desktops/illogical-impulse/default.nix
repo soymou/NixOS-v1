@@ -15,7 +15,7 @@
     };
 
     hyprland.plugins = [
-       pkgs.hyprlandPlugins.hyprscrolling
+      inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprscrolling
     ];
   };
 

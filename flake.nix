@@ -37,6 +37,13 @@
       url = "github:soymou/Burpsuite-Professional";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland";
+    
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    };
     
     nvchad = {
       url = "github:soymou/nvchad";
@@ -61,6 +68,8 @@
     burpsuitepro,
     nix4nvchad,
     nix-minecraft,
+    hyprland,
+    hyprland-plugins,          
     ... 
     }@inputs:
   let 
