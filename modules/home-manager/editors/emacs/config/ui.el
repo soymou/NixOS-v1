@@ -211,4 +211,27 @@
   (magit-pre-refresh . ignore)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
+(use-package treemacs
+  :defer t
+  :config
+  (setq treemacs-no-png-images t
+        treemacs-width 35)
+  (treemacs-follow-mode t)
+  (treemacs-filewatch-mode t)
+  (treemacs-fringe-indicator-mode 'always)
+  (treemacs-project-follow-mode t)
+  (when (boundp 'treemacs-nerd-icons-font-family)
+    (treemacs-load-theme "nerd-icons")))
+
+(use-package treemacs-evil
+  :after (treemacs evil))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+(use-package treemacs-nerd-icons
+  :after (treemacs nerd-icons)
+  :config
+  (treemacs-load-theme "nerd-icons"))
+
 (provide 'ui)

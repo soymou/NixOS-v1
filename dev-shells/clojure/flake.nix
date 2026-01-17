@@ -46,6 +46,7 @@
             packages = with pkgs; [
               boot
               clojure
+              clojure-lsp
               leiningen
             ];
           };

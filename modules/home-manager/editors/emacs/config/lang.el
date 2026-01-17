@@ -17,7 +17,24 @@
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
   :init
-  (setq lsp-keymap-prefix "C-c l"))
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (lsp-enable-which-key-integration t))
+
+(use-package lsp-ui
+  :hook (lsp-mode . lsp-ui-mode)
+  :custom
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-show-with-mouse t))
+
+(use-package lsp-treemacs
+  :after (lsp-mode treemacs)
+  :config
+  (lsp-treemacs-sync-mode 1))
+
+(use-package consult-lsp
+  :bind (:map lsp-mode-map
+              ([remap xref-find-apropos] . consult-lsp-symbols)))
 
 (defvar lean4-mode-required-packages nil)
 (use-package lean4-mode
@@ -25,6 +42,26 @@
   ;; Enable lsp-mode support for Lean 4
   (setq lean4-mode-required-packages '(dash flycheck f s lsp-mode))
   :hook (lean4-mode . lsp-deferred))
+
+(use-package clojure-mode
+  :hook ((clojure-mode . lsp-deferred)
+         (clojurec-mode . lsp-deferred)
+         (clojurescript-mode . lsp-deferred))
+  :config
+  (setq clojure-align-forms-automatically t))
+
+(use-package cider
+  :hook (clojure-mode . cider-mode)
+  :config
+  (setq cider-repl-display-help-banner nil)
+  (setq cider-repl-pop-to-buffer-on-connect 'display-only))
+
+(use-package nix-mode
+  :hook (nix-mode . lsp-deferred))
+
+(use-package python
+  :ensure nil
+  :hook (python-mode . lsp-deferred))
 
 (use-package rustic
   :bind (:map rustic-mode-map
@@ -37,6 +74,7 @@
               ("C-c C-c Q" . lsp-workspace-shutdown)
               ("C-c C-c s" . lsp-rust-analyzer-status))
   :config
+  <<<<<<< HEAD
   ;; Uncomment for less flashiness
   ;; (setq lsp-eldoc-hook nil)
   ;; (setq lsp-enable-symbol-highlighting nil)
@@ -54,6 +92,9 @@
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-repl-pop-to-buffer-on-connect 'display-only))
+=======
+(setq rustic-format-on-save t))
+>>>>>>> main
 
 ;; LaTeX
 (use-package tex

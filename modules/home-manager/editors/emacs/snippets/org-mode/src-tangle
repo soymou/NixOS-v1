@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: tangle source block
+# key: tangle
+# --
+#+begin_src $1 :tangle $2
+$3
+#+end_src

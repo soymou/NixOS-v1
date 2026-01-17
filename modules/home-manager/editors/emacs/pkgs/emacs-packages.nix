@@ -10,12 +10,13 @@ with epkgs; [
   which-key
   rainbow-delimiters
   nix-mode
-  rustic
   clojure-mode
   cider
+  rustic
   envrc
   ob-async
   tramp
+  ob-rust
 
   # Added packages
   restclient
@@ -36,6 +37,9 @@ with epkgs; [
   corfu
   projectile
   lsp-mode
+  lsp-ui
+  lsp-treemacs
+  consult-lsp
   (import ./lean4-mode.nix { inherit pkgs epkgs; })
   (import ./ob-lean4.nix { inherit pkgs epkgs; })
   org-modern
@@ -62,6 +66,12 @@ with epkgs; [
   org-download
   dimmer
   eat
+
+  # Tree view
+  treemacs
+  treemacs-evil
+  treemacs-projectile
+  treemacs-nerd-icons
 
 
   # Ai

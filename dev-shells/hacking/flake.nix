@@ -55,6 +55,10 @@
         jadx
         apktool
         android-studio
+        ghidra
+        gdb
+        gef
+        nasm
       ];
 
       shellHook = ''

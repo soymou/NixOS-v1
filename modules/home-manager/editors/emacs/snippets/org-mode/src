@@ -2,6 +2,6 @@
 # name: source block
 # key: src
 # --
-#+begin_src $1 :results output 
+#+begin_src $1  
 $2
 #+end_src

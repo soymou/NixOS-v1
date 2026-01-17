@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: source block with results
+# key: results
+# --
+#+begin_src $1 :results $2
+$3
+#+end_src

@@ -29,6 +29,8 @@
   (org-confirm-babel-evaluate nil)
   (org-src-preserve-indentation t)
   (org-edit-src-content-indentation 0)
+  (org-src-tab-acts-natively t)
+  (org-src-fontify-natively t)
   :config
   (setq org-babel-clojure-backend 'cider)
   (org-babel-do-load-languages
