@@ -30,7 +30,7 @@
     {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.dotfiles.follows = "illogical-dots";
+      #inputs.dotfiles.follows = "illogical-dots";
     };
 
     burpsuitepro = {
