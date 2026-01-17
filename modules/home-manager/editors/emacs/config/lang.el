@@ -74,7 +74,6 @@
               ("C-c C-c Q" . lsp-workspace-shutdown)
               ("C-c C-c s" . lsp-rust-analyzer-status))
   :config
-  <<<<<<< HEAD
   ;; Uncomment for less flashiness
   ;; (setq lsp-eldoc-hook nil)
   ;; (setq lsp-enable-symbol-highlighting nil)
@@ -92,9 +91,7 @@
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-repl-pop-to-buffer-on-connect 'display-only))
-=======
-(setq rustic-format-on-save t))
->>>>>>> main
+(setq rustic-format-on-save t)
 
 ;; LaTeX
 (use-package tex
