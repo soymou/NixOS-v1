@@ -1,7 +1,7 @@
 {
   username = "smog";
-  github-username = "";
-  github-email = "";
+  github-username = "Andreco1";
+  github-email = "aczcogordan@hotmail.com";
   keymap = "us";
   timeZone = "America/Mexico_City";
   locale = "en_US.UTF-8";
